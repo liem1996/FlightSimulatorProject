@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+
+
+<AnchorPane prefHeight="140.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DivFXML.Clocks">
+   <children>
+      <Circle fill="#67a8e4" layoutX="66.0" layoutY="66.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+      <Circle fill="#67a8e4" layoutX="198.0" layoutY="66.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+      <Circle fill="#67a8e4" layoutX="330.0" layoutY="66.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+   </children>
+</AnchorPane>
