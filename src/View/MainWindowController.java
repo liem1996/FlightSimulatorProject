@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
-///
+
     @FXML
     private BorderPane joystickPane;
     @FXML
