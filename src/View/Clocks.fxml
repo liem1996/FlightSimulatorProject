@@ -3,10 +3,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="659.0" prefWidth="928.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DivFXML.Clocks">
+<AnchorPane prefHeight="146.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DivFXML.Clocks">
    <children>
-      <Circle fill="#67a8e4" layoutX="849.0" layoutY="290.0" radius="54.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-      <Circle fill="#67a8e4" layoutX="746.0" layoutY="352.0" radius="49.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-      <Circle fill="#67a8e4" layoutX="848.0" layoutY="417.0" radius="49.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+      <Circle fill="#67a8e4" layoutX="266.0" layoutY="54.0" radius="54.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+      <Circle fill="#67a8e4" layoutX="49.0" layoutY="54.0" radius="49.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+      <Circle fill="#67a8e4" layoutX="160.0" layoutY="63.0" radius="49.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
    </children>
 </AnchorPane>
