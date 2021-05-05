@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
+///
 <Pane prefHeight="100.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Player">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="630.0" layoutY="61.0" prefHeight="33.0" prefWidth="152.0" text="00:05:00" textAlignment="CENTER">

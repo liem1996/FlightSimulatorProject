@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 
-
+////
 <Pane prefHeight="295.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Clocks">
    <children>
       <Circle fill="#67a8e4" layoutX="151.0" layoutY="212.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
