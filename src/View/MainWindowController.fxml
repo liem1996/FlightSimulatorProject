@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1122.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainWindowController">
+   <children>
+      <BorderPane fx:id="playerPane" layoutY="560.0" prefHeight="200.0" prefWidth="1122.0" />
+      <BorderPane fx:id="joystickPane" layoutX="793.0" prefHeight="274.0" prefWidth="328.0" />
+      <BorderPane fx:id="chartslistPane" prefHeight="554.0" prefWidth="677.0" />
+      <BorderPane fx:id="clocksPane" layoutX="668.0" layoutY="215.0" prefHeight="341.0" prefWidth="454.0" />
+   </children>
+</AnchorPane>

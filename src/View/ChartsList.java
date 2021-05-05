@@ -1,4 +1,4 @@
-package View.DivFXML;
+package View;
 
 public class ChartsList {
 }

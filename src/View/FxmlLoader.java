@@ -1,11 +1,13 @@
 
-/*
 package View;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.util.ResourceBundle;
 
 public class FxmlLoader {
 
@@ -28,6 +30,6 @@ public class FxmlLoader {
         return view;
     }
 
+
 }
 
- */

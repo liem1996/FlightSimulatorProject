@@ -10,11 +10,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../ModelView/sample.fxml"));
+
+        FXMLLoader fxml = new FXMLLoader((getClass()).getResource("MainWindowController.fxml"));
+        Parent root = (Parent) fxml.load();
+
+        primaryStage.setScene(new Scene(root));
 
         primaryStage.setTitle("Flight Simulator");
-        primaryStage.setScene(new Scene(root, 900, 500));
         primaryStage.show();
+
+        MainWindowController mwc = fxml.getController();
     }
 
 
