@@ -1,6 +1,7 @@
 
-package View;
+package View.fxmlController;
 
+import View.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -12,7 +13,7 @@ public class FxmlLoader {
 
     public Pane getPage(String fileName){
         try{
-            URL fileUrl = Main.class.getResource("/View/" + fileName + ".fxml");
+            URL fileUrl = Main.class.getResource("/View/fxmlfiels/" + fileName + ".fxml");
             if (fileUrl == null){
                 throw  new java.io.FileNotFoundException("Fxml can't be found");
 

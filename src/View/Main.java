@@ -1,5 +1,6 @@
 package View;
 
+import View.fxmlController.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader fxml = new FXMLLoader((getClass()).getResource("MainWindowController.fxml"));
+        FXMLLoader fxml = new FXMLLoader((getClass()).getResource("fxmlfiels/MainWindowController.fxml"));
         Parent root = (Parent) fxml.load();
 
         primaryStage.setScene(new Scene(root));
@@ -19,8 +20,9 @@ public class Main extends Application {
         primaryStage.setTitle("Flight Simulator");
         primaryStage.show();
 
-       // MainWindowController mwc = fxml.getController();
+        MainWindowController mwc = fxml.getController();
     }
+
 
     public static void main(String[] args) {
         launch(args);
