@@ -10,8 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-///
-<Pane prefHeight="100.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Player">
+<Pane prefHeight="100.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.Player">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="630.0" layoutY="61.0" prefHeight="33.0" prefWidth="152.0" text="00:05:00" textAlignment="CENTER">
          <font>
@@ -33,7 +32,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="11.0" layoutY="63.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" text="Open CSV">
+      <Button fx:id="CSVbutton" layoutX="11.0" layoutY="63.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" text="Open CSV">
          <font>
             <Font size="14.0" />
          </font>
@@ -42,37 +41,37 @@
       <ScrollBar layoutX="2.0" layoutY="103.0" prefHeight="15.0" prefWidth="785.0" />
       <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="317.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PngItem_2451563.png" />
+            <Image url="@../fxmlPictures/PngItem_2451563.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="334.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@pause.png" />
+            <Image url="@../fxmlPictures/pause.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="364.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@stop.png" />
+            <Image url="@../fxmlPictures/stop.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="21.0" fitWidth="57.0" layoutX="425.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
          <image>
-            <Image url="@PngItem_2837169.png" />
+            <Image url="@../fxmlPictures/PngItem_2837169.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="23.0" fitWidth="42.0" layoutX="284.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@rewind-arrows.png" />
+            <Image url="@../fxmlPictures/rewind-arrows.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="23.0" fitWidth="42.0" layoutX="395.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@fast-forward-player-button.png" />
+            <Image url="@../fxmlPictures/fast-forward-player-button.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="21.0" fitWidth="57.0" layoutX="238.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PngItem_2837169.png" />
+            <Image url="@../fxmlPictures/PngItem_2837169.png" />
          </image>
       </ImageView>
    </children>

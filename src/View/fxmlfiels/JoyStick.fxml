@@ -9,8 +9,8 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-////
-<Pane prefHeight="219.0" prefWidth="266.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.JoyStick">
+
+<Pane prefHeight="219.0" prefWidth="266.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.JoyStick">
    <children>
       <Slider fx:id="Rudder" layoutX="53.0" layoutY="153.0" prefHeight="24.0" prefWidth="169.0" />
       <Slider layoutX="52.0" layoutY="18.0" orientation="VERTICAL" prefHeight="135.0" prefWidth="14.0" />
