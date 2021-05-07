@@ -1,5 +1,4 @@
 
-/*
 package View;
 
 import javafx.fxml.FXMLLoader;
@@ -30,4 +29,3 @@ public class FxmlLoader {
 
 }
 
- */
