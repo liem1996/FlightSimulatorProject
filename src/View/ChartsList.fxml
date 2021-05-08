@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 
-
-<Pane prefHeight="372.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ChartsList">
+<Pane prefHeight="446.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ChartsList">
    <children>
-      <ListView layoutX="14.0" layoutY="17.0" prefHeight="330.0" prefWidth="194.0" />
+      <ListView layoutX="14.0" layoutY="17.0" prefHeight="406.0" prefWidth="194.0" />
       <Line endX="-546.5" endY="181.0" startX="-546.5" startY="-187.0" stroke="#00000036" />
-      <LineChart layoutX="224.0" layoutY="17.0" prefHeight="130.0" prefWidth="159.0">
+      <LineChart layoutX="208.0" layoutY="14.0" prefHeight="173.0" prefWidth="200.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>
@@ -20,7 +19,7 @@
             <NumberAxis side="LEFT" />
          </yAxis>
       </LineChart>
-      <LineChart layoutX="424.0" layoutY="17.0" prefHeight="126.0" prefWidth="191.0">
+      <LineChart layoutX="394.0" layoutY="14.0" prefHeight="173.0" prefWidth="194.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>
@@ -28,7 +27,7 @@
             <NumberAxis side="LEFT" />
          </yAxis>
       </LineChart>
-      <LineChart layoutX="287.0" layoutY="163.0" prefHeight="184.0" prefWidth="326.0">
+      <LineChart layoutX="229.0" layoutY="182.0" prefHeight="248.0" prefWidth="365.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>

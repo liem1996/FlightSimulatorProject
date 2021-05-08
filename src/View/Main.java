@@ -19,7 +19,7 @@ public class Main extends Application {
         primaryStage.setTitle("Flight Simulator");
         primaryStage.show();
 
-        MainWindowController mwc = fxml.getController();
+       // MainWindowController mwc = fxml.getController();
     }
 
     public static void main(String[] args) {
