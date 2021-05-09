@@ -32,7 +32,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="CSVbutton" layoutX="11.0" layoutY="63.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" text="Open CSV">
+      <Button fx:id="CSVbutton" layoutX="11.0" layoutY="63.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="30.0" prefWidth="92.0" text="Open CSV">
          <font>
             <Font size="14.0" />
          </font>
