@@ -1,39 +1,45 @@
 package View.fxmlController;
 
-import Model.AnomalyDetactor.TimeSeries;
 import ModelView.ViewModel;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class Player {
+public class Player  {
         //DOING A FUNCTION FOR THE OPEN CSV
         //doing a function to the open xml file
 
-    Button CSVbutton =new Button();
-
+    @FXML
+    public Button CSVbutton;
     public ViewModel viewModel;
+    public String path;
 
-    public void MouseTouchCsvFile(Stage primaryStage){
-        //להסתכל לראות איך אלי שם את הפונקציה הזו
 
-        FileChooser fileccsv = new FileChooser();
-        fileccsv.setTitle("csv Files for the application ");
-        CSVbutton.addActionListener(e->{
-            File selectedFile =fileccsv.showOpenDialog(primaryStage);
-            fileccsv.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("csv Files", "*.csv")
-           );
-            //File csvfilechoose = fileccsv.
-
-        });
-
+    void init(ViewModel vm){
+        this.viewModel=vm;
 
     }
+
+
+    @FXML
+    public void ChooseFile(ActionEvent event) {
+        FileChooser fileccsv = new FileChooser();
+        File file = fileccsv.showOpenDialog(null);
+        path = file.toURI().toString();
+        if(path!=null) {
+
+            viewModel.CreateTimeSeries(path);
+        }
+        System.out.println("i did it");
+
+    }
+
+
+
 }
+
+
+

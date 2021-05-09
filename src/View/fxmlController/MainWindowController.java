@@ -1,5 +1,6 @@
 package View.fxmlController;
 
+import ModelView.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +20,8 @@ public class MainWindowController implements Initializable {
     @FXML
     private BorderPane chartslistPane;
 
+    ViewModel viewModel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Pane jostickView = new FxmlLoader().getPage("JoyStick");
@@ -34,4 +37,6 @@ public class MainWindowController implements Initializable {
         chartslistPane.setCenter(chartslistView);
 
     }
+
+
 }
