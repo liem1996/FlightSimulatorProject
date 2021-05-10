@@ -1,5 +1,7 @@
 package Model;
 
+import Property.property;
+
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.FileInputStream;

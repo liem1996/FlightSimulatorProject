@@ -1,6 +1,4 @@
-package Model;
-
-import java.util.HashMap;
+package Property;
 
 import java.util.HashMap;
 

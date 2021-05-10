@@ -3,13 +3,14 @@ package View.fxmlController;
 
 import View.Main;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
 
 public class FxmlLoader {
 
-    private Pane view;
+    public Pane view;
 
     public Pane getPage(String fileName){
         try{

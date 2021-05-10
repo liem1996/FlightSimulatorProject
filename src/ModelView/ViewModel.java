@@ -1,23 +1,26 @@
 package ModelView;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.Model;
+
+import Model.ModelFg;
+import Model.ModelFg;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class ViewModel extends Observable implements Observer {
 
-    public Model model;
+    public ModelFg model;
+    public TimeSeries ts;
 
     public void CreateTimeSeries(String fileName){
         //create time series
-        TimeSeries ts = new TimeSeries(fileName);
-        model.setTimeSeries(ts);
+        ts = new TimeSeries(fileName);
+        model.SetTimeSeries(ts);
 
     }
 
-    public ViewModel(Model model) {
+    public ViewModel(ModelFg model) {
         this.model = model;
         model.addObserver(this);
     }

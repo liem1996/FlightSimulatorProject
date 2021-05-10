@@ -1,11 +1,12 @@
 package View;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.Model;
+import Model.ModelFg;
 import ModelView.ViewModel;
 
 import Model.XmlWrite;
-import Model.property;
+import Property.property;
+import View.fxmlController.FxmlLoader;
 import View.fxmlController.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,16 +26,17 @@ public class Main extends Application {
         Parent root = (Parent) fxml.load();
 
         primaryStage.setScene(new Scene(root));
-        FXMLLoader fxml1 = new FXMLLoader((getClass()).getResource("fxmlfiels/Player.fxml"));
+
         primaryStage.setTitle("Flight Simulator");
 
-
-        MainWindowController mwc = fxml.getController();
-
-        Model model = new Model("Properties.xml");
+        MainWindowController mwc=new MainWindowController();
+        //mwc.initialize();
+        ModelFg model = new ModelFg("Properties.xml");
         ViewModel viewModel = new ViewModel(model);
-        //mwc.initl(viewModel);
+        mwc.init(viewModel);
         primaryStage.show();
+        mwc.initialize();
+
 
 
     }
