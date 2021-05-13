@@ -23,6 +23,8 @@ public class ViewModel extends Observable implements Observer {
     public ViewModel(ModelFg model) {
         this.model = model;
         model.addObserver(this);
+
+
     }
 
 
