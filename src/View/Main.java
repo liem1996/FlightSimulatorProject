@@ -22,20 +22,28 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader fxml = new FXMLLoader((getClass()).getResource("fxmlfiels/MainWindowController.fxml"));
-        Parent root = (Parent) fxml.load();
+        FXMLLoader fxml1 = new FXMLLoader((getClass()).getResource("fxmlfiels/MainWindowController.fxml"));;
+        Parent root = (Parent) fxml1.load();
 
         primaryStage.setScene(new Scene(root));
 
         primaryStage.setTitle("Flight Simulator");
 
         MainWindowController mwc=new MainWindowController();
-        //mwc.initialize();
+        mwc =fxml1.getController();
+
         ModelFg model = new ModelFg("Properties.xml");
         ViewModel viewModel = new ViewModel(model);
         mwc.init(viewModel);
         primaryStage.show();
-        mwc.initialize();
+
+
+
+
+
+
+
+
 
 
 
