@@ -1,5 +1,6 @@
 package View;
 
+import Model.XmlWrite;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,12 +18,15 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
 
         primaryStage.setTitle("Flight Simulator");
+        
         primaryStage.show();
 
        // MainWindowController mwc = fxml.getController();
     }
 
     public static void main(String[] args) {
+        XmlWrite xmlW = new XmlWrite();
+
         launch(args);
     }
 }

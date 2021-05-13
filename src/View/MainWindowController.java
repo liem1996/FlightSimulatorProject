@@ -1,7 +1,10 @@
 package View;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -9,7 +12,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainWindowController implements Initializable {
+public class MainWindowController implements Initializable{
 
     @FXML
     private BorderPane joystickPane;
@@ -35,4 +38,11 @@ public class MainWindowController implements Initializable {
         chartslistPane.setCenter(chartslistView);
 
     }
+
+    public void paint() {
+        GraphicsContext gc;
+
+    }
+
+
 }
