@@ -9,11 +9,11 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="197.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.JoyStick">
+<Pane prefHeight="197.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.JoyStickController">
    <children>
-      <Slider fx:id="Rudder" layoutX="30.0" layoutY="153.0" prefHeight="24.0" prefWidth="169.0" />
-      <Slider fx:id="Throttle" layoutX="30.0" layoutY="18.0" orientation="VERTICAL" prefHeight="135.0" prefWidth="14.0" />
-      <Circle fx:id="OuterCircle" fill="#1f93ff00" layoutX="115.0" layoutY="86.0" radius="56.0" stroke="#b9abab" strokeType="INSIDE" />
+      <Slider fx:id="rudder" layoutX="30.0" layoutY="153.0" prefHeight="24.0" prefWidth="169.0" />
+      <Slider fx:id="throttle" layoutX="30.0" layoutY="18.0" orientation="VERTICAL" prefHeight="135.0" prefWidth="14.0" />
+      <Circle fx:id="outerCircle" fill="#1f93ff00" layoutX="115.0" layoutY="86.0" radius="56.0" stroke="#b9abab" strokeType="INSIDE" />
       <Label layoutX="86.0" layoutY="173.0" lineSpacing="1.0" text="Rudder" textFill="#5472cc">
          <font>
             <Font name="Franklin Gothic Medium" size="14.0" />

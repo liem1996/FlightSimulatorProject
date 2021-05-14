@@ -1,6 +1,6 @@
 package View;
 
-import Model.XmlWrite;
+import Model.runningfunc.XmlWrite;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

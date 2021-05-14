@@ -1,4 +1,4 @@
-package Model;
+package Model.runningfunc;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
