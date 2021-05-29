@@ -9,9 +9,9 @@
    <center>
       <Pane  prefHeight="295.0" prefWidth="301.0">
          <children>
-            <Circle fill="#67a8e4" layoutX="151.0" layoutY="212.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-            <Circle fill="#67a8e4" layoutX="80.0" layoutY="80.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-            <Circle fill="#67a8e4" layoutX="221.0" layoutY="80.0" radius="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+            <Circle fill="#67a8e4" layoutX="51.0" layoutY="51.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+            <Circle fill="#67a8e4" layoutX="153.0" layoutY="51.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+            <Circle fill="#67a8e4" layoutX="102.0" layoutY="141.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
          </children>
       </Pane>
    </center>

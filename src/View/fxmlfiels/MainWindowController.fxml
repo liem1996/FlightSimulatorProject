@@ -3,11 +3,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1122.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="841.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.MainWindowController">
    <children>
-      <BorderPane fx:id="PlayerPane" layoutY="560.0" prefHeight="200.0" prefWidth="1122.0" />
-      <BorderPane fx:id="JoyStickPane" layoutX="793.0" prefHeight="274.0" prefWidth="328.0" />
-      <BorderPane fx:id="ChartListPane" prefHeight="554.0" prefWidth="677.0" />
-      <BorderPane fx:id="ClocksPane" layoutX="668.0" layoutY="215.0" prefHeight="341.0" prefWidth="454.0" />
+      <BorderPane fx:id="PlayerPane" layoutY="431.0" layoutX="46.0" prefHeight="83.0" prefWidth="769.0" />
+      <BorderPane fx:id="JoyStickPane" layoutX="610.0" prefHeight="191.0" prefWidth="230.0" />
+      <BorderPane fx:id="ChartListPane" prefHeight="382.0" prefWidth="495.0" />
+      <BorderPane fx:id="ClocksPane" layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" />
    </children>
 </AnchorPane>
+
+
