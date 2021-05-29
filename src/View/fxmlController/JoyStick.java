@@ -1,4 +1,4 @@
-package View;
+package View.fxmlController;
 
 import ModelView.ViewModel;
 import javafx.beans.property.DoubleProperty;

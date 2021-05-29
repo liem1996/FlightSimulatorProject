@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+
+
+<BorderPane fx:id="Clocks" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.Clocks">
+   <center>
+      <Pane  prefHeight="295.0" prefWidth="301.0">
+         <children>
+            <Circle fill="#67a8e4" layoutX="51.0" layoutY="51.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+            <Circle fill="#67a8e4" layoutX="153.0" layoutY="51.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+            <Circle fill="#67a8e4" layoutX="102.0" layoutY="141.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

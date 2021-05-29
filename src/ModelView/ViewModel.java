@@ -2,18 +2,16 @@ package ModelView;
 
 import Model.AnomalyDetactor.TimeSeries;
 
+import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
-import javafx.beans.property.DoubleProperty;
+import Model.ModelFg;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Observable;
-        import java.util.Observer;
+import java.util.Observer;
 
 public class ViewModel extends Observable implements Observer {
-
-    public DoubleProperty aileron;
-    public DoubleProperty elevator;
-    public DoubleProperty throttle;
-    public DoubleProperty rudder;
 
     public ModelFg model;
     public TimeSeries ts;
@@ -32,6 +30,12 @@ public class ViewModel extends Observable implements Observer {
 
     }
 
+    //we need to run it in the background in the model by a therd
+    public void createAnomalyDetactor(TimeSeriesAnomalyDetector ts){
+        //URLClassLoader urlClassLoader = URLClassLoader.newInstance(new URL[]{new URL("")})
+
+    }
+
 
     @Override
     public void update(java.util.Observable o, Object arg) {
@@ -40,11 +44,8 @@ public class ViewModel extends Observable implements Observer {
     }
 
     //public Properties CreateProperties(String Filename){
-    //create with decoder
+        //create with decoder
 
     //}
-
-
-
 
 }
