@@ -85,32 +85,32 @@
                 <ScrollBar layoutX="57.0" layoutY="470.0" prefHeight="15.0" prefWidth="785.0" />
                 <ImageView fitHeight="48.0" fitWidth="24.0" layoutX="325.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../View/rewind-arrows.png" />
+                        <Image url="@../View/fxmlPictures/rewind-arrows.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="48.0" fitWidth="24.0" layoutX="438.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../View/fast-forward-player-button.png" />
+                        <Image url="@../View/fxmlPictures/fast-forward-player-button.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="377.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../View/pause.png" />
+                        <Image url="@../View/fxmlPictures/pause.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="20.0" fitWidth="22.0" layoutX="405.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../View/stop.png" />
+                        <Image url="@../View/fxmlPictures/stop.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="22.0" fitWidth="41.0" layoutX="283.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../View/PngItem_2837169.png" />
+                        <Image url="@../View/fxmlPictures/PngItem_2837169.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="22.0" fitWidth="41.0" layoutX="476.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0">
                     <image>
-                        <Image url="@../View/PngItem_2837169.png" />
+                        <Image url="@../View/fxmlPictures/PngItem_2837169.png" />
                     </image>
                 </ImageView>
                 <Label layoutX="532.0" layoutY="429.0" lineSpacing="1.0" text="Play Speed" textFill="#5472cc">
@@ -120,7 +120,7 @@
                 </Label>
                 <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="360.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../View/PngItem_2451563.png" />
+                        <Image url="@../View/fxmlPictures/PngItem_2451563.png" />
                     </image>
                 </ImageView>
                 <LineChart layoutX="225.0" layoutY="35.0" prefHeight="130.0" prefWidth="159.0">

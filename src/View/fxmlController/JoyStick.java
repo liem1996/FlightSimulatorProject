@@ -1,4 +1,4 @@
-package View;
+package View.fxmlController;
 
 public class JoyStick {
 
