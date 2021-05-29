@@ -3,13 +3,18 @@ package View.fxmlController;
 import ModelView.ViewModel;
 import View.CharList.ChartsList;
 import View.Player.Player;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class MainWindowController  implements Initializable{
@@ -17,8 +22,7 @@ public class MainWindowController  implements Initializable{
 
     public ViewModel viewModel;
 
-    @FXML
-    Player Player;
+
 
     @FXML
     ChartsList ChartList;
@@ -31,6 +35,23 @@ public class MainWindowController  implements Initializable{
     private BorderPane PlayerPane;
     @FXML
     private BorderPane ChartListPane;
+
+    @FXML
+    public Button CSVbutton;
+
+    public StringProperty path;
+
+
+
+    public void ChooseFile() {
+        FileChooser fileccsv = new FileChooser();
+        File file = fileccsv.showOpenDialog(null);
+        String pathtest = file.toURI().toString();
+        path.setValue(pathtest);
+        viewModel.CreateTimeSeries(path.toString());
+        System.out.println("yess");
+        System.out.println("i did it");
+    }
 
 
 
@@ -53,10 +74,7 @@ public class MainWindowController  implements Initializable{
 
     public void init(ViewModel vm ){
         this.viewModel=vm;
-        Player =new Player();
-        viewModel.CreateTimeSeries(Player.path);
 
-        System.out.println("yess");
 
 
     }
