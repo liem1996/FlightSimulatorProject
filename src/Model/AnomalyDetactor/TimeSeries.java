@@ -19,6 +19,7 @@ public class TimeSeries {
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;
 
+
 	public TimeSeries(){
 			features = new HashMap<>();
 			fetureName =new ArrayList<>();
@@ -95,8 +96,7 @@ public class TimeSeries {
 		this.fetureName = fetureName;
 	}
 
-
-//this function return an integer property that represent the time step
+	//this function return an integer property that represent the time step
 	public IntegerProperty getTimeStep(String timeStepSt, IntegerProperty timeStepRow)
 	{
 		IntegerProperty timeStepRe = new SimpleIntegerProperty();

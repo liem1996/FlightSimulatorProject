@@ -6,6 +6,8 @@ import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
 import Model.ModelFg;
 import Model.property;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -20,17 +22,24 @@ public class ViewModel extends Observable implements Observer {
     public ModelFg model;
     public TimeSeries ts;
     public property pt;
+    public ObservableList<String> fetures;
+
+    public void load(){
+       fetures= FXCollections.observableArrayList(ts.getFetureName());
+
+    }
 
 
     public void CreateTimeSeries(String fileName){
         //create time series
         ts = new TimeSeries(fileName);
         model.SetTimeSeries(ts);
+        load();
 
     }
     public void CreateProperty(String fileName){
         //create time series
-       pt= model.insertProperty(fileName);
+       model.SetProperty(fileName);
     }
 
 
@@ -62,7 +71,7 @@ public class ViewModel extends Observable implements Observer {
     }
 
     //public Properties CreateProperties(String Filename){
-    //create with decoder
+        //create with decoder
 
     //}
 

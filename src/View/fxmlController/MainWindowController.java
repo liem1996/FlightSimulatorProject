@@ -1,34 +1,40 @@
 package View.fxmlController;
 
 import ModelView.ViewModel;
+import View.CharList.CharListController;
 import View.CharList.ChartsList;
-import View.JoyStick.JoyStickController;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import View.Player.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-public class MainWindowController implements Initializable{
+public class MainWindowController implements Initializable {
 
-
-
-    // את כל ההגדרה של המיין ווינדואו קונטרולר אני צריכה לעשות אידי לכל סליידר ולהגדיר אותו
-    // להגידר אותו בג'וייסטיק קונטרולר עצמו
 
     public ViewModel viewModel;
 
+
+
     @FXML
-    ChartsList ChartList;
+    ChartsList ChartList=new ChartsList();
+
+    @FXML
+    public ListView<String> Listfetures =new ListView<>();
 
     @FXML
     private BorderPane JoyStickPane;
@@ -36,28 +42,55 @@ public class MainWindowController implements Initializable{
     private BorderPane ClocksPane;
     @FXML
     private BorderPane PlayerPane;
-    @FXML
-    private BorderPane ChartListPane;
 
     @FXML
-    public JoyStickController JoyStick;
+    public BorderPane ChartListPane;
+
+
 
     @FXML
     public Button CSVbutton;
 
-    public StringProperty path;
-    public IntegerProperty timestep;
+    @FXML
+    public Button Xmlbutton;
+
+    @FXML
+    public Button Classopen;
+
+    public StringProperty path=new SimpleStringProperty();
+
 
 
     public void ChooseFile() {
         FileChooser fileccsv = new FileChooser();
         File file = fileccsv.showOpenDialog(null);
         String pathtest = file.toURI().toString();
+        Path p3 = Paths.get(URI.create(pathtest));
+        pathtest=p3.getFileName().toString();
         path.setValue(pathtest);
-        viewModel.CreateTimeSeries(path.toString());
-        System.out.println("yess");
-        System.out.println("i did it");
+        if(pathtest.contains("csv")){
+            viewModel.CreateTimeSeries(path.getValue().toString());
+        }else if(pathtest.contains("xml")) {
+            viewModel.CreateProperty(path.getValue().toString());
+        }
+        else if(pathtest!=null){
+            viewModel.loadClass(path.getValue().toString());
+        }
+
+        loadData();
     }
+
+
+
+
+    public void loadData() {
+        ChartList.fetures1.removeAll(ChartList.fetures1);
+        ChartList.fetures1.addAll(viewModel.fetures);
+        ChartList.init();
+    }
+
+
+
 
 
     @Override
@@ -71,34 +104,21 @@ public class MainWindowController implements Initializable{
         Pane chartslistView = new FxmlLoader().getPage("ChartsList");
         ChartListPane.setCenter(chartslistView);
 
+
+
     }
+
+
+
+
 
 
     public void init(ViewModel vm ){
         this.viewModel=vm;
-        path=new SimpleStringProperty();
-        timestep=new SimpleIntegerProperty();
-    }
-
-
-/*
-    public void setViewModel(ViewModel viewModel) {
-// לכרוך לטיים סטפ לשורה מסויימת
-      //  joyStickController
-
-        // connect the view model by using view model object and joystick controller object using binding
-        JoyStick.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get(JoyStick.aileron.toString()),timestep));
-        JoyStick.elevators.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get(JoyStick.elevators.toString()),timestep));
-        JoyStick.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get(JoyStick.aileron.toString()),timestep));
+       // ChartList = new ChartsList();
 
 
     }
-*/
-
-
-
-
-
 
 
 }

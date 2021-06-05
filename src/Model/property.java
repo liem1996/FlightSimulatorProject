@@ -1,15 +1,16 @@
 package Model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class property {
 
-    public HashMap<Integer, String> nameColIndex;
-    public int port;
-    public int ip;
-    public double timeperSeconed;
-    public HashMap<String,Integer> minimum;
-    public HashMap<String,Integer> maximum;
+        public HashMap<Integer, String> nameColIndex;
+        public int port;
+        public int ip;
+        public double timeperSeconed;
+        public HashMap<String,Integer> minimum;
+        public HashMap<String,Integer> maximum;
 
     public property() {
         this.nameColIndex = new HashMap<>();
@@ -20,7 +21,8 @@ public class property {
         this.maximum=new HashMap<>();
     }
 
-    public HashMap<Integer, String> getNameColIndex() {
+
+    public Map<Integer, String> getNameColIndex() {
         return nameColIndex;
     }
 
