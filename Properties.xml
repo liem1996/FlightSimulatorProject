@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="16.0.1" class="java.beans.XMLDecoder">
+ <object class="Model.property" id="property0">
+  <void class="Model.property" method="getField">
+   <string>port</string>
+   <void method="set">
+    <object idref="property0"/>
+    <int>560</int>
+   </void>
+  </void>
+  <void class="Model.property" method="getField">
+   <string>ip</string>
+   <void method="set">
+    <object idref="property0"/>
+    <int>80</int>
+   </void>
+  </void>
+  <void class="Model.property" method="getField">
+   <string>timeperSeconed</string>
+   <void method="set">
+    <object idref="property0"/>
+    <double>1.5</double>
+   </void>
+  </void>
+ </object>
+</java>
