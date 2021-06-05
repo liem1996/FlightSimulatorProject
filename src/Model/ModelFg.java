@@ -2,28 +2,35 @@ package Model;
 
 import Model.AnomalyDetactor.TimeSeries;
 import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
-import Property.property;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Observable;
 
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
-        TimeSeries timeSeries;
-        property pr;
+   public TimeSeries timeSeries;
+    public property pr;
 
 
-  public ModelFg(String s) {
-
-            XmlWrite xml=new XmlWrite();
-            pr=new property();
-            pr=xml.deserializeFromXML();
-   }
+    public ModelFg() {
+        pr=new property();
+        timeSeries=new TimeSeries();
+    }
 
 
-   @Override
-   public void SetTimeSeries(TimeSeries ts) {
-            this.timeSeries = timeSeries;
-   }
+    public property insertProperty(String s) {
+        XmlWrite xml=new XmlWrite();
+        pr=xml.deserializeFromXML(s);
+        return pr;
+
+    }
+
+
+    @Override
+    public void SetTimeSeries(TimeSeries ts) {
+        this.timeSeries = timeSeries;
+
+    }
 
     @Override
     public void play() {

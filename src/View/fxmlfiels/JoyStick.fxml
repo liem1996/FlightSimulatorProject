@@ -10,8 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane fx:id="JoyStick" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.JoyStick">
+<BorderPane fx:id="JoyStick" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.JoyStick.JoyStickController">
    <center>
       <Pane prefHeight="219.0" prefWidth="266.0">
          <children>
@@ -41,17 +40,17 @@
                   </LinearGradient>
                </fill>
             </Circle>
-            <Label fx:id="ThrottleName" layoutX="-17.0" layoutY="67.0" lineSpacing="1.0" prefHeight="16.0" prefWidth="78.0" rotate="-90.0" text="Throttle" textFill="#5472cc">
+            <Label layoutX="-17.0" layoutY="67.0" lineSpacing="1.0" prefHeight="16.0" prefWidth="78.0" rotate="-90.0" text="Throttle" textFill="#5472cc">
                <font>
                   <Font name="Franklin Gothic Medium" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="AileronName" layoutX="86.0" layoutY="10.0" lineSpacing="1.0" text="Aileron" textFill="#5472cc">
+            <Label layoutX="86.0" layoutY="10.0" lineSpacing="1.0" text="Aileron" textFill="#5472cc">
                <font>
                   <Font name="Franklin Gothic Medium" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="ElevatorName" layoutX="164.0" layoutY="78.0" lineSpacing="1.0" prefHeight="16.0" prefWidth="54.0" rotate="90.0" text="Elevator" textFill="#5472cc">
+            <Label layoutX="164.0" layoutY="78.0" lineSpacing="1.0" prefHeight="16.0" prefWidth="54.0" rotate="90.0" text="Elevator" textFill="#5472cc">
                <font>
                   <Font name="Franklin Gothic Medium" size="14.0" />
                </font>

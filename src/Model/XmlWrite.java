@@ -1,7 +1,5 @@
 package Model;
 
-import Property.property;
-
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.FileInputStream;
@@ -29,11 +27,11 @@ public class XmlWrite {
 
     }
 
-    public property deserializeFromXML(){
+    public property deserializeFromXML(String filename){
         property col = new property();
         //write an xml into an java object, write the port'ip and index of the name of the column
         try {
-            FileInputStream obj = new FileInputStream("Properties.xml");
+            FileInputStream obj = new FileInputStream(filename);
             XMLDecoder dec = new XMLDecoder(obj);
             col = (property) dec.readObject();
             dec.close();

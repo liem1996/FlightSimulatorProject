@@ -1,4 +1,4 @@
-
+/*
 
 package Controller;
 
@@ -12,23 +12,6 @@ import java.io.IOException;
 
 public class FxmlLoader {
 
-    AnchorPane root=new AnchorPane();
-
-
-    /*
-    public AnchorPane createAnchor(String Filename){
-        AnchorPane root = new AnchorPane();
-        try {
-           root = FXMLLoader.load(getClass().getResource(Filename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return root;
-
-    }
-
-     */
-//אם יש לך רעיון לפונקציה שתוכל לקחת כל פעם שם אחר תגידי לי
 
     public void start(Stage primaryStage) {
        try {
@@ -59,3 +42,4 @@ public class FxmlLoader {
 
 
 
+*/

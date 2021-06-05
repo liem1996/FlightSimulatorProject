@@ -5,13 +5,24 @@
 <?import javafx.scene.shape.Circle?>
 
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <BorderPane fx:id="Clocks" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.Clocks">
    <center>
       <Pane  prefHeight="295.0" prefWidth="301.0">
          <children>
-            <Circle fill="#67a8e4" layoutX="51.0" layoutY="51.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-            <Circle fill="#67a8e4" layoutX="153.0" layoutY="51.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-            <Circle fill="#67a8e4" layoutX="102.0" layoutY="141.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+            <Label layoutX="19.0" layoutY="1.0" prefHeight="27.0" prefWidth="58.0" text="altimeter:" />
+            <Label layoutX="25.0" layoutY="72.0" text="direction:" />
+            <Label layoutX="24.0" layoutY="38.0" text="airspeed:" />
+            <TextField layoutX="83.0" layoutY="34.0" prefHeight="25.0" prefWidth="42.0" />
+            <TextField layoutX="83.0" layoutY="2.0" prefHeight="25.0" prefWidth="42.0" />
+            <Label layoutX="35.0" layoutY="104.0" text="pitch:" />
+            <Label layoutX="39.0" layoutY="134.0" text="roll:" />
+            <TextField layoutX="83.0" layoutY="68.0" prefHeight="25.0" prefWidth="42.0" />
+            <TextField layoutX="83.0" layoutY="100.0" prefHeight="25.0" prefWidth="42.0" />
+            <Label layoutX="39.0" layoutY="163.0" text="yaw:" />
+            <TextField layoutX="83.0" layoutY="159.0" prefHeight="25.0" prefWidth="42.0" />
+            <TextField layoutX="83.0" layoutY="130.0" prefHeight="25.0" prefWidth="42.0" />
          </children>
       </Pane>
    </center>
