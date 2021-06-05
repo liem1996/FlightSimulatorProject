@@ -1,10 +1,11 @@
-package Property;
+package Model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class property {
 
-        public HashMap<String,Integer> nameColIndex;
+        public HashMap<Integer, String> nameColIndex;
         public int port;
         public int ip;
         public double timeperSeconed;
@@ -20,11 +21,12 @@ public class property {
         this.maximum=new HashMap<>();
     }
 
-    public HashMap<String, Integer> getNameColIndex() {
+
+    public Map<Integer, String> getNameColIndex() {
         return nameColIndex;
     }
 
-    public void setNameColIndex(HashMap<String, Integer> nameColIndex) {
+    public void setNameColIndex(HashMap<Integer, String> nameColIndex) {
         this.nameColIndex = nameColIndex;
     }
 
