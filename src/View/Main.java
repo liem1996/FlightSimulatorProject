@@ -5,8 +5,7 @@ import Model.ModelFg;
 import ModelView.ViewModel;
 
 import Model.XmlWrite;
-import Property.property;
-import View.fxmlController.FxmlLoader;
+import Model.property;
 import View.fxmlController.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +31,7 @@ public class Main extends Application {
         MainWindowController mwc=new MainWindowController();
         mwc =fxml1.getController();
 
-        ModelFg model = new ModelFg("Properties.xml");
+        ModelFg model = new ModelFg();
         ViewModel viewModel = new ViewModel(model);
         mwc.init(viewModel);
         primaryStage.show();
@@ -54,7 +53,7 @@ public class Main extends Application {
         TimeSeries tk = new TimeSeries("reg_file.csv");
         TimeSeries tm = new TimeSeries("anomaly_flight.csv");
         property test3 = new property();
-        HashMap<String,Integer> tamp1 = new HashMap<>();
+        HashMap<Integer,String> tamp1 = new HashMap<>();
         HashMap<String,Integer> min = new HashMap<>();
         HashMap<String,Integer> max = new HashMap<>();
         test3.setIp(80);
@@ -62,7 +61,7 @@ public class Main extends Application {
         test3.setTimeperSeconed(1.5);
         for(int i=0;i<tk.fetureName.size();i++)
         {
-            tamp1.put(tk.fetureName.get(i),i);
+            tamp1.put(i,tk.fetureName.get(i));
             min.put(tk.fetureName.get(i),1);
             max.put(tk.fetureName.get(i),2);
 
