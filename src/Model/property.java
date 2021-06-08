@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class property {
 
-        public HashMap<Integer, String> nameColIndex;
+        public HashMap<String, Integer> nameColIndex;
         public int port;
         public int ip;
         public double timeperSeconed;
@@ -22,11 +22,11 @@ public class property {
     }
 
 
-    public Map<Integer, String> getNameColIndex() {
+    public Map<String, Integer> getNameColIndex() {
         return nameColIndex;
     }
 
-    public void setNameColIndex(HashMap<Integer, String> nameColIndex) {
+    public void setNameColIndex(HashMap<String, Integer> nameColIndex) {
         this.nameColIndex = nameColIndex;
     }
 
