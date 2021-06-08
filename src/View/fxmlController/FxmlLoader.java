@@ -1,6 +1,7 @@
 
 package View.fxmlController;
 
+import View.CharList.CharListController;
 import View.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
@@ -12,9 +13,13 @@ public class FxmlLoader {
 
     public BorderPane view;
 
-    public Pane getPage(String fileName){
+   public MainWindowController MC=new MainWindowController();
+
+    public FXMLLoader FXL = new FXMLLoader();
+
+    public BorderPane getPage(String fileName){
         try{
-            URL fileUrl = Main.class.getResource("/View/fxmlfiels/" + fileName + ".fxml");
+            URL fileUrl =MC.getClass().getResource("/View/fxmlfiels/" + fileName + ".fxml");
             if (fileUrl == null){
                 throw  new java.io.FileNotFoundException("Fxml can't be found");
             }

@@ -6,11 +6,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="841.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.MainWindowController">
    <children>
       <BorderPane fx:id="PlayerPane" layoutX="46.0" layoutY="415.0" prefHeight="83.0" prefWidth="769.0" />
       <BorderPane fx:id="JoyStickPane" layoutX="610.0" prefHeight="191.0" prefWidth="230.0" />
-      <BorderPane fx:id="ChartListPane" prefHeight="382.0" prefWidth="495.0" />
+      <BorderPane fx:id="ChartListPane" prefHeight="382.0" prefWidth="495.0" >
+
+      </BorderPane>
+
       <BorderPane fx:id="ClocksPane" layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" />
       <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="354.0">
          <children>
@@ -19,7 +23,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="Xmlbutton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="94.0" text="Open XML">
+            <Button fx:id="Xmlbutton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="30.0" prefWidth="94.0" text="Open XML">
                <font>
                   <Font size="14.0" />
                </font>
