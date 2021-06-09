@@ -37,7 +37,7 @@ public class ViewModel extends Observable implements Observer {
         ts = new TimeSeries(fileName);
         model.SetTimeSeries(ts);
         load();
-        Players();
+
 
     }
     public void CreateProperty(String fileName){
