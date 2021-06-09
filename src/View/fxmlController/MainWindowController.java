@@ -107,14 +107,17 @@ public class MainWindowController implements Initializable {
         path.setValue(pathtest);
         if (pathtest.contains("csv")) {
             viewModel.CreateTimeSeries(path.getValue().toString());
+            loadData();
+
         } else if (pathtest.contains("xml")) {
             viewModel.CreateProperty(path.getValue().toString());
         } else if (pathtest != null) {
             viewModel.loadClass(path.getValue().toString());
         }
 
-        loadData();
+
         players();
+
 
 
     }
@@ -150,9 +153,11 @@ public class MainWindowController implements Initializable {
 
     public void players(){
 
+        viewModel.Players();
         player.onPlay =viewModel.Play;
         player.onPause = viewModel.Pause;
         player.onStop = viewModel.Stop;
+
 
     }
 
