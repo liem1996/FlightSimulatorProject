@@ -114,6 +114,7 @@ public class MainWindowController implements Initializable {
         }
 
         loadData();
+        players();
 
 
     }
@@ -143,6 +144,8 @@ public class MainWindowController implements Initializable {
         this.viewModel = vm;
         //ChartList = new CharListController();
 
+
+
     }
 
     public void players(){
@@ -152,6 +155,9 @@ public class MainWindowController implements Initializable {
         player.onStop = viewModel.Stop;
 
     }
+
+
+
 
 
 }

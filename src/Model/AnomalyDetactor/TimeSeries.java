@@ -18,6 +18,7 @@ public class TimeSeries {
 
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;
+	int NumLine=0;
 
 
 	public TimeSeries(){
@@ -48,6 +49,7 @@ public class TimeSeries {
 			String array[];
 
 			if((line = scanin.readLine()) != null){
+				NumLine++;
 				array = line.split(inputline);
 				fetureName.addAll(Arrays.asList(array));
 
@@ -105,6 +107,12 @@ public class TimeSeries {
 		return timeStepRe;
 	}
 
+	public ArrayList<String> getline(int i){
+		return features.get(i);
+	}
 
 
+	public int getNumLine() {
+		return NumLine;
+	}
 }
