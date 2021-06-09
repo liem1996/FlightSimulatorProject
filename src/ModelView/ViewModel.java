@@ -6,6 +6,7 @@ import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
 import Model.ModelFg;
 import Model.property;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -23,10 +24,11 @@ public class ViewModel extends Observable implements Observer {
     public TimeSeries ts;
     public property pt;
     public ObservableList<String> fetures;
+    public IntegerProperty timestep;
+    public Runnable Play,Pause,Stop;
 
     public void load(){
        fetures= FXCollections.observableArrayList(ts.getFetureName());
-
     }
 
 
@@ -60,6 +62,11 @@ public class ViewModel extends Observable implements Observer {
 
     }
 
+   public void Players(){
+       Play->{model;};
+
+   }
+
     //we need to run it in the background in the model by a therd
 
 
@@ -69,6 +76,8 @@ public class ViewModel extends Observable implements Observer {
 
 
     }
+
+
 
     //public Properties CreateProperties(String Filename){
         //create with decoder

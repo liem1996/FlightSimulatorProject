@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 
 public class CharListController  {
 
-
     public CharListController() {
        this.fetures =FXCollections.observableArrayList() ;
     }
