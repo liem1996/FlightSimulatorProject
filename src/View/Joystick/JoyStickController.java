@@ -13,6 +13,8 @@ import javafx.scene.shape.Circle;
 
 public class JoyStickController extends BorderPane {
 
+
+    /*
     @FXML
     Canvas canvasOnBorder;
     @FXML
@@ -44,6 +46,7 @@ public class JoyStickController extends BorderPane {
         elevators.set((my-jy)/my);
     }
     */
+
 
 
 }
