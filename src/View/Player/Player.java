@@ -1,14 +1,10 @@
 package View.Player;
 
 
-import View.fxmlController.FxmlLoader;
-import View.fxmlController.JoyStick;
 import javafx.scene.layout.BorderPane;
 
 public class Player extends BorderPane {
 
-
-    public FxmlLoader fxl =new FxmlLoader();
 
 
 

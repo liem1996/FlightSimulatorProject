@@ -9,13 +9,14 @@
 <?import javafx.scene.shape.Line?>
 
 
-<BorderPane fx:id="ChartList" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CharList.CharListController">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CharList.CharListController">
    <center>
-      <Pane  prefHeight="372.0" prefWidth="665.0">
+      <Pane prefHeight="372.0" prefWidth="665.0">
          <children>
-            <ListView layoutX="14.0" layoutY="17.0" prefHeight="406.0" prefWidth="194.0" />
-            <Line endX="-546.5" endY="181.0" startX="-546.5" startY="-187.0" stroke="#00000036" />
-            <LineChart layoutX="208.0" layoutY="14.0" prefHeight="173.0" prefWidth="200.0">
+<!--            <ListView fx:id="Listfetures" layoutX="14.0" layoutY="17.0" prefHeight="406.0" prefWidth="194.0" />-->
+            <ListView items="${controller.fetures}" layoutX="14.0" layoutY="17.0" prefHeight="406.0" prefWidth="194.0" />
+                  <Line fx:id="Line" endX="-546.5" endY="181.0" startX="-546.5" startY="-187.0" stroke="#00000036" />
+            <LineChart fx:id="linechart1" layoutX="208.0" layoutY="14.0" prefHeight="173.0" prefWidth="200.0">
                <xAxis>
                   <CategoryAxis side="BOTTOM" />
                </xAxis>
@@ -23,7 +24,7 @@
                   <NumberAxis side="LEFT" />
                </yAxis>
             </LineChart>
-            <LineChart layoutX="394.0" layoutY="14.0" prefHeight="173.0" prefWidth="194.0">
+            <LineChart fx:id="linechart2" layoutX="394.0" layoutY="14.0" prefHeight="173.0" prefWidth="194.0">
                <xAxis>
                   <CategoryAxis side="BOTTOM" />
                </xAxis>
@@ -31,7 +32,7 @@
                   <NumberAxis side="LEFT" />
                </yAxis>
             </LineChart>
-            <LineChart layoutX="229.0" layoutY="182.0" prefHeight="248.0" prefWidth="365.0">
+            <LineChart fx:id="linechart3" layoutX="229.0" layoutY="182.0" prefHeight="248.0" prefWidth="365.0">
                <xAxis>
                   <CategoryAxis side="BOTTOM" />
                </xAxis>

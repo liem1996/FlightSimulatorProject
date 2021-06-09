@@ -1,32 +1,40 @@
 package View.fxmlController;
 
 import ModelView.ViewModel;
+import View.CharList.CharListController;
 import View.CharList.ChartsList;
+import View.Player.Player;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
-import java.time.Clock;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-public class MainWindowController  implements Initializable{
+public class MainWindowController implements Initializable {
 
 
     public ViewModel viewModel;
 
-   /* @FXML
-    Clocks clock;*/
 
-    @FXML
-    ChartsList ChartList;
+    CharListController ChartList;//=new CharListController();
 
     @FXML
     private BorderPane JoyStickPane;
@@ -34,77 +42,104 @@ public class MainWindowController  implements Initializable{
     private BorderPane ClocksPane;
 
     @FXML
-    Clocks Controller;
+    private BorderPane PlayerPane;
 
     @FXML
-    private BorderPane PlayerPane;
-    @FXML
-    private BorderPane ChartListPane;
+    public BorderPane ChartListPane;
+
 
     @FXML
     public Button CSVbutton;
 
+    @FXML
+    public Button Xmlbutton;
+
+    @FXML
+    public Button Classopen;
+
     public StringProperty path;
 
+    public IntegerProperty timestep;
 
+
+    public MainWindowController() {
+        path = new SimpleStringProperty();
+        timestep = new SimpleIntegerProperty();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlfiels/ChartsList.fxml"));
+        try {
+            Parent r = loader.load();
+            ChartList = (CharListController) loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/JoyStick.fxml"));
+        try {
+            Parent r = loader1.load();
+            ChartList = (CharListController) loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("../fxmlfiels/Clocks.fxml"));
+        try {
+            Parent r = loader2.load();
+            ChartList = (CharListController) loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FXMLLoader loader3 = new FXMLLoader(getClass().getResource("../fxmlfiels/Player.fxml"));
+        try {
+            Parent r = loader3.load();
+            ChartList = (CharListController) loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public void ChooseFile() {
         FileChooser fileccsv = new FileChooser();
         File file = fileccsv.showOpenDialog(null);
         String pathtest = file.toURI().toString();
+        Path p3 = Paths.get(URI.create(pathtest));
+        pathtest = p3.getFileName().toString();
         path.setValue(pathtest);
-        viewModel.CreateTimeSeries(path.toString());
-        System.out.println("yess");
-        System.out.println("i did it");
+        if (pathtest.contains("csv")) {
+            viewModel.CreateTimeSeries(path.getValue().toString());
+        } else if (pathtest.contains("xml")) {
+            viewModel.CreateProperty(path.getValue().toString());
+        } else if (pathtest != null) {
+            viewModel.loadClass(path.getValue().toString());
+        }
+
+        loadData();
+
+
     }
 
 
-
-
+    public void loadData() {
+         ChartList.fetures.addAll(viewModel.fetures);
+//       ChartList.Listfetures.setItems(ChartList.fetures);
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-   /*     Controller = new Clocks();
-        Controller.Clockrun = ()-> System.out.println("I did it!");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Clocks.fxml"));
-        Clocks ctrl = loader.getController();
-        ctrl.Clockrun = ()-> System.out.println("I did it!");
-        Pane clocksView =loader.getController();*/
-      /*  try {
-            FXMLLoader fx1 = new FXMLLoader();
-            BorderPane root = fx1.load(getClass().getResource("Clocks.fxml").openStream());
-            Controller = fx1.getController();
-            Controller.Clockrun = ()-> System.out.println("I did it");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-
-        Pane jostickView = new FxmlLoader().getPage("JoyStick");
-        JoyStickPane.setCenter(jostickView);
-        Pane clocksView = new FxmlLoader().getPage("Clocks");
+       BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
+       JoyStickPane.setCenter(jostickView);
+        BorderPane clocksView = new FxmlLoader().getPage("Clocks");
         ClocksPane.setCenter(clocksView);
-        Pane playerView = new FxmlLoader().getPage("Player");
+        BorderPane playerView = new FxmlLoader().getPage("Player");
         PlayerPane.setCenter(playerView);
-        Pane chartslistView = new FxmlLoader().getPage("ChartsList");
+        BorderPane chartslistView = new FxmlLoader().getPage("ChartsList");
         ChartListPane.setCenter(chartslistView);
-
-
-
-
     }
 
 
-    public void init(ViewModel vm ){
-        this.viewModel=vm;
-    /*    clock = new Clocs();
-        clock.altimeterList.add("4.0");
-        System.out.println(clock.altimeterList.get(0));*/
-
-        //  ClocksPane.
-
+    public void init(ViewModel vm) {
+        this.viewModel = vm;
+        //ChartList = new CharListController();
 
     }
 
