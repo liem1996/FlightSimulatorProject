@@ -37,6 +37,7 @@ public class ViewModel extends Observable implements Observer {
         ts = new TimeSeries(fileName);
         model.SetTimeSeries(ts);
         load();
+        Players();
 
     }
     public void CreateProperty(String fileName){
@@ -63,9 +64,10 @@ public class ViewModel extends Observable implements Observer {
     }
 
    public void Players(){
-       Play->{model;};
-
-   }
+       Play=()->{model.play();};
+       Pause=()->{model.pause();};
+       Stop=()->{model.pause();};
+    }
 
     //we need to run it in the background in the model by a therd
 
