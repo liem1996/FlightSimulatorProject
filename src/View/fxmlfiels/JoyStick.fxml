@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane fx:id="JoyStick" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.JoyStick">
+<BorderPane  xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Joystick.JoyStickController">
    <center>
       <Pane prefHeight="219.0" prefWidth="266.0">
          <children>
