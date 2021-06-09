@@ -12,18 +12,18 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         property pr;
 
 
-  public ModelFg(String s) {
+  public ModelFg(String s) { //we don't use the String "s" in the constructor
 
             XmlWrite xml=new XmlWrite();
             pr=new property();
-            pr=xml.deserializeFromXML();
+            pr=xml.deserializeFromXML(); //create a property object from "Properties.xml"
    }
 
 
    @Override
    public void SetTimeSeries(TimeSeries ts) {
-            this.timeSeries = timeSeries;
-   }
+            this.timeSeries = ts;
+   } //why not "this.timeSeries = ts"?
 
     @Override
     public void play() {
