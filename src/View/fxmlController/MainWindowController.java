@@ -2,22 +2,19 @@ package View.fxmlController;
 
 import ModelView.ViewModel;
 import View.CharList.CharListController;
-import View.CharList.ChartsList;
-import View.Player.Player;
+import View.Clocks.ClocksController;
+import View.JoyStick.JoyStickController;
+import View.Player.playerController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -34,7 +31,10 @@ public class MainWindowController implements Initializable {
     public ViewModel viewModel;
 
 
-    CharListController ChartList;//=new CharListController();
+    CharListController ChartList;
+    ClocksController Clocks;
+    JoyStickController Joystick;
+    playerController player;
 
     @FXML
     private BorderPane JoyStickPane;
@@ -72,24 +72,25 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/JoyStick.fxml"));
+
         try {
+            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/JoyStick.fxml"));
             Parent r = loader1.load();
-            ChartList = (CharListController) loader.getController();
+            Joystick = (JoyStickController) loader1.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("../fxmlfiels/Clocks.fxml"));
         try {
             Parent r = loader2.load();
-            ChartList = (CharListController) loader.getController();
+            Clocks = (ClocksController) loader2.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
         FXMLLoader loader3 = new FXMLLoader(getClass().getResource("../fxmlfiels/Player.fxml"));
         try {
             Parent r = loader3.load();
-            ChartList = (CharListController) loader.getController();
+            player = (playerController) loader3.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,15 +120,15 @@ public class MainWindowController implements Initializable {
 
 
     public void loadData() {
-         ChartList.fetures.addAll(viewModel.fetures);
-//       ChartList.Listfetures.setItems(ChartList.fetures);
+        ChartList.fetures.addAll(viewModel.fetures);
     }
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
-       JoyStickPane.setCenter(jostickView);
+        BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
+        JoyStickPane.setCenter(jostickView);
         BorderPane clocksView = new FxmlLoader().getPage("Clocks");
         ClocksPane.setCenter(clocksView);
         BorderPane playerView = new FxmlLoader().getPage("Player");
@@ -140,6 +141,14 @@ public class MainWindowController implements Initializable {
     public void init(ViewModel vm) {
         this.viewModel = vm;
         //ChartList = new CharListController();
+
+    }
+
+    public void players(){
+
+        player.onPlay =viewModel.Play;
+        player.onPause = viewModel.Pause;
+        player.onStop = viewModel.Stop;
 
     }
 

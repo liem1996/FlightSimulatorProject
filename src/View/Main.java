@@ -42,8 +42,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        TimeSeries tk = new TimeSeries("reg_flight.csv");
-        TimeSeries tm = new TimeSeries("anomaly_flight.csv");
+        TimeSeries tk = new TimeSeries("C:\\Users\\liemm\\IdeaProjects\\trying\\reg_file.csv");
+        TimeSeries tm = new TimeSeries("C:\\Users\\liemm\\IdeaProjects\\trying\\anomaly_flight.csv");
         property test3 = new property();
         HashMap<String,Integer> tamp1 = new HashMap<>();
         HashMap<String,Integer> min = new HashMap<>();
@@ -73,7 +73,7 @@ public class Main extends Application {
 
 
 
-        TimeSeries ts = new TimeSeries("anomaly_flight.csv");
+        TimeSeries ts = new TimeSeries("C:\\Users\\liemm\\IdeaProjects\\trying\\anomaly_flight.csv");
         XmlWrite XML =new XmlWrite();
         XML.serializeToXML(test3);
         launch(args);
