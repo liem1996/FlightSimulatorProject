@@ -4,6 +4,7 @@ import Model.AnomalyDetactor.TimeSeries;
 import ModelView.ViewModel;
 import View.CharList.CharListController;
 import View.Clocks.ClocksController;
+import View.JoyStick.JoyStickController;
 import View.Player.playerController;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
