@@ -18,11 +18,14 @@ public class TimeSeries {
 
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;
+	public HashMap<Integer, String[]> lines;
+	int NumLine=0;
 
 
 	public TimeSeries(){
-			features = new HashMap<>();
-			fetureName =new ArrayList<>();
+		features = new HashMap<>();
+		fetureName =new ArrayList<>();
+		lines=new HashMap<>();
 
 	}
 
@@ -46,8 +49,10 @@ public class TimeSeries {
 			scanin  = new BufferedReader(new FileReader(csvFileName));
 			String line = null;
 			String array[];
+			lines=new HashMap<>();
 
 			if((line = scanin.readLine()) != null){
+
 				array = line.split(inputline);
 				fetureName.addAll(Arrays.asList(array));
 
@@ -62,7 +67,9 @@ public class TimeSeries {
 
 			while((line = scanin.readLine()) != null)
 			{
+				NumLine++;
 				array = line.split(inputline);
+				lines.put(NumLine,array);
 				for(int i=0;i<fetureName.size();i++)
 				{
 					features.get(fetureName.get(i)).add(array[i]);
@@ -97,14 +104,21 @@ public class TimeSeries {
 	}
 
 	//this function return an integer property that represent the time step
-	public IntegerProperty getTimeStep(String timeStepSt, IntegerProperty timeStepRow)
+	public IntegerProperty getTimeStep(int index, IntegerProperty timeStepRow)
 	{
 		IntegerProperty timeStepRe = new SimpleIntegerProperty();
-		ArrayList<String> str = features.get(timeStepSt);
-		timeStepRe.setValue(Integer.parseInt(str.get(timeStepRow.getValue())));
+		String[] str = lines.get(timeStepRe);
+		timeStepRe.setValue(Integer.parseInt(str[index]));
 		return timeStepRe;
 	}
 
+	public String[] getline(int i){
+
+		return lines.get(i);
+	}
 
 
+	public int getNumLine() {
+		return NumLine;
+	}
 }

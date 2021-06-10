@@ -6,23 +6,29 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
-        TimeSeries timeSeries;
-        property pr;
-        Timer ts;
-        IntegerProperty TimeStep;
+    TimeSeries timeSeries;
+    property pr;
+    Timer ts;
+    ArrayList<String> TimeStep;
+    public IntegerProperty timestep;
 
 
-  public ModelFg() {
-      pr=new property();
-      timeSeries=new TimeSeries();
-      TimeStep=new SimpleIntegerProperty();
-   }
+    public ModelFg() {
+        pr=new property();
+        timeSeries=new TimeSeries();
+        TimeStep=new ArrayList<>();
+    }
 
 
     public void SetProperty(String s) {
@@ -32,22 +38,42 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     }
 
 
-   @Override
-   public void SetTimeSeries(TimeSeries ts) {
-            this.timeSeries = ts;
+    @Override
+    public void SetTimeSeries(TimeSeries ts) {
+        this.timeSeries = ts;
 
-   }
+    }
 
     @Override
     public void play() {
         if(this.ts==null){
             ts=new Timer();
+
+
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    TimeStep.set(TimeStep.get()+1);
+                    try {
+                        Socket fg = new Socket(pr.ip, pr.port);
+                        PrintWriter ps=new PrintWriter(fg.getOutputStream());
+                        for(int i=0;i<timeSeries.getNumLine();i++){
+                            ps.println(timeSeries.getline(i));
+                            ps.flush();
+
+                        }
+                        fg.close();
+                        ps.close();
+
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
                 }
-            },0,1000);
+            },0, (long) pr.timeperSeconed);
         }
     }
 
@@ -59,9 +85,9 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 
     @Override
     public void stop() {
-       ts.cancel();
-       ts=null;
-       TimeStep.set(TimeStep.get());
+        ts.cancel();
+        ts=null;
+
     }
 
     @Override

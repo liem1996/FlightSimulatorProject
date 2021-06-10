@@ -3,7 +3,7 @@ package View.Player;
 
 public class playerController {
 
-    public Runnable onPlay, onPause, onStop;
+    public static Runnable onPlay, onPause, onStop;
 
     public void play() {
         if (onPlay != null)

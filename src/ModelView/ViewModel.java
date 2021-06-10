@@ -6,7 +6,9 @@ import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
 import Model.ModelFg;
 import Model.property;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -24,7 +26,7 @@ public class ViewModel extends Observable implements Observer {
     public TimeSeries ts;
     public property pt;
     public ObservableList<String> fetures;
-    public IntegerProperty timestep;
+    public IntegerProperty TimeLine;
     public Runnable Play,Pause,Stop;
 
     public void load(){
@@ -37,6 +39,7 @@ public class ViewModel extends Observable implements Observer {
         ts = new TimeSeries(fileName);
         model.SetTimeSeries(ts);
         load();
+
 
     }
     public void CreateProperty(String fileName){
@@ -63,8 +66,9 @@ public class ViewModel extends Observable implements Observer {
     }
 
     public void Players(){
-
-
+        Play=()->{model.play();};
+        Pause=()->{model.pause();};
+        Stop=()->{model.pause();};
     }
 
     //we need to run it in the background in the model by a therd

@@ -48,8 +48,8 @@ public class Main extends Application {
         HashMap<String,Integer> tamp1 = new HashMap<>();
         HashMap<String,Integer> min = new HashMap<>();
         HashMap<String,Integer> max = new HashMap<>();
-        test3.setIp(80);
-        test3.setPort(560);
+        test3.setIp("127.0.0.1");
+        test3.setPort(5400);
         test3.setTimeperSeconed(1.5);
         for(int i=0;i<tk.fetureName.size();i++)
         {
@@ -73,7 +73,7 @@ public class Main extends Application {
 
 
 
-        TimeSeries ts = new TimeSeries("C:\\Users\\liemm\\IdeaProjects\\trying\\anomaly_flight.csv");
+        TimeSeries ts = new TimeSeries("anomaly_flight.csv");
         XmlWrite XML =new XmlWrite();
         XML.serializeToXML(test3);
         launch(args);

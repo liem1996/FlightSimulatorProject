@@ -7,15 +7,15 @@ public class property {
 
         public HashMap<String, Integer> nameColIndex;
         public int port;
-        public int ip;
+        public String ip;
         public double timeperSeconed;
         public HashMap<String,Integer> minimum;
         public HashMap<String,Integer> maximum;
 
     public property() {
         this.nameColIndex = new HashMap<>();
-        this.port =50;
-        this.ip = 10;
+        this.port =5400;
+        this.ip = "10.0.0.128";
         this.timeperSeconed=1;
         this.minimum=new HashMap<>();
         this.maximum=new HashMap<>();
@@ -38,11 +38,11 @@ public class property {
         this.port = port;
     }
 
-    public int getIp() {
+    public String getIp() {
         return ip;
     }
 
-    public void setIp(int ip) {
+    public void setIp(String ip) {
         this.ip = ip;
     }
 

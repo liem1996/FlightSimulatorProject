@@ -1,19 +1,15 @@
 package View.fxmlController;
 
+import Model.AnomalyDetactor.TimeSeries;
 import ModelView.ViewModel;
 import View.CharList.CharListController;
 import View.Clocks.ClocksController;
-import View.JoyStick.JoyStickController;
 import View.Player.playerController;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
@@ -27,14 +23,14 @@ import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
 
-
     public ViewModel viewModel;
-
 
     CharListController ChartList;
     ClocksController Clocks;
-    JoyStickController Joystick;
+    JoyStickController Joystick = new JoyStickController();
     playerController player;
+
+    public DoubleProperty aileron, elevators;
 
     @FXML
     private BorderPane JoyStickPane;
@@ -47,24 +43,11 @@ public class MainWindowController implements Initializable {
     @FXML
     public BorderPane ChartListPane;
 
-
-    @FXML
-    public Button CSVbutton;
-
-    @FXML
-    public Button Xmlbutton;
-
-    @FXML
-    public Button Classopen;
-
     public StringProperty path;
-
-    public IntegerProperty timestep;
 
 
     public MainWindowController() {
         path = new SimpleStringProperty();
-        timestep = new SimpleIntegerProperty();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlfiels/ChartsList.fxml"));
         try {
             Parent r = loader.load();
@@ -114,21 +97,23 @@ public class MainWindowController implements Initializable {
         }
 
         loadData();
+        players();
 
 
     }
 
 
     public void loadData() {
-        ChartList.fetures.addAll(viewModel.fetures);
+         ChartList.fetures.addAll(viewModel.fetures);
+//       ChartList.Listfetures.setItems(ChartList.fetures);
     }
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
-        JoyStickPane.setCenter(jostickView);
+       BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
+       JoyStickPane.setCenter(jostickView);
         BorderPane clocksView = new FxmlLoader().getPage("Clocks");
         ClocksPane.setCenter(clocksView);
         BorderPane playerView = new FxmlLoader().getPage("Player");
@@ -142,6 +127,8 @@ public class MainWindowController implements Initializable {
         this.viewModel = vm;
         //ChartList = new CharListController();
 
+
+
     }
 
     public void players(){
@@ -151,6 +138,22 @@ public class MainWindowController implements Initializable {
         player.onStop = viewModel.Stop;
 
     }
+
+
+    public void SetTimeSeries(TimeSeries ts)
+    {
+        // connect the view model by using view model object and joystick controller object using binding
+        Joystick.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("aileron") , viewModel.TimeLine));
+        Joystick.elevators.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("elevator") , viewModel.TimeLine));
+        Joystick.rudder.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
+        Joystick.throttle.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
+
+
+    }
+
+
+
+
 
 
 }
