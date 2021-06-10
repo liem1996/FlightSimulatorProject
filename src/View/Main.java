@@ -49,7 +49,7 @@ public class Main extends Application {
         HashMap<String,Integer> min = new HashMap<>();
         HashMap<String,Integer> max = new HashMap<>();
         test3.setIp("127.0.0.1");
-        test3.setPort(5000);
+        test3.setPort(5400);
         test3.setTimeperSeconed(1.5);
         for(int i=0;i<tk.fetureName.size();i++)
         {

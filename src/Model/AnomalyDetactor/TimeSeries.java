@@ -18,12 +18,14 @@ public class TimeSeries {
 
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;
+	public HashMap<Integer, String[]> lines;
 	int NumLine=0;
 
 
 	public TimeSeries(){
 			features = new HashMap<>();
 			fetureName =new ArrayList<>();
+			lines=new HashMap<>();
 
 	}
 
@@ -47,9 +49,10 @@ public class TimeSeries {
 			scanin  = new BufferedReader(new FileReader(csvFileName));
 			String line = null;
 			String array[];
+			lines=new HashMap<>();
 
 			if((line = scanin.readLine()) != null){
-				NumLine++;
+
 				array = line.split(inputline);
 				fetureName.addAll(Arrays.asList(array));
 
@@ -64,7 +67,9 @@ public class TimeSeries {
 
 			while((line = scanin.readLine()) != null)
 			{
+				NumLine++;
 				array = line.split(inputline);
+				lines.put(NumLine,array);
 				for(int i=0;i<fetureName.size();i++)
 				{
 					features.get(fetureName.get(i)).add(array[i]);
@@ -107,8 +112,9 @@ public class TimeSeries {
 		return timeStepRe;
 	}
 
-	public ArrayList<String> getline(int i){
-		return features.get(i);
+	public String[] getline(int i){
+
+		return lines.get(i);
 	}
 
 

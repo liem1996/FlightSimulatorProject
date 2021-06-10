@@ -10,23 +10,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
         TimeSeries timeSeries;
         property pr;
         Timer ts;
-        ArrayList<String> TimeStep;
+        IntegerProperty timestep;
 
 
   public ModelFg() {
       pr=new property();
       timeSeries=new TimeSeries();
-      TimeStep=new ArrayList<>();
+      timestep=new SimpleIntegerProperty();
    }
 
 
@@ -55,8 +52,9 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                     try {
                         Socket fg = new Socket(pr.ip, pr.port);
                         PrintWriter ps=new PrintWriter(fg.getOutputStream());
-                        for(int i=0;i<timeSeries.getNumLine();i++){
-                            ps.println(timeSeries.getline(i));
+                        for(int i=1;i<timeSeries.getNumLine()-1;i++){
+                         //   System.out.println(timeSeries.getline(i)[i]);
+                            ps.println(Arrays.toString(timeSeries.getline(i)));
                             ps.flush();
 
                         }
