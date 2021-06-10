@@ -13,6 +13,8 @@ public class JoyStickController extends BorderPane {
     public Slider throttle;
     public Slider rudder;
 
+
+    //////
     @FXML
     Circle innerCircle1;
     @FXML
@@ -41,6 +43,9 @@ public class JoyStickController extends BorderPane {
         this.throttle1 = throttle;
 
 /////
+
+
+        /////
     }
 
 }
