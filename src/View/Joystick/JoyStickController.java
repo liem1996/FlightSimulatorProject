@@ -14,15 +14,14 @@ import javafx.scene.shape.Circle;
 public class JoyStickController extends BorderPane {
 
 
-    /*
-    @FXML
-    Canvas canvasOnBorder;
-    @FXML
-    BorderPane JoyStick;
+
+
+
     @FXML
     Slider throttle;
     @FXML
     Slider rudder;
+
 
     public DoubleProperty aileron,  elevators;
 
@@ -45,8 +44,12 @@ public class JoyStickController extends BorderPane {
         aileron.set(((jx-mx)/my));
         elevators.set((my-jy)/my);
     }
-    */
+
+ */
+
+    public void bindjoystick(){
 
 
+    }
 
 }
