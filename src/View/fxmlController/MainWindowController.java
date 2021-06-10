@@ -141,6 +141,8 @@ public class MainWindowController implements Initializable {
 
     public void init(ViewModel vm) {
         this.viewModel = vm;
+        this.viewModel.timestep.bind(this.viewModel.model.timestepProperty());
+        this.timestep.bind(this.viewModel.timestep);
         //ChartList = new CharListController();
 
     }

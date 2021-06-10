@@ -8,11 +8,13 @@ import Model.XmlWrite;
 import Model.property;
 import View.fxmlController.MainWindowController;
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -33,8 +35,21 @@ public class Main extends Application {
         mwc =fxml1.getController();
 
         ModelFg model = new ModelFg();
-        ViewModel viewModel = new ViewModel(model);
+        ArrayList<String> ClocksFeaturesList = new ArrayList<>();
+        ClocksFeaturesList.add("roll-deg");
+        ClocksFeaturesList.add("pitch-deg");
+        ClocksFeaturesList.add("airspeed-kt");
+
+
+        ViewModel viewModel = new ViewModel(model, ClocksFeaturesList);
         mwc.init(viewModel);
+        ////////////////////////////////
+        //mwc.viewModel.timestep.set(2);
+        mwc.viewModel.model.play();
+       // mwc.viewModel.timestep.bind(mwc.viewModel.model.timestepProperty());
+       // mwc.viewModel.setTimestep();
+
+        ///////////////////////////////
         primaryStage.show();
 
 
