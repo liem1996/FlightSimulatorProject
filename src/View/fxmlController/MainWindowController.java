@@ -76,6 +76,7 @@ public class MainWindowController implements Initializable {
         try {
             Parent r = loader.load();
             ChartList = (CharListController) loader.getController();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,6 +158,7 @@ public class MainWindowController implements Initializable {
     //loding the data of the fetures to the view itself - intlize the observable list
     public void loadData() {
          ChartList.fetures.addAll(viewModel.fetures);
+         //ChartList.init();
     }
 
 
@@ -226,9 +228,7 @@ public class MainWindowController implements Initializable {
         e.printStackTrace();
         }
 
-
     }
-
 
 
 
