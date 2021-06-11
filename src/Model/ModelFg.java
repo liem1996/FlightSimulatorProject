@@ -1,10 +1,9 @@
 package Model;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.canvas.GraphicsContext;
+import test.TimeSeriesAnomalyDetector;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,16 +16,19 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         TimeSeries timeSeries;
         property pr;
         Timer ts;
-        IntegerProperty timestep;
+        IntegerProperty TimeLine;
+        TimeSeriesAnomalyDetector tsad;
 
 
+  //contructor for the model itself
   public ModelFg() {
       pr=new property();
       timeSeries=new TimeSeries();
-      timestep=new SimpleIntegerProperty();
+      TimeLine=new SimpleIntegerProperty();
    }
 
 
+   //set the properties from the user
     public void SetProperty(String s) {
         XmlWrite xml=new XmlWrite();
         pr=xml.deserializeFromXML(s);
@@ -34,12 +36,16 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     }
 
 
+
+    //set the time series from the view model and the csv
    @Override
    public void SetTimeSeries(TimeSeries ts) {
             this.timeSeries = ts;
 
    }
 
+
+   //run the simulator itself and the time acording the lines in the timeseries
     @Override
     public void play() {
         if(this.ts==null){
@@ -74,21 +80,26 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         }
     }
 
+    //pasue the simulator itself and the time acording the lines in the timeseries
     @Override
     public void pause() {
         ts.cancel();
         ts=null;
     }
 
+    //stop the simulator itself and the time acording the lines in the timeseries
     @Override
     public void stop() {
        ts.cancel();
        ts=null;
+        TimeLine.set(0);
 
     }
 
+    //need to run in a seprate therd
     @Override
     public void SetAnomalyDetactor(TimeSeriesAnomalyDetector tsa) {
+        tsad = tsa;
 
     }
 
