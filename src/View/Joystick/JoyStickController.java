@@ -8,19 +8,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 
 public class JoyStickController extends BorderPane {
-    public Circle innerCircle;
-    public Circle outerCircle;
-    public Slider throttle;
-    public Slider rudder;
 
     @FXML
-    Circle innerCircle1;
+    public Circle innerCircle;
     @FXML
-    Circle outerCircle1;
+    public Circle outerCircle;
     @FXML
-    Slider throttle1;
+    public Slider throttle;
     @FXML
-    Slider rudder1;
+    public Slider rudder;
 
     public DoubleProperty aileron, elevators;
 
@@ -35,12 +31,10 @@ public class JoyStickController extends BorderPane {
         aileron = new SimpleDoubleProperty();
         elevators = new SimpleDoubleProperty();
 
-        this.innerCircle1 = innerCircle;
-        this.outerCircle1 = outerCircle;
-        this.rudder1 = rudder;
-        this.throttle1 = throttle;
-
-
+        this.innerCircle = innerCircle;
+        this.outerCircle = outerCircle;
+        this.rudder = rudder;
+        this.throttle = throttle;
     }
 
 }

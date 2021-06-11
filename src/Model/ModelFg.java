@@ -29,9 +29,8 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 
 
    //set the properties from the user
-    public void SetProperty(String s) {
-        XmlWrite xml=new XmlWrite();
-        pr=xml.deserializeFromXML(s);
+    public void SetProperty(property p) {
+       pr =p;
 
     }
 
