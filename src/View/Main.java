@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 import java.util.HashMap;
 
 
@@ -24,12 +25,11 @@ public class Main extends Application {
         FXMLLoader fxml1 = new FXMLLoader((getClass()).getResource("fxmlfiels/MainWindowController.fxml"));
         Parent root = (Parent) fxml1.load();
 
-
         primaryStage.setScene(new Scene(root));
 
         primaryStage.setTitle("Flight Simulator");
-
         MainWindowController mwc=new MainWindowController();
+
         mwc =fxml1.getController();
 
         ModelFg model = new ModelFg();

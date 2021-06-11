@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 // In this class we will write about time series,
 // which means reading the current csv file
-public class TimeSeries {
+public class TimeSeries extends test.TimeSeries {
 
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;
@@ -23,9 +23,9 @@ public class TimeSeries {
 
 
 	public TimeSeries(){
-			features = new HashMap<>();
-			fetureName =new ArrayList<>();
-			lines=new HashMap<>();
+		features = new HashMap<>();
+		fetureName =new ArrayList<>();
+		lines=new HashMap<>();
 
 	}
 

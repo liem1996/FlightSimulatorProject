@@ -17,17 +17,17 @@
       <BorderPane fx:id="ClocksPane" layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" />
       <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="354.0">
          <children>
-            <Button fx:id="CSVbutton" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="14.0" prefWidth="73.0" text="Open CSV">
+            <Button fx:id="CSVbutton" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFileCsv" prefHeight="14.0" prefWidth="73.0" text="Open CSV">
                <font>
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button fx:id="Xmlbutton" layoutX="81.0" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="24.0" prefWidth="73.0" text="Open XML">
+            <Button fx:id="Xmlbutton" layoutX="81.0" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFilexml" prefHeight="24.0" prefWidth="73.0" text="Open XML">
                <font>
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button fx:id="Classopen" layoutX="162.0" layoutY="17.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="73.0" text="Open Class">
+            <Button fx:id="Classopen" layoutX="162.0" layoutY="17.0" mnemonicParsing="false" onAction="#Classload" prefHeight="24.0" prefWidth="73.0" text="Open Class">
                <font>
                   <Font size="11.0" />
                </font>

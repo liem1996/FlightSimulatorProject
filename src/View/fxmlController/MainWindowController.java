@@ -13,10 +13,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -35,6 +40,7 @@ public class MainWindowController implements Initializable {
     ClocksController Clocks;
     JoyStickController Joystick;
     playerController player;
+    popupcontroller popup;
 
     @FXML
     private BorderPane JoyStickPane;
@@ -62,6 +68,7 @@ public class MainWindowController implements Initializable {
     public IntegerProperty timestep;
 
 
+    //constructor that create and intalize all the four part the includes int the main window controller
     public MainWindowController() {
         path = new SimpleStringProperty();
         timestep = new SimpleIntegerProperty();
@@ -98,38 +105,63 @@ public class MainWindowController implements Initializable {
 
     }
 
-    public void ChooseFile() {
+
+
+    //fubction for choosing the file itself
+    public String  chooseFile(){
         FileChooser fileccsv = new FileChooser();
         File file = fileccsv.showOpenDialog(null);
         String pathtest = file.toURI().toString();
         Path p3 = Paths.get(URI.create(pathtest));
         pathtest = p3.getFileName().toString();
-        path.setValue(pathtest);
-        if (pathtest.contains("csv")) {
+        return pathtest;
+    }
+
+    //function to choose specificly the csv file and intalize the player
+    public void ChooseFileCsv() {
+
+        String pathtocompare = chooseFile();
+        path.setValue(pathtocompare);
+        if (pathtocompare.contains("csv")) {
             viewModel.CreateTimeSeries(path.getValue().toString());
             loadData();
 
-        } else if (pathtest.contains("xml")) {
-            viewModel.CreateProperty(path.getValue().toString());
-        } else if (pathtest != null) {
-            viewModel.loadClass(path.getValue().toString());
+        } else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the csv is not correct or not been upload");
+            a.show();
         }
-
-
         players();
 
+    }
 
+    //function to choose specificly the xml file for the properties
+   public void ChooseFilexml() {
+       String pathtocompare = chooseFile();
+       path.setValue(pathtocompare);
+        if (pathtocompare.contains("xml")) {
+            viewModel.CreateProperty(path.getValue().toString());
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the xml is not correct or not been upload");
+            a.show();
+        }
 
     }
 
 
+
+
+
+    //loding the data of the fetures to the view itself - intlize the observable list
     public void loadData() {
          ChartList.fetures.addAll(viewModel.fetures);
-//       ChartList.Listfetures.setItems(ChartList.fetures);
     }
 
 
 
+    //the function that makes all the four parts in the screen to upload on the gui itself
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
@@ -143,14 +175,14 @@ public class MainWindowController implements Initializable {
     }
 
 
+    //intalize the viewmodel
     public void init(ViewModel vm) {
         this.viewModel = vm;
         //ChartList = new CharListController();
-
-
-
     }
 
+
+    //intelize the function from the viemodel to the view itself and run them
     public void players(){
 
         viewModel.Players();
@@ -161,6 +193,41 @@ public class MainWindowController implements Initializable {
 
     }
 
+
+    //load the anomaly detector from the popup that we got and put in the viewmodel
+    public void ClassLoadPop(String path){
+        if(path.equals("hibride") || path.equals("Zscore") || path.equals("SimpleAnomalyDetector")) {
+            popup.mc.viewModel.loadClass(path);
+        }else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the class is not correct or not been upload");
+            a.show();
+
+        }
+    }
+
+
+    //load the pop up to choose the class of the anomaly detector from him
+    public void Classload(javafx.event.ActionEvent event) {
+        try {
+          Button btn = (Button) event.getSource();
+           FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/popupClass.fxml"));
+           Parent r = loader1.load();
+           popup = (popupcontroller) loader1.getController();
+           Scene secene = new Scene(r);
+           Stage stage = new Stage();
+           popup.mc=this;
+           stage.setTitle("Algorithm choosing ");
+         stage.setScene(secene);
+           stage.show();
+       } catch (IOException e) {
+
+
+        e.printStackTrace();
+        }
+
+
+    }
 
 
 

@@ -3,51 +3,42 @@ package View.Joystick;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 public class JoyStickController extends BorderPane {
-
-
-
-
+    public Circle innerCircle;
+    public Circle outerCircle;
+    public Slider throttle;
+    public Slider rudder;
 
     @FXML
-    Slider throttle;
+    Circle innerCircle1;
     @FXML
-    Slider rudder;
+    Circle outerCircle1;
+    @FXML
+    Slider throttle1;
+    @FXML
+    Slider rudder1;
 
+    public DoubleProperty aileron, elevators;
 
-    public DoubleProperty aileron,  elevators;
-
+    // Initialize each part of axis x and axis y
     private double jx, jy;
-    private double mx, my;
+    private double Ax, Ay;
 
-    public JoyStickController(){
-        jx = 0;
-        jy = 0;
+    // Constructor to the joystick
+    public JoyStickController() {
+        Ax = 0;
+        Ay = 0;
         aileron = new SimpleDoubleProperty();
         elevators = new SimpleDoubleProperty();
-    }
-/*
-    void paint() {
-        GraphicsContext canvasOnBorder = JoyStick.getGraphicsContext2D();
-        mx = JoyStick.getWidth() /2;
-        my = JoyStick.getHeight()/2;
-        canvasOnBorder.clearRect(0,0, JoyStick.getWidth(), JoyStick.getHeight());
-        canvasOnBorder.strokeOval(jx-50, jy-50, 100, 100);
-        aileron.set(((jx-mx)/my));
-        elevators.set((my-jy)/my);
-    }
 
- */
-
-    public void bindjoystick(){
+        this.innerCircle1 = innerCircle;
+        this.outerCircle1 = outerCircle;
+        this.rudder1 = rudder;
+        this.throttle1 = throttle;
 
 
     }
