@@ -11,9 +11,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -28,10 +35,9 @@ public class MainWindowController implements Initializable {
 
     CharListController ChartList;
     ClocksController Clocks;
-    JoyStickController Joystick = new JoyStickController();
+    JoyStickController Joystick;
     playerController player;
-
-    public DoubleProperty aileron, elevators;
+    popupcontroller popup;
 
     @FXML
     private BorderPane JoyStickPane;
@@ -46,7 +52,9 @@ public class MainWindowController implements Initializable {
 
     public StringProperty path;
 
+    public IntegerProperty timestep;
 
+    //constructor that create and intalize all the four part the includes int the main window controller
     public MainWindowController() {
         path = new SimpleStringProperty();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlfiels/ChartsList.fxml"));
@@ -82,35 +90,56 @@ public class MainWindowController implements Initializable {
 
     }
 
-    public void ChooseFile() {
+    //fubction for choosing the file itself
+    public String  chooseFile(){
         FileChooser fileccsv = new FileChooser();
         File file = fileccsv.showOpenDialog(null);
         String pathtest = file.toURI().toString();
         Path p3 = Paths.get(URI.create(pathtest));
         pathtest = p3.getFileName().toString();
-        path.setValue(pathtest);
-        if (pathtest.contains("csv")) {
-            viewModel.CreateTimeSeries(path.getValue().toString());
-        } else if (pathtest.contains("xml")) {
-            viewModel.CreateProperty(path.getValue().toString());
-        } else if (pathtest != null) {
-            viewModel.loadClass(path.getValue().toString());
-        }
+        return pathtest;
+    }
 
-        loadData();
+    //function to choose specificly the csv file and intalize the player
+    public void ChooseFileCsv() {
+
+        String pathtocompare = chooseFile();
+        path.setValue(pathtocompare);
+        if (pathtocompare.contains("csv")) {
+            viewModel.CreateTimeSeries(path.getValue().toString());
+            loadData();
+            SetvBox();
+
+        } else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the csv is not correct or not been upload");
+            a.show();
+        }
         players();
 
+    }
+
+    //function to choose specificly the xml file for the properties
+    public void ChooseFilexml() {
+        String pathtocompare = chooseFile();
+        path.setValue(pathtocompare);
+        if (pathtocompare.contains("xml")) {
+            viewModel.CreateProperty(path.getValue().toString());
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the xml is not correct or not been upload");
+            a.show();
+        }
 
     }
 
 
     public void loadData() {
          ChartList.fetures.addAll(viewModel.fetures);
-//       ChartList.Listfetures.setItems(ChartList.fetures);
     }
 
-
-
+    //the function that makes all the four parts in the screen to upload on the gui itself
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
@@ -121,40 +150,86 @@ public class MainWindowController implements Initializable {
         PlayerPane.setCenter(playerView);
         BorderPane chartslistView = new FxmlLoader().getPage("ChartsList");
         ChartListPane.setCenter(chartslistView);
+
+        // Initialize of min and max value of the throttle rudder and inner circle of the joystick
+        Joystick.throttle.setMin(0);
+        Joystick.throttle.setMax(1);
+        Joystick.rudder.setMin(-1);
+        Joystick.throttle.setMax(1);
+        Joystick.innerCircle.setCenterX(0);
+        Joystick.innerCircle.setCenterY(0);
+
     }
 
-
+    //initialize the view model
     public void init(ViewModel vm) {
         this.viewModel = vm;
         //ChartList = new CharListController();
-
-
-
     }
 
+    //interline the function from the view model to the view itself and run them
     public void players(){
-
+        viewModel.Players();
         player.onPlay =viewModel.Play;
         player.onPause = viewModel.Pause;
         player.onStop = viewModel.Stop;
 
     }
 
+    //load the anomaly detector from the popup that we got and put in the viewmodel
+    public void ClassLoadPop(String path){
+        if(path.equals("hibride") || path.equals("Zscore") || path.equals("SimpleAnomalyDetector")) {
+            popup.mc.viewModel.loadClass(path);
+        }else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the class is not correct or not been upload");
+            a.show();
 
+        }
+    }
+
+    //load the pop up to choose the class of the anomaly detector from him
+    public void Classload(javafx.event.ActionEvent event) {
+        try {
+            Button btn = (Button) event.getSource();
+            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/popupClass.fxml"));
+            Parent r = loader1.load();
+            popup = (popupcontroller) loader1.getController();
+            Scene secene = new Scene(r);
+            Stage stage = new Stage();
+            popup.mc=this;
+            stage.setTitle("Algorithm choosing ");
+            stage.setScene(secene);
+            stage.show();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
+    // Setting the time series by binding from the view to model view
     public void SetTimeSeries(TimeSeries ts)
     {
         // connect the view model by using view model object and joystick controller object using binding
         Joystick.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("aileron") , viewModel.TimeLine));
         Joystick.elevators.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("elevator") , viewModel.TimeLine));
         Joystick.rudder.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
-        Joystick.throttle.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
+        Joystick.throttle.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("throttle") , viewModel.TimeLine));
 
+        // binding to Circles ------
+
+    }
+
+    public void SetvBox(){
+
+        ChartList.listView = new ListView<>();
+        ChartList.listView.getItems().addAll(viewModel.ts.fetureName);
+        ChartList.vBox = new VBox(ChartList.listView);
 
     }
 
 
-
-
-
-
 }
+
+

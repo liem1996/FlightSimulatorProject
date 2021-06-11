@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.popupcontroller">
+    <children>
+        <Pane layoutX="63.0" layoutY="161.0" prefHeight="78.0" prefWidth="474.0">
+            <children>
+                <Button fx:id="simple" layoutX="19.0" layoutY="17.0" mnemonicParsing="false" onAction="#Classloadpop" prefHeight="24.0" prefWidth="122.0" text="SimpleAnomalyDetector">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+
+                </Button>
+                <Button fx:id="hybride" layoutX="209.0" layoutY="17.0" mnemonicParsing="false" onAction="#Classloadpop" prefHeight="24.0" prefWidth="73.0" text="hibride">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="zscore" layoutX="360.0" layoutY="17.0" mnemonicParsing="false" onAction="#Classloadpop" prefHeight="24.0" prefWidth="73.0" text="Zscore">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>

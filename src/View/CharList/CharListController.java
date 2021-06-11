@@ -12,6 +12,7 @@ import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import View.fxmlController.MainWindowController;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,16 +25,19 @@ import java.util.ResourceBundle;
 
 public class CharListController  {
 
-    public CharListController() {
-       this.fetures =FXCollections.observableArrayList() ;
-    }
+    @FXML
+    public VBox vBox;
+    @FXML
+    public ListView<String> listView;
 
     public static ObservableList<String> fetures;
 
-    //private final ObservableList<String> fetures2=FXCollections.observableArrayList() ;
-
     public ObservableList<String> getFetures(){
-    return fetures;
+        return fetures;
+    }
+
+    public CharListController() {
+       this.fetures =FXCollections.observableArrayList();
     }
 
 }
