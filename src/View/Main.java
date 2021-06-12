@@ -45,9 +45,11 @@ public class Main extends Application {
         mwc.init(viewModel);
         ////////////////////////////////
         //mwc.viewModel.timestep.set(2);
-        mwc.viewModel.model.play();
+             // mwc.viewModel.model.play();
        // mwc.viewModel.timestep.bind(mwc.viewModel.model.timestepProperty());
        // mwc.viewModel.setTimestep();
+
+
 
         ///////////////////////////////
         primaryStage.show();

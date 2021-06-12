@@ -1,6 +1,8 @@
 package View.CharList;
 
 import View.fxmlController.FxmlLoader;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -23,11 +25,9 @@ import java.util.ResourceBundle;
 
 
 public class CharListController  {
-    
     public CharListController() {
-       this.fetures =FXCollections.observableArrayList() ;
+       this.fetures =FXCollections.observableArrayList();
     }
-
     public static ObservableList<String> fetures;
 
     //private final ObservableList<String> fetures2=FXCollections.observableArrayList() ;

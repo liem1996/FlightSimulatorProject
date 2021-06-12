@@ -6,10 +6,8 @@ import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
 import Model.ModelFg;
 import Model.property;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.application.Platform;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,7 +27,12 @@ public class ViewModel extends Observable implements Observer {
     public Runnable Play,Pause,Stop;
     public  Timer timer;
     private HashMap<String, DoubleProperty> displayVariables;
+    public StringProperty sp = new SimpleStringProperty("5");
 
+
+    public DoubleProperty getProperty(String name){
+        return displayVariables.get(name);
+    }
 
     public void load(){
         fetures= FXCollections.observableArrayList(ts.getFetureName());
@@ -76,6 +79,7 @@ public class ViewModel extends Observable implements Observer {
     }*/
 
     public ViewModel(ModelFg model, ArrayList<String> ClocksFeaturesList) {
+        sp = new SimpleStringProperty("5");
         this.model = model;
         model.addObserver(this);
         timestep = new SimpleIntegerProperty(0);
@@ -87,9 +91,12 @@ public class ViewModel extends Observable implements Observer {
         }
         // get data of display variables at time step (nw)
         timestep.addListener((obs, old, nw) -> {
-            for (String s : ClocksFeaturesList) {
-                displayVariables.get(s).set(nw.doubleValue());
-                System.out.println("Done");
+            //////////////////////////////////////Amit
+
+            ///////////////////////////////////////
+            for (String s : ClocksFeaturesList) { //change to read from property or ts
+               Platform.runLater(() ->displayVariables.get(s).set(nw.doubleValue()));
+                System.out.println("HashMap updated to current Feature "+s+" for time: "+nw.toString() );
             }
         });
         if (this.timer == null) {
@@ -99,12 +106,14 @@ public class ViewModel extends Observable implements Observer {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("sending row" + timestep.get());
+                    System.out.println("sending row view Model " + timestep.get());
+                    sp.set("2");
                 }
 
             }, 0, 1000);
 
         }
+
     }
 
  /*   public void Players(){

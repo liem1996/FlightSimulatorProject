@@ -67,7 +67,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("sending row" + timestep.get());
+                    System.out.println("sending row ModelFG " + timestep.get());
                     timestep.set(timestep.get()+1);
                     //timestep.set();
  /*                   try {
