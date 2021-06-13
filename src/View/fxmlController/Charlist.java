@@ -12,8 +12,6 @@ public class Charlist extends BorderPane {
     CharListController charListController;
 
     public Charlist() {
-
-
         try {
             FXMLLoader loder = new FXMLLoader();
             BorderPane charlist = loder.load(getClass().getResource("../fxmlfiels/ChartsList.fxml").openStream());

@@ -6,6 +6,7 @@ import View.Clocks.ClocksController;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class Clocks extends BorderPane {
             FXMLLoader loder = new FXMLLoader();
             BorderPane clocks = loder.load(getClass().getResource("../fxmlfiels/Clocks.fxml").openStream());
             clocksController = loder.getController();
+            clocksController.altimeter=new Label();
             this.getChildren().add(clocks);
         } catch (IOException e) {
             e.printStackTrace();

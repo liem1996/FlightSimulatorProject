@@ -25,8 +25,6 @@ public class Main extends Application {
         FXMLLoader fxml1 = new FXMLLoader((getClass()).getResource("fxmlfiels/MainWindowController.fxml"));
         Parent root = (Parent) fxml1.load();
 
-
-
         primaryStage.setScene(new Scene(root));
 
         primaryStage.setTitle("Flight Simulator");
@@ -35,6 +33,8 @@ public class Main extends Application {
         mwc =fxml1.getController();
 
         ModelFg model = new ModelFg();
+        XmlWrite xml=new XmlWrite();
+        model.pr=xml.deserializeFromXML("Properties.xml");
         ViewModel viewModel = new ViewModel(model);
         mwc.init(viewModel);
         primaryStage.show();
@@ -47,7 +47,7 @@ public class Main extends Application {
         TimeSeries tk = new TimeSeries("reg_flight.csv");
         TimeSeries tm = new TimeSeries("anomaly_flight.csv");
         property test3 = new property();
-        HashMap<String,Integer> tamp1 = new HashMap<>();
+        HashMap<Integer,String> tamp1 = new HashMap<>();
         HashMap<String,Integer> min = new HashMap<>();
         HashMap<String,Integer> max = new HashMap<>();
         test3.setIp("127.0.0.1");
@@ -55,7 +55,7 @@ public class Main extends Application {
         test3.setTimeperSeconed(1.5);
         for(int i=0;i<tk.fetureName.size();i++)
         {
-            tamp1.put(tk.fetureName.get(i),i);
+            tamp1.put(i,tk.fetureName.get(i));
             min.put(tk.fetureName.get(i),1);
             max.put(tk.fetureName.get(i),2);
 

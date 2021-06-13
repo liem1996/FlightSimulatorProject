@@ -31,6 +31,7 @@ public class MainWindowController  {
     JoyStick Joystick;
     @FXML
     Player player;
+
     popupcontroller popup;
 
     public StringProperty path;
@@ -99,9 +100,8 @@ public class MainWindowController  {
 //initialize the view model
     public void init(ViewModel vm) {
         this.viewModel = vm;
-
-
         Joystickbind();
+        clockbind();
 
     }
 
@@ -158,14 +158,12 @@ public class MainWindowController  {
     // Setting the time series by binding from the view to model view
     public void Joystickbind()
     {
-        /*
-        // connect the view model by using view model object and joystick controller object using binding
-        Joystick.joyStickController.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("aileron") , viewModel.TimeLine));
-        Joystick.joyStickController.elevators.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("elevator") , viewModel.TimeLine));
-        Joystick.joyStickController.rudder.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
-        Joystick.joyStickController.throttle.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("throttle") , viewModel.TimeLine));
 
-         */
+        // connect the view model by using view model object and joystick controller object using binding
+        Joystick.joyStickController.aileron.bind(viewModel.DisplaVaribales.get("aileron"));
+        Joystick.joyStickController.elevator.bind(viewModel.DisplaVaribales.get("elevator"));
+        Joystick.joyStickController.rudder.valueProperty().bind(viewModel.DisplaVaribales.get("rudder"));
+        Joystick.joyStickController.throttle.valueProperty().bind(viewModel.DisplaVaribales.get("throttle"));
 
 
         // binding to Circles ------
@@ -173,9 +171,16 @@ public class MainWindowController  {
     }
 
 
+    public void clockbind()
+    {
+        Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").getValue());
+
+    }
+
 
     //choosing an option fron the fetures list
     public void ChoosingOption(){
+
 
     }
 

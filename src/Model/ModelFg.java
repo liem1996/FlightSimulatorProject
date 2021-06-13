@@ -15,6 +15,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public property pr;
     public Timer ts;
     public TimeSeriesAnomalyDetector timeSeriesAnomalyDetector;
+    public int timeSeriesRow;
 
     public void setTimeLine(int timeLine) {
         this.TimeLine.set(timeLine);
@@ -28,6 +29,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         pr=new property();
         timeSeries=new TimeSeries();
         TimeStep=new ArrayList<>();
+        timeSeriesRow =0;
     }
 
     public void SetProperty(property pr) {
@@ -48,9 +50,12 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    for (int j = 0; j < timeSeries.getNumLine(); j++) {
-
+                    if(timeSeriesRow < timeSeries.getNumLine()) {
                         TimeLine.set(TimeLine.get() + 1);
+                        System.out.println("The time in Model changed to " + TimeLine.get());
+                        timeSeriesRow++;
+                    }
+
                    /*     try {
                             Socket fg = new Socket(pr.ip, pr.port);
                             PrintWriter ps = new PrintWriter(fg.getOutputStream());
@@ -68,10 +73,9 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }*/
-                    }
                 }
 
-            },0, (long) pr.timeperSeconed);
+            },0, 1000);
         }
     }
 
