@@ -1,7 +1,8 @@
 package Model.runningfunc;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
+import test.TimeSeriesAnomalyDetector;
+
 
 public interface Model {
     public void SetTimeSeries(TimeSeries ts);

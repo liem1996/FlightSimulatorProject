@@ -192,351 +192,351 @@
 </void>
 <void idref="HashMap0"/>
 <void class="Model.property" id="Field1" method="getField">
- <string>minimum</string>
+ <string>maximum</string>
  <void id="HashMap1" method="get">
   <object idref="property0"/>
   <void method="put">
    <string>airspeed-kt</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>throttle1</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>engine-pump1</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>electric-pump0</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>gps_indicated-vertical-speed</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>engine-pump0</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>attitude-indicator_indicated-pitch-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>encoder_indicated-altitude-ft</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>gps_indicated-ground-speed-kt</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>vertical-speed-fps</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>flaps</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>heading-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>elevator</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>longitude-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>altimeter_indicated-altitude-ft</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>encoder_pressure-alt-ft</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>rudder</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>latitude-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>indicated-heading-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>aileron</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>roll-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>speedbrake</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>slats</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>airspeed-indicator_indicated-speed-kt</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>gps_indicated-altitude-ft</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>vertical-speed-indicator_indicated-speed-fpm</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>pitch-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>side-slip-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>altimeter_pressure-alt-ft</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>engine_rpm</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>throttle0 </string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>glideslope</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>magnetic-compass_indicated-heading-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>altitude-ft</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>attitude-indicator_indicated-roll-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>external-power1</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>slip-skid-ball_indicated-slip-skid</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>APU-generator</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>attitude-indicator_internal-roll-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>turn-indicator_indicated-turn-rate</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>attitude-indicator_internal-pitch-deg</string>
-   <int>1</int>
+   <int>2</int>
   </void>
   <void method="put">
    <string>electric-pump</string>
-   <int>1</int>
+   <int>2</int>
   </void>
  </void>
 </void>
 <void idref="HashMap1"/>
 <void class="Model.property" id="Field2" method="getField">
- <string>maximum</string>
+ <string>minimum</string>
  <void id="HashMap2" method="get">
   <object idref="property0"/>
   <void method="put">
    <string>airspeed-kt</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>throttle1</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>engine-pump1</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>electric-pump0</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>gps_indicated-vertical-speed</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>engine-pump0</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>attitude-indicator_indicated-pitch-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>encoder_indicated-altitude-ft</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>gps_indicated-ground-speed-kt</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>vertical-speed-fps</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>flaps</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>heading-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>elevator</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>longitude-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>altimeter_indicated-altitude-ft</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>encoder_pressure-alt-ft</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>rudder</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>latitude-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>indicated-heading-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>aileron</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>roll-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>speedbrake</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>slats</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>airspeed-indicator_indicated-speed-kt</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>gps_indicated-altitude-ft</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>vertical-speed-indicator_indicated-speed-fpm</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>pitch-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>side-slip-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>altimeter_pressure-alt-ft</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>engine_rpm</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>throttle0 </string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>glideslope</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>magnetic-compass_indicated-heading-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>altitude-ft</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>attitude-indicator_indicated-roll-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>external-power1</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>slip-skid-ball_indicated-slip-skid</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>APU-generator</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>attitude-indicator_internal-roll-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>turn-indicator_indicated-turn-rate</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>attitude-indicator_internal-pitch-deg</string>
-   <int>2</int>
+   <int>1</int>
   </void>
   <void method="put">
    <string>electric-pump</string>
-   <int>2</int>
+   <int>1</int>
   </void>
  </void>
 </void>

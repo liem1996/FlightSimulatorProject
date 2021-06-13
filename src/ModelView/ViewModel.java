@@ -1,16 +1,15 @@
 package ModelView;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
 import Model.XmlWrite;
 import Model.property;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import test.TimeSeriesAnomalyDetector;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -64,7 +63,7 @@ public class ViewModel extends Observable implements Observer {
         URLClassLoader urlClassLoader = null;
         try {
             urlClassLoader = URLClassLoader.newInstance(new URL[] {
-                    new URL("file://C:\\Users\\amitb\\IdeaProjects\\aven derech 3 part 2\\out\\artifacts\\aven_derech_3_part_2_jar")
+                    new URL("D:\\aven derech 3 part 2")
             });
             Class<?> c=urlClassLoader.loadClass("test."+directory);
 

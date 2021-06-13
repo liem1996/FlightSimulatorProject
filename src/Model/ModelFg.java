@@ -1,13 +1,13 @@
 package Model;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
+import test.TimeSeriesAnomalyDetector;
 
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
