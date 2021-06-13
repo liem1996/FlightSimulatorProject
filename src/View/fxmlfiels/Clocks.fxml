@@ -8,7 +8,7 @@
    <center>
       <Pane prefHeight="295.0" prefWidth="301.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="90.0" layoutY="1.0" prefHeight="27.0" prefWidth="58.0" text="altimeter:" />
+            <Label fx:id="altimeter"  layoutX="90.0" layoutY="1.0" prefHeight="27.0" prefWidth="58.0" text="altimeter:" />
             <Label layoutX="92.0" layoutY="39.0" text="direction:" />
             <Label layoutX="95.0" layoutY="75.0" text="airspeed:" />
             <Label layoutX="114.0" layoutY="105.0" prefHeight="29.0" prefWidth="33.0" text="pitch:" />
