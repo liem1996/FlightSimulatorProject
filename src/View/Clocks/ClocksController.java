@@ -20,8 +20,6 @@ public class ClocksController {
 
 
 
-
-
     public String getAltimeter() {
         return altimeter.getText();
     }

@@ -1,21 +1,21 @@
 package ModelView;
 
 import Model.AnomalyDetactor.TimeSeries;
-
 import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import Model.ModelFg;
-import Model.ModelFg;
+import Model.XmlWrite;
 import Model.property;
-import javafx.application.Platform;
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 public class ViewModel extends Observable implements Observer {
 
@@ -23,103 +23,88 @@ public class ViewModel extends Observable implements Observer {
     public TimeSeries ts;
     public property pt;
     public ObservableList<String> fetures;
-    public IntegerProperty timestep;
+    public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public Runnable Play,Pause,Stop;
-    public  Timer timer;
-    private HashMap<String, DoubleProperty> displayVariables;
-    public StringProperty sp = new SimpleStringProperty("5");
+
+    public String altimeterVM = "21";
 
 
-    public DoubleProperty getProperty(String name){
-        return displayVariables.get(name);
-    }
+    public IntegerProperty timeStep;
 
+    //load the fetures of the time series
     public void load(){
-        fetures= FXCollections.observableArrayList(ts.getFetureName());
+        fetures = FXCollections.observableArrayList();
+        fetures.addAll(ts.getFetureName());
+
     }
 
-  /*  public void setTimestep(IntegerProperty timestep){
-        this.timestep = 3;
-    }*/
 
+    //create the time series fron the csv we got
     public void CreateTimeSeries(String fileName){
         //create time series
         ts = new TimeSeries(fileName);
         model.SetTimeSeries(ts);
         load();
 
+
     }
+
+
     public void CreateProperty(String fileName){
         //create time series
-        model.SetProperty(fileName);
+        XmlWrite xml=new XmlWrite();
+        pt=xml.deserializeFromXML(fileName);
+        model.SetProperty(pt);
     }
 
 
+    //loading the classes of the algorithems of the TimeAnomalyDetector
     public void loadClass(String directory) {
+
+        URLClassLoader urlClassLoader = null;
         try {
-            URLClassLoader urlClassLoader = URLClassLoader.newInstance(new URL[]{new URL("")});
+            urlClassLoader = URLClassLoader.newInstance(new URL[] {
+                    new URL("file://C:\\Users\\amitb\\IdeaProjects\\aven derech 3 part 2\\out\\artifacts\\aven_derech_3_part_2_jar")
+            });
+            Class<?> c=urlClassLoader.loadClass("test."+directory);
 
-
+            TimeSeriesAnomalyDetector sc=(TimeSeriesAnomalyDetector) c.newInstance();
+            model.SetAnomalyDetactor(sc);
+            //model.SetAnomalyDetactor(sc);
         } catch (MalformedURLException e) {
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
     }
 
-/*    public int getTimestep() {
-        return timestep.get();
-    }
-
-    public IntegerProperty timestepProperty() {
-        return timestep;
-    }
-
-    public void setTimestep(int timestep) {
-        this.timestep.set(timestep);
-    }*/
-
-    public ViewModel(ModelFg model, ArrayList<String> ClocksFeaturesList) {
-        sp = new SimpleStringProperty("5");
+    // constructor - initialize the view model
+    public ViewModel(ModelFg model) {
         this.model = model;
         model.addObserver(this);
-        timestep = new SimpleIntegerProperty(0);
-        displayVariables = new HashMap<String, DoubleProperty>();
-        //read the clock features from the Arraylist
-        for (int i = 0; i < ClocksFeaturesList.toArray().length; i++) {
-            displayVariables.put(ClocksFeaturesList.get(i), new SimpleDoubleProperty());
-            System.out.println(ClocksFeaturesList.get(i));
-        }
-        // get data of display variables at time step (nw)
-        timestep.addListener((obs, old, nw) -> {
-            //////////////////////////////////////Amit
+        this.TimeLine.bind(model.TimeLine);
 
-            ///////////////////////////////////////
-            for (String s : ClocksFeaturesList) { //change to read from property or ts
-               Platform.runLater(() ->displayVariables.get(s).set(nw.doubleValue()));
-                System.out.println("HashMap updated to current Feature "+s+" for time: "+nw.toString() );
-            }
+        // Connecting the time line to it's current value
+        TimeLine.addListener((old, oldValue, newValue) -> {model.setTimeLine((int)newValue);
+            System.out.println("The time in Model changed to " + TimeLine.get());
         });
-        if (this.timer == null) {
-            timer = new Timer();
-
-
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("sending row view Model " + timestep.get());
-                    sp.set("2");
-                }
-
-            }, 0, 1000);
-
-        }
 
     }
 
- /*   public void Players(){
-        Play->{model;};
 
-    }*/
+    //intelizing the runnbles of the viewmodel for the player section
+    public void Players(){
+        Play=()->{model.play();};
+        Pause=()->{model.pause();};
+        Stop=()->{model.pause();};
+    }
+
 
     //we need to run it in the background in the model by a therd
 
@@ -131,11 +116,5 @@ public class ViewModel extends Observable implements Observer {
 
     }
 
-
-
-    //public Properties CreateProperties(String Filename){
-    //create with decoder
-
-    //}
 
 }

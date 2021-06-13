@@ -8,13 +8,12 @@ import Model.XmlWrite;
 import Model.property;
 import View.fxmlController.MainWindowController;
 import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 
@@ -30,28 +29,13 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
 
         primaryStage.setTitle("Flight Simulator");
-
         MainWindowController mwc=new MainWindowController();
+
         mwc =fxml1.getController();
 
         ModelFg model = new ModelFg();
-        ArrayList<String> ClocksFeaturesList = new ArrayList<>();
-        ClocksFeaturesList.add("roll-deg");
-        ClocksFeaturesList.add("pitch-deg");
-        ClocksFeaturesList.add("airspeed-kt");
-
-
-        ViewModel viewModel = new ViewModel(model, ClocksFeaturesList);
+        ViewModel viewModel = new ViewModel(model);
         mwc.init(viewModel);
-        ////////////////////////////////
-        //mwc.viewModel.timestep.set(2);
-             // mwc.viewModel.model.play();
-       // mwc.viewModel.timestep.bind(mwc.viewModel.model.timestepProperty());
-       // mwc.viewModel.setTimestep();
-
-
-
-        ///////////////////////////////
         primaryStage.show();
 
 
@@ -65,8 +49,8 @@ public class Main extends Application {
         HashMap<String,Integer> tamp1 = new HashMap<>();
         HashMap<String,Integer> min = new HashMap<>();
         HashMap<String,Integer> max = new HashMap<>();
-        test3.setIp(80);
-        test3.setPort(560);
+        test3.setIp("127.0.0.1");
+        test3.setPort(5400);
         test3.setTimeperSeconed(1.5);
         for(int i=0;i<tk.fetureName.size();i++)
         {
@@ -87,9 +71,6 @@ public class Main extends Application {
         System.out.println(test3);
 
          */
-
-
-
         TimeSeries ts = new TimeSeries("anomaly_flight.csv");
         XmlWrite XML =new XmlWrite();
         XML.serializeToXML(test3);

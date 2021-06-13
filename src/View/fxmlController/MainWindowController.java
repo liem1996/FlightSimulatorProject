@@ -1,27 +1,26 @@
 package View.fxmlController;
 
-import Controller.Controller;
+import Model.AnomalyDetactor.TimeSeries;
 import ModelView.ViewModel;
 import View.CharList.CharListController;
 import View.Clocks.ClocksController;
 import View.Joystick.JoyStickController;
 import View.Player.playerController;
-import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -29,19 +28,18 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
+import java.util.*;
+import java.util.Timer;
 
 public class MainWindowController implements Initializable {
 
-
     public ViewModel viewModel;
-
 
     CharListController ChartList;
     ClocksController Clocks;
     JoyStickController Joystick;
     playerController player;
-
-
+    popupcontroller popup;
 
     @FXML
     private BorderPane JoyStickPane;
@@ -54,24 +52,13 @@ public class MainWindowController implements Initializable {
     @FXML
     public BorderPane ChartListPane;
 
-
-    @FXML
-    public Button CSVbutton;
-
-    @FXML
-    public Button Xmlbutton;
-
-    @FXML
-    public Button Classopen;
-
     public StringProperty path;
 
-    public IntegerProperty timestep;
+    public IntegerProperty timestep = new SimpleIntegerProperty();;
 
-
+    //constructor that create and initialize all the four part the includes int the main window controller
     public MainWindowController() {
         path = new SimpleStringProperty();
-        timestep = new SimpleIntegerProperty();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlfiels/ChartsList.fxml"));
         try {
             Parent r = loader.load();
@@ -91,7 +78,6 @@ public class MainWindowController implements Initializable {
         try {
             Parent r = loader2.load();
             Clocks = (ClocksController) loader2.getController();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,43 +88,74 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    public void ChooseFile() {
+    //fubction for choosing the file itself
+    public String  chooseFile(){
         FileChooser fileccsv = new FileChooser();
         File file = fileccsv.showOpenDialog(null);
         String pathtest = file.toURI().toString();
         Path p3 = Paths.get(URI.create(pathtest));
         pathtest = p3.getFileName().toString();
-        path.setValue(pathtest);
-        if (pathtest.contains("csv")) {
+        return pathtest;
+    }
+
+    //function to choose specificly the csv file and intalize the player
+    public void ChooseFileCsv() {
+
+        String pathtocompare = chooseFile();
+        path.setValue(pathtocompare);
+        if (pathtocompare.contains("csv")) {
             viewModel.CreateTimeSeries(path.getValue().toString());
-            viewModel.model.play();
             loadData();
-            //Clocks.altimeter.setText("200");
+            SetvBox();
 
-
-        } else if (pathtest.contains("xml")) {
-            viewModel.CreateProperty(path.getValue().toString());
-        } else if (pathtest != null) {
-            viewModel.loadClass(path.getValue().toString());
+        } else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the csv is not correct or not been upload");
+            a.show();
         }
+        players();
+        this.Clocks.altimeter.setText("6");
+        // added by Rotem
 
-     //   players();
 
+        timestep.addListener((old, oldValue, newValue) -> {System.out.println("The time in View changed to " + timestep.get());
+            String CurrentTime;
+            //CurrentTime =
+            System.out.println("The timestep is " +newValue.toString());
+            this.timestep.bind(this.viewModel.TimeLine);
+            Clocks.altimeter.setText(newValue.toString());
+            System.out.println("Clock value changed "+this.Clocks.altimeter.textProperty().getValue());
+
+        });
+
+        // end - added by Rotem
+
+    }
+
+    //function to choose specificly the xml file for the properties
+    public void ChooseFilexml() {
+        String pathtocompare = chooseFile();
+        path.setValue(pathtocompare);
+        if (pathtocompare.contains("xml")) {
+            viewModel.CreateProperty(path.getValue().toString());
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the xml is not correct or not been upload");
+            a.show();
+        }
 
     }
 
 
     public void loadData() {
         ChartList.fetures.addAll(viewModel.fetures);
-//       ChartList.Listfetures.setItems(ChartList.fetures);
+
     }
 
-
-
+    //the function that makes all the four parts in the screen to upload on the gui itself
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
@@ -149,70 +166,113 @@ public class MainWindowController implements Initializable {
         PlayerPane.setCenter(playerView);
         BorderPane chartslistView = new FxmlLoader().getPage("ChartsList");
         ChartListPane.setCenter(chartslistView);
-        // Clocks.altimeter.setTextFill(Color.RED);
-        // roll.setText("200");
-        //System.out.println("Hi");
-       // altimeter.setTextFill(Color.RED);
+
+        // Initialize of min and max value of the throttle rudder and inner circle of the joystick
+        Joystick.throttle.setMin(0);
+        Joystick.throttle.setMax(1);
+        Joystick.rudder.setMin(-1);
+        Joystick.throttle.setMax(1);
+        Joystick.innerCircle.setCenterX(0);
+        Joystick.innerCircle.setCenterY(0);
 
     }
 
-
-
+    //initialize the view model
     public void init(ViewModel vm) {
-        String s = "dd";
         this.viewModel = vm;
-        this.viewModel.timestep.bind(this.viewModel.model.timestepProperty());
+        this.Clocks.altimeter.setText(this.viewModel.altimeterVM);
+        System.out.println(this.Clocks.altimeter.getText());
+       // this.timestep.bind(this.viewModel.TimeLine);
 
-        this.timestep.bind(this.viewModel.timestep);
-        this.timestep.addListener((obs, old, nw) -> System.out.println("sending row view "+ timestep.get()));
-        //this.Clocks.altimeter.textProperty().bind(this.viewModel.sp); //valueproperty
-          this.Clocks.altimeter.setText("5");
+     /*   timestep.addListener((old, oldValue, newValue) -> {System.out.println("The time in View changed to " + timestep.get());
+            String CurrentTime="";
+            CurrentTime = CurrentTime+timestep.get();
+            System.out.println(CurrentTime);
+            this.Clocks.altimeter.setText(CurrentTime);
 
-     /*   System.out.println("altimeter val is: "+Clocks.altimeter.textProperty().getValue());
-        this.Clocks.altimeter.textProperty().bind(this.viewModel.sp); //valueproperty
-        System.out.println("altimeter val is: "+Clocks.altimeter.textProperty().getValue());
-        this.viewModel.sp.set("8");
-        System.out.println("altimeter val is: "+Clocks.altimeter.textProperty().getValue());*/
-     //   Clocks.altimeter.textProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> Clocks.altimeter.setText(newValue)));
 
-     /*   StringProperty s2 = new SimpleStringProperty("5");
-        this.Clocks.altimeter.textProperty().bind(s2);*/
-        //this.timestep.addListener((obs, old, nw) -> this.Clocks.altimeter.setText("7"));
-   /*     this.Clocks.altimeter.textProperty().bind(this.viewModel.timestep.asString());
-        this.Clocks.altimeter.textProperty().addListener((obs, oldValue, newValue)->{
-        *//*    switch(newValue){
-                case "3":
-                    this.Clocks.altimeter.setTextFill(Color.RED);
-                    break;
-                //Your rules
-            }*//*
-            System.out.println("altimeter value need to be changed ");
-            //this.Clocks.altimeter.setText("80");
         });*/
 
-       // this.timestep.addListener(System.out.println("sending row view  " + timestep.get()));
+        //this.viewModel.model.play();
+    /*    Timer timer = null;
+        if(timer == null) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
 
-    /*    roll.textProperty().bind(vm.getProperty("roll-deg").asString());
-        pitch.textProperty().bind(vm.getProperty("pitch-deg").asString());
-        roll.textProperty().bind(vm.getProperty("airspeed-kt").asString());*/
+                @Override
+                public void run() {
+                  //  System.out.println("sending row view Model " + timestep.get());
+                    Clocks.altimeter.setText("35");
 
+                }
 
-        //ChartList = new CharListController();
+            }, 0, 1000);
+        }*/
 
     }
 
+    //interline the function from the view model to the view itself and run them
     public void players(){
-
-       // viewModel.Players();
+        viewModel.Players();
         player.onPlay =viewModel.Play;
         player.onPause = viewModel.Pause;
         player.onStop = viewModel.Stop;
 
+    }
+
+    //load the anomaly detector from the popup that we got and put in the viewmodel
+    public void ClassLoadPop(String path){
+        if(path.equals("hibride") || path.equals("Zscore") || path.equals("SimpleAnomalyDetector")) {
+            popup.mc.viewModel.loadClass(path);
+        }else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("the class is not correct or not been upload");
+            a.show();
+
+        }
+    }
+
+    //load the pop up to choose the class of the anomaly detector from him
+    public void Classload(javafx.event.ActionEvent event) {
+        try {
+            Button btn = (Button) event.getSource();
+            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/popupClass.fxml"));
+            Parent r = loader1.load();
+            popup = (popupcontroller) loader1.getController();
+            Scene secene = new Scene(r);
+            Stage stage = new Stage();
+            popup.mc=this;
+            stage.setTitle("Algorithm choosing ");
+            stage.setScene(secene);
+            stage.show();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
 
     }
 
+    // Setting the time series by binding from the view to model view
+    public void SetTimeSeries(TimeSeries ts)
+    {
 
+        // connect the view model by using view model object and joystick controller object using binding
+        Joystick.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("aileron") , viewModel.TimeLine));
+        Joystick.elevators.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("elevator") , viewModel.TimeLine));
+        Joystick.rudder.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
+        Joystick.throttle.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("throttle") , viewModel.TimeLine));
 
+        // binding to Circles ------
+
+    }
+
+    public void SetvBox(){
+
+    /*    ChartList.listView = new ListView<>();
+        ChartList.listView.getItems().addAll(viewModel.ts.fetureName);
+        ChartList.vBox = new VBox(ChartList.listView);*/
+
+    }
 
 
 }

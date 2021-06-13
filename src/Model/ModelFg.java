@@ -4,12 +4,6 @@ import Model.AnomalyDetactor.TimeSeries;
 import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.canvas.GraphicsContext;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
@@ -17,40 +11,29 @@ import java.util.TimerTask;
 
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
-    TimeSeries timeSeries;
-    property pr;
-    Timer ts;
-    ArrayList<String> TimeStep;
-    IntegerProperty timestep;
+    public TimeSeries timeSeries;
+    public property pr;
+    public Timer ts;
+    public ArrayList<String> TimeStep;
+    public IntegerProperty TimeLine = new SimpleIntegerProperty();
+    public int timeSeriesRow;
 
-    public int getTimestep() {
-        return timestep.get();
+
+    public void setTimeLine(int timeLine) {
+        this.TimeLine.set(timeLine);
     }
-
-    public IntegerProperty timestepProperty() {
-        return timestep;
-    }
-
-    public void setTimestep(int timestep) {
-        this.timestep.set(timestep);
-    }
-
 
 
     public ModelFg() {
         pr=new property();
         timeSeries=new TimeSeries();
         TimeStep=new ArrayList<>();
-        timestep = new SimpleIntegerProperty(0);
+        timeSeriesRow = 0;
     }
 
-
-    public void SetProperty(String s) {
-        XmlWrite xml=new XmlWrite();
-        pr=xml.deserializeFromXML(s);
-
+    public void SetProperty(property pr) {
+        this.pr = pr;
     }
-
 
     @Override
     public void SetTimeSeries(TimeSeries ts) {
@@ -63,34 +46,35 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         if(this.ts==null){
             ts=new Timer();
 
-
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("sending row ModelFG " + timestep.get());
-                    timestep.set(timestep.get()+1);
-                    //timestep.set();
- /*                   try {
-                        Socket fg = new Socket(pr.ip, pr.port);
-                        PrintWriter ps=new PrintWriter(fg.getOutputStream());
-                        for(int i=0;i<timeSeries.getNumLine();i++){
-                           // ps.println(timeSeries.getline(i));
-                            ps.flush();
+                    if(timeSeriesRow < timeSeries.getNumLine()) {
+                        TimeLine.set(TimeLine.get() + 1);
+                        System.out.println("The time in Model changed to " + TimeLine.get());
+                        timeSeriesRow++;
+                    }
 
-                        }
-                        fg.close();
-                        ps.close();
+                   /*     try {
+                            Socket fg = new Socket(pr.ip, pr.port);
+                            PrintWriter ps = new PrintWriter(fg.getOutputStream());
+                            for (int i = 0; i < timeSeries.getNumLine(); i++) {
+                                TimeLine.set(TimeLine.get() + 1);
+                                ps.println(timeSeries.getline(i));
+                                ps.flush();
 
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
+                            }
+                            fg.close();
+                            ps.close();
 
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
+                    }
 
-
-                }
-            },0, 1000);
+            },0, 1000/*(long) pr.timeperSeconed*/);
         }
     }
 

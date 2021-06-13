@@ -18,12 +18,12 @@
       <BorderPane fx:id="ClocksPane" layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" />
       <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="354.0">
          <children>
-            <Button fx:id="CSVbutton" layoutY="14.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="30.0" prefWidth="92.0" text="Open CSV">
+            <Button fx:id="CSVbutton" layoutY="14.0" mnemonicParsing="false" onAction="#ChooseFileCsv" prefHeight="30.0" prefWidth="92.0" text="Open CSV">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="Xmlbutton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="30.0" prefWidth="94.0" text="Open XML">
+            <Button fx:id="Xmlbutton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#ChooseFilexml" prefHeight="30.0" prefWidth="94.0" text="Open XML">
                <font>
                   <Font size="14.0" />
                </font>
