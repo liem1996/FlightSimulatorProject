@@ -1,19 +1,21 @@
 package ModelView;
 
 import Model.AnomalyDetactor.TimeSeries;
+
 import Model.ModelFg;
 import Model.XmlWrite;
 import Model.property;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import test.TimeSeriesAnomalyDetector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 public class ViewModel extends Observable implements Observer {
 
@@ -21,16 +23,18 @@ public class ViewModel extends Observable implements Observer {
     public TimeSeries ts;
     public property pt;
     public ObservableList<String> fetures;
-    public IntegerProperty TimeLine;
+    public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public Runnable Play,Pause,Stop;
 
+
+    public IntegerProperty timeStep;
 
     //load the fetures of the time series
     public void load(){
         fetures = FXCollections.observableArrayList();
         fetures.addAll(ts.getFetureName());
 
-   }
+    }
 
 
     //create the time series fron the csv we got
@@ -44,14 +48,12 @@ public class ViewModel extends Observable implements Observer {
     }
 
 
-    //creating the property from the string path we get
     public void CreateProperty(String fileName){
         //create time series
         XmlWrite xml=new XmlWrite();
         pt=xml.deserializeFromXML(fileName);
         model.SetProperty(pt);
     }
-
 
 
     //loading the classes of the algorithems of the TimeAnomalyDetector
@@ -80,27 +82,35 @@ public class ViewModel extends Observable implements Observer {
 
     }
 
-
-
-
-    //intelizing the view model
+    // constructor - initialize the view model
     public ViewModel(ModelFg model) {
         this.model = model;
         model.addObserver(this);
+        this.pt = new property();
+        this.ts=new TimeSeries();
+        // Connecting the time line to it's current value
+        TimeLine.addListener((old, oldValue, newValue) -> model.setTimeLine((int)newValue));
 
     }
 
 
     //intelizing the runnbles of the viewmodel for the player section
-   public void Players(){
-       Play=()->{model.play();};
-       Pause=()->{model.pause();};
-       Stop=()->{model.pause();};
+    public void Players(){
+        Play=()->{model.play();};
+        Pause=()->{model.pause();};
+        Stop=()->{model.pause();};
     }
+
 
     //we need to run it in the background in the model by a therd
 
 
+    public void Choose(){
+        //creating an chart acording to the feture
+
+
+
+    }
 
     @Override
     public void update(java.util.Observable o, Object arg) {
@@ -108,11 +118,5 @@ public class ViewModel extends Observable implements Observer {
 
     }
 
-
-
-    //public Properties CreateProperties(String Filename){
-        //create with decoder
-
-    //}
 
 }

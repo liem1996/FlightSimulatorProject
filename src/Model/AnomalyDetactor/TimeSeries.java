@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 // In this class we will write about time series,
 // which means reading the current csv file
-public class TimeSeries extends test.TimeSeries {
+public class TimeSeries {
 
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;
@@ -104,11 +104,11 @@ public class TimeSeries extends test.TimeSeries {
 	}
 
 	//this function return an integer property that represent the time step
-	public IntegerProperty getTimeStep(String timeStepSt, IntegerProperty timeStepRow)
+	public IntegerProperty getTimeStep(int index, IntegerProperty timeStepRow)
 	{
 		IntegerProperty timeStepRe = new SimpleIntegerProperty();
-		ArrayList<String> str = features.get(timeStepSt);
-		timeStepRe.setValue(Integer.parseInt(str.get(timeStepRow.getValue())));
+		String[] str = lines.get(timeStepRe);
+		timeStepRe.setValue(Integer.parseInt(str[index]));
 		return timeStepRe;
 	}
 
