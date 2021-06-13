@@ -3,6 +3,7 @@ package View.JoyStick;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
@@ -10,15 +11,48 @@ import javafx.scene.shape.Circle;
 public class JoyStickController extends BorderPane {
 
     @FXML
-    public Circle innerCircle;
+    public static Circle innerCircle;
     @FXML
-    public Circle outerCircle;
+    public static Circle outerCircle;
     @FXML
-    public Slider throttle;
+    public static Slider throttle;
     @FXML
-    public Slider rudder;
+    public static Slider rudder;
 
-    public DoubleProperty aileron, elevators;
+    public static DoubleProperty aileron, elevators;
+
+    public static Circle getInnerCircle() {
+        return innerCircle;
+    }
+
+    public static Circle getOuterCircle() {
+        return outerCircle;
+    }
+
+    public static Slider getThrottle() {
+        return throttle;
+    }
+
+    public static Slider getRudder() {
+        return rudder;
+    }
+
+    public static double getAileron() {
+        return aileron.get();
+    }
+
+    public static DoubleProperty aileronProperty() {
+        return aileron;
+    }
+
+    public static double getElevators() {
+        return elevators.get();
+    }
+
+    public static DoubleProperty elevatorsProperty() {
+        return elevators;
+    }
+
 
     // Initialize each part of axis x and axis y
     private double jx, jy;
@@ -31,10 +65,12 @@ public class JoyStickController extends BorderPane {
         aileron = new SimpleDoubleProperty();
         elevators = new SimpleDoubleProperty();
 
-        this.innerCircle = innerCircle;
-        this.outerCircle = outerCircle;
-        this.rudder = rudder;
-        this.throttle = throttle;
+        rudder = new Slider();
+        throttle = new Slider();
+
     }
+
+
+
 
 }

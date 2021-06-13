@@ -6,11 +6,13 @@ import ModelView.ViewModel;
 
 import Model.XmlWrite;
 import Model.property;
+import View.CharList.CharListController;
 import View.fxmlController.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
@@ -20,6 +22,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+
 
         FXMLLoader fxml1 = new FXMLLoader((getClass()).getResource("fxmlfiels/MainWindowController.fxml"));
         Parent root = (Parent) fxml1.load();
@@ -73,9 +77,10 @@ public class Main extends Application {
 
 
 
-        TimeSeries ts = new TimeSeries("anomaly_flight.csv");
+        TimeSeries ts = new TimeSeries("C:\\Users\\liemm\\IdeaProjects\\trying\\anomaly_flight.csv");
         XmlWrite XML =new XmlWrite();
         XML.serializeToXML(test3);
+
         launch(args);
     }
 }

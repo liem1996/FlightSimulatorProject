@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane  xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Clocks.ClocksController">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Clocks.ClocksController">
    <center>
       <Pane prefHeight="295.0" prefWidth="301.0" BorderPane.alignment="CENTER">
          <children>
@@ -14,12 +14,13 @@
             <Label layoutX="114.0" layoutY="105.0" prefHeight="29.0" prefWidth="33.0" text="pitch:" />
             <Label layoutX="124.0" layoutY="148.0" prefHeight="28.0" prefWidth="29.0" text="roll:" />
             <Label layoutX="122.0" layoutY="186.0" prefHeight="24.0" prefWidth="32.0" text="yaw:" />
-            <Label layoutX="167.0" prefHeight="28.0" prefWidth="29.0" text="1" />
-            <Label layoutX="167.0" layoutY="34.0" prefHeight="28.0" prefWidth="29.0" text="2" />
-            <Label layoutX="167.0" layoutY="70.0" prefHeight="28.0" prefWidth="29.0" text="3" />
-            <Label layoutX="167.0" layoutY="105.0" prefHeight="28.0" prefWidth="29.0" text="4" />
-            <Label layoutX="168.0" layoutY="148.0" prefHeight="28.0" prefWidth="29.0" text="5" />
-            <Label layoutX="168.0" layoutY="184.0" prefHeight="28.0" prefWidth="29.0" text="6" />
+
+            <Label fx:id="altimeter" layoutX="167.0"  prefHeight="28.0" prefWidth="29.0" />
+            <Label fx:id="direction" layoutX="167.0" layoutY="34.0" prefHeight="28.0" prefWidth="29.0" text="2" />
+            <Label fx:id="airspeed" layoutX="167.0" layoutY="70.0" prefHeight="28.0" prefWidth="29.0" text="3" />
+            <Label fx:id="pitch" layoutX="167.0" layoutY="105.0" prefHeight="28.0" prefWidth="29.0" text="4" />
+            <Label fx:id="roll" layoutX="168.0" layoutY="148.0" prefHeight="28.0" prefWidth="29.0" text="5" />
+            <Label fx:id="yaw" layoutX="168.0" layoutY="184.0" prefHeight="28.0" prefWidth="29.0" text="6" />
          </children>
       </Pane>
    </center>

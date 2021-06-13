@@ -12,7 +12,6 @@ public class popupcontroller extends BorderPane {
         //this.mc = new MainWindowController();
     }
 
-
     @FXML
     public Button zscore;
 

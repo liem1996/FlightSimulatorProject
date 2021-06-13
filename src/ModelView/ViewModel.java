@@ -7,6 +7,8 @@ import Model.XmlWrite;
 import Model.property;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.net.MalformedURLException;
@@ -23,6 +25,8 @@ public class ViewModel extends Observable implements Observer {
     public ObservableList<String> fetures;
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public Runnable Play,Pause,Stop;
+
+    public String altimeterVM = "21";
 
 
     public IntegerProperty timeStep;
