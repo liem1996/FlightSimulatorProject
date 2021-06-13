@@ -1,19 +1,20 @@
 package ModelView;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
+
 import Model.ModelFg;
 import Model.XmlWrite;
 import Model.property;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.application.Platform;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import test.TimeSeriesAnomalyDetector;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,8 +26,7 @@ public class ViewModel extends Observable implements Observer {
     public ObservableList<String> fetures;
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public Runnable Play,Pause,Stop;
-
-    public String altimeterVM = "21";
+    public HashMap<String, DoubleProperty> DisplaVaribales = new HashMap<>();
 
 
     public IntegerProperty timeStep;
@@ -88,11 +88,22 @@ public class ViewModel extends Observable implements Observer {
     public ViewModel(ModelFg model) {
         this.model = model;
         model.addObserver(this);
-        this.TimeLine.bind(model.TimeLine);
+        this.pt = new property();
+        this.ts=new TimeSeries();
+        this.pt=model.pr;
+        for(int i=0;i<pt.nameColIndex.size();i++){
+            DisplaVaribales.put(pt.nameColIndex.get(i),new SimpleDoubleProperty());
+        }
 
         // Connecting the time line to it's current value
-        TimeLine.addListener((old, oldValue, newValue) -> {model.setTimeLine((int)newValue);
-            System.out.println("The time in Model changed to " + TimeLine.get());
+        this.model.TimeLine.addListener((old, oldValue, newValue) -> {
+            TimeLine = model.TimeLine;
+            for (int j = 0; j < model.pr.nameColIndex.size(); j++) {
+                int finalJ = j;
+                Platform.runLater(() -> DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)).set(ts.getTimeStep(pt.nameColIndex.get(finalJ),TimeLine)));
+                System.out.println(DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)));
+
+            }
         });
 
     }
@@ -109,6 +120,12 @@ public class ViewModel extends Observable implements Observer {
     //we need to run it in the background in the model by a therd
 
 
+    public void Choose(){
+        //creating an chart acording to the feture
+
+
+
+    }
 
     @Override
     public void update(java.util.Observable o, Object arg) {

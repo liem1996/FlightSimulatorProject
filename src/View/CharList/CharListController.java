@@ -1,39 +1,62 @@
 package View.CharList;
 
-import View.fxmlController.FxmlLoader;
-import javafx.beans.property.SimpleStringProperty;
+
+
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import View.fxmlController.MainWindowController;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Struct;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
-
 
 
 public class CharListController  {
+
+    public static Runnable choosingName;
+    public static StringProperty feturecoulme;
+
+    public static ListView<String> listview;
+
     public CharListController() {
-       this.fetures =FXCollections.observableArrayList();
+        this.listview = new ListView<>();
+        this.fetures =FXCollections.observableArrayList() ;
+       fetures.clear();
+
+
     }
+
+    public ObservableList<String> getListview() {
+        return listview.getItems();
+    }
+
     public static ObservableList<String> fetures;
 
-    //private final ObservableList<String> fetures2=FXCollections.observableArrayList() ;
+
+
 
     public ObservableList<String> getFetures(){
-    return fetures;
+        return fetures;
     }
 
-}
+
+
+
+    public void registerEventHandlers() {
+        listview.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            String selectedItem = listview.getSelectionModel().getSelectedItem();
+            feturecoulme.setValue(selectedItem);
+        });
+    }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+

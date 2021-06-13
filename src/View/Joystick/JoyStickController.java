@@ -18,7 +18,7 @@ public class JoyStickController extends BorderPane {
     @FXML
     public Slider rudder;
 
-    public DoubleProperty aileron, elevators;
+    public DoubleProperty aileron, elevator;
 
     // Initialize each part of axis x and axis y
     private double jx, jy;
@@ -29,7 +29,7 @@ public class JoyStickController extends BorderPane {
         Ax = 0;
         Ay = 0;
         aileron = new SimpleDoubleProperty();
-        elevators = new SimpleDoubleProperty();
+        elevator = new SimpleDoubleProperty();
 
         this.innerCircle = innerCircle;
         this.outerCircle = outerCircle;

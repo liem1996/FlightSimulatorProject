@@ -1,7 +1,7 @@
 package Model;
 
 import Model.AnomalyDetactor.TimeSeries;
-import Model.AnomalyDetactor.TimeSeriesAnomalyDetector;
+import test.TimeSeriesAnomalyDetector;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
@@ -14,21 +14,22 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public TimeSeries timeSeries;
     public property pr;
     public Timer ts;
-    public ArrayList<String> TimeStep;
-    public IntegerProperty TimeLine = new SimpleIntegerProperty();
+    public TimeSeriesAnomalyDetector timeSeriesAnomalyDetector;
     public int timeSeriesRow;
-
 
     public void setTimeLine(int timeLine) {
         this.TimeLine.set(timeLine);
     }
+
+    public ArrayList<String> TimeStep;
+    public IntegerProperty TimeLine = new SimpleIntegerProperty();
 
 
     public ModelFg() {
         pr=new property();
         timeSeries=new TimeSeries();
         TimeStep=new ArrayList<>();
-        timeSeriesRow = 0;
+        timeSeriesRow =0;
     }
 
     public void SetProperty(property pr) {
@@ -72,9 +73,9 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }*/
-                    }
+                }
 
-            },0, 1000/*(long) pr.timeperSeconed*/);
+            },0, 1000);
         }
     }
 
@@ -93,7 +94,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 
     @Override
     public void SetAnomalyDetactor(TimeSeriesAnomalyDetector tsa) {
-
+        timeSeriesAnomalyDetector = tsa;
     }
 
     @Override

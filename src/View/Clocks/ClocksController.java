@@ -16,7 +16,7 @@ import java.util.TimerTask;
 
 public class ClocksController {
     @FXML
-    public static Label altimeter;
+    public Label altimeter;
 
 
 
@@ -25,43 +25,11 @@ public class ClocksController {
     }
 
     public ClocksController() {
-
-        this.altimeter=new Label("MY LABEL");
-      ;
-
-    /*
-        this.altimeter.textProperty().bind(temp);
-        this.temp = new SimpleStringProperty();
-        temp.set("12");
-        this.fetures =FXCollections.observableArrayList() ;
-*/
-
+        this.altimeter = new Label("MY LABEL");
     }
 
 
 
 
-/*    public void ChangeVal() {
-        if (this.timer == null) {
-            timer = new Timer();
 
-
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("Liem Kaki" + timestep);
-                    //altimeter.setText((String)timestep.asString());
-                    altimeter.setText(timestep.toString());
-                    timestep++;
-
-                    //System.out.println("Liem Kaki " + timestep);
-                    //  altimeter.setText(Integer.toString(timestep));
-                }
-
-            }, 0, 1000);
-
-        }*/
-      //  altimeter.setTextFill(Color.GREEN);
-
-    //}
 }

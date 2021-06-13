@@ -1,7 +1,8 @@
 package Model.AnomalyDetactor;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -104,11 +105,11 @@ public class TimeSeries {
 	}
 
 	//this function return an integer property that represent the time step
-	public IntegerProperty getTimeStep(int index, IntegerProperty timeStepRow)
+	public double getTimeStep(String timeStepSt, IntegerProperty timeStepRow)
 	{
-		IntegerProperty timeStepRe = new SimpleIntegerProperty();
-		String[] str = lines.get(timeStepRe);
-		timeStepRe.setValue(Integer.parseInt(str[index]));
+		Double timeStepRe;
+		ArrayList<String> str = features.get(timeStepSt);
+		timeStepRe=Double.parseDouble(str.get(timeStepRow.getValue()));
 		return timeStepRe;
 	}
 
