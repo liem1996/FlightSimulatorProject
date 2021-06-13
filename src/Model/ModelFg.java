@@ -1,105 +1,96 @@
 package Model;
 
 import Model.AnomalyDetactor.TimeSeries;
+import test.TimeSeriesAnomalyDetector;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import test.TimeSeriesAnomalyDetector;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
-        TimeSeries timeSeries;
-        property pr;
-        Timer ts;
-        IntegerProperty TimeLine;
-        TimeSeriesAnomalyDetector tsad;
+    public TimeSeries timeSeries;
+    public property pr;
+    public Timer ts;
+    public TimeSeriesAnomalyDetector timeSeriesAnomalyDetector;
+
+    public void setTimeLine(int timeLine) {
+        this.TimeLine.set(timeLine);
+    }
+
+    public ArrayList<String> TimeStep;
+    public IntegerProperty TimeLine = new SimpleIntegerProperty();
 
 
-  //contructor for the model itself
-  public ModelFg() {
-      pr=new property();
-      timeSeries=new TimeSeries();
-      TimeLine=new SimpleIntegerProperty();
-   }
+    public ModelFg() {
+        pr=new property();
+        timeSeries=new TimeSeries();
+        TimeStep=new ArrayList<>();
+    }
 
+    public void SetProperty(property pr) {
+        this.pr = pr;
+    }
 
-   //set the properties from the user
-    public void SetProperty(property p) {
-       pr =p;
+    @Override
+    public void SetTimeSeries(TimeSeries ts) {
+        this.timeSeries = ts;
 
     }
 
-
-
-    //set the time series from the view model and the csv
-   @Override
-   public void SetTimeSeries(TimeSeries ts) {
-            this.timeSeries = ts;
-
-   }
-
-
-   //run the simulator itself and the time acording the lines in the timeseries
     @Override
     public void play() {
         if(this.ts==null){
             ts=new Timer();
 
-
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    try {
-                        Socket fg = new Socket(pr.ip, pr.port);
-                        PrintWriter ps=new PrintWriter(fg.getOutputStream());
-                        for(int i=1;i<timeSeries.getNumLine()-1;i++){
-                         //   System.out.println(timeSeries.getline(i)[i]);
-                            ps.println(Arrays.toString(timeSeries.getline(i)));
-                            ps.flush();
+                    for (int j = 0; j < timeSeries.getNumLine(); j++) {
 
-                        }
-                        fg.close();
-                        ps.close();
+                        TimeLine.set(TimeLine.get() + 1);
+                   /*     try {
+                            Socket fg = new Socket(pr.ip, pr.port);
+                            PrintWriter ps = new PrintWriter(fg.getOutputStream());
+                            for (int i = 0; i < timeSeries.getNumLine(); i++) {
+                                TimeLine.set(TimeLine.get() + 1);
+                                ps.println(timeSeries.getline(i));
+                                ps.flush();
 
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            }
+                            fg.close();
+                            ps.close();
+
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
                     }
-
-
-
                 }
+
             },0, (long) pr.timeperSeconed);
         }
     }
 
-    //pasue the simulator itself and the time acording the lines in the timeseries
     @Override
     public void pause() {
         ts.cancel();
         ts=null;
     }
 
-    //stop the simulator itself and the time acording the lines in the timeseries
     @Override
     public void stop() {
-       ts.cancel();
-       ts=null;
-        TimeLine.set(0);
+        ts.cancel();
+        ts=null;
 
     }
 
-    //need to run in a seprate therd
     @Override
     public void SetAnomalyDetactor(TimeSeriesAnomalyDetector tsa) {
-        tsad = tsa;
-
+        timeSeriesAnomalyDetector = tsa;
     }
 
     @Override
