@@ -28,13 +28,7 @@ public class JoyStickController extends BorderPane {
     public JoyStickController() {
         Ax = 0;
         Ay = 0;
-        aileron = new SimpleDoubleProperty();
-        elevator = new SimpleDoubleProperty();
 
-        this.innerCircle = innerCircle;
-        this.outerCircle = outerCircle;
-        this.rudder = rudder;
-        this.throttle = throttle;
     }
 
 }

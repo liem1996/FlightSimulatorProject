@@ -27,7 +27,10 @@ public class ViewModel extends Observable implements Observer {
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public Runnable Play,Pause,Stop;
     public HashMap<String, DoubleProperty> DisplaVaribales = new HashMap<>();
-
+    public IntegerProperty seconds;
+    public HashMap<String, IntegerProperty> ClockTimerValues = new HashMap<>();
+    public IntegerProperty minutes;
+    public IntegerProperty hours;
 
     public IntegerProperty timeStep;
 
@@ -91,29 +94,73 @@ public class ViewModel extends Observable implements Observer {
         this.pt = new property();
         this.ts=new TimeSeries();
         this.pt=model.pr;
+        seconds = new SimpleIntegerProperty(0);
+        minutes = new SimpleIntegerProperty(0);
+        hours = new SimpleIntegerProperty(0);
+
+
+
+        /*seconds.bind(this.model.seconds);
+        minutes.bind(this.model.minutes);
+        hours.bind(this.model.hours);
+
+        seconds.addListener((old, oldValue, newValue)->{
+            System.out.println("The Seconds in ViewModel are " + seconds.getValue());
+        });
+        minutes.addListener((old, oldValue, newValue)->{
+            System.out.println("The Minutes in ViewModel are " + minutes.getValue());
+        });
+        hours.addListener((old, oldValue, newValue)->{
+            System.out.println("The Hours in ViewModel are " + hours.getValue());
+        });*/
+
         for(int i=0;i<pt.nameColIndex.size();i++){
             DisplaVaribales.put(pt.nameColIndex.get(i),new SimpleDoubleProperty());
         }
+        ClockTimerValues.put("Seconds", new SimpleIntegerProperty());
+        ClockTimerValues.put("Minutes", new SimpleIntegerProperty());
+        ClockTimerValues.put("Hours", new SimpleIntegerProperty());
+
+        this.model.seconds.addListener((old, oldValue, newValue) -> {
+            this.seconds = model.seconds;
+            System.out.println("The Seconds in ViewModel are "+seconds.getValue());
+            Platform.runLater(() -> ClockTimerValues.get("Seconds").set(this.seconds.getValue()));
+        });
+        this.model.minutes.addListener((old, oldValue, newValue) -> {
+            this.minutes = model.minutes;
+            System.out.println("The Minutes in ViewModel are "+minutes.getValue());
+            Platform.runLater(() -> ClockTimerValues.get("Minutes").set(this.minutes.getValue()));
+        });
+        this.model.hours.addListener((old, oldValue, newValue) -> {
+            this.hours = model.hours;
+            System.out.println("The Hours in ViewModel are "+hours.getValue());
+            Platform.runLater(() -> ClockTimerValues.get("Hours").set(this.hours.getValue()));
+        });
 
         // Connecting the time line to it's current value
         this.model.TimeLine.addListener((old, oldValue, newValue) -> {
             TimeLine = model.TimeLine;
             for (int j = 0; j < model.pr.nameColIndex.size(); j++) {
                 int finalJ = j;
-                Platform.runLater(() -> DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)).set(ts.getTimeStep(pt.nameColIndex.get(finalJ),TimeLine)));
-                System.out.println(DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)));
+                Platform.runLater(() -> DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)).set(ts.getTimeStep(pt.nameColIndex.get(finalJ),TimeLine).getValue()));
+                //System.out.println(DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)));
+                System.out.println(DisplaVaribales.get("aileron").getValue());
 
             }
         });
+
+
 
     }
 
 
     //intelizing the runnbles of the viewmodel for the player section
     public void Players(){
-        Play=()->{model.play();};
+        Play=()->{model.play();
+            //model.runTimerClock();
+        };
         Pause=()->{model.pause();};
-        Stop=()->{model.pause();};
+        Stop=()->{model.stop();};
     }
 
 

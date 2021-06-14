@@ -2,11 +2,17 @@ package View.CharList;
 
 
 
+import View.fxmlController.MainWindowController;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.ListView;
+
+import java.util.ArrayList;
 
 
 public class CharListController  {
@@ -14,14 +20,20 @@ public class CharListController  {
     public static Runnable choosingName;
     public static StringProperty feturecoulme;
 
-    public static ListView<String> listview;
+    @FXML
+    public ListView<String> listview;
+
+    @FXML
+    public LineChart<Number,Number> linechart;
+
+
+
+
 
     public CharListController() {
-        this.listview = new ListView<>();
-        this.fetures =FXCollections.observableArrayList() ;
-       fetures.clear();
-
-
+        fetures = FXCollections.observableArrayList();
+        listview=new ListView<>();
+        registerEventHandlers();
     }
 
     public ObservableList<String> getListview() {
@@ -39,24 +51,21 @@ public class CharListController  {
 
 
 
-
+    @FXML
     public void registerEventHandlers() {
-        listview.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            String selectedItem = listview.getSelectionModel().getSelectedItem();
-            feturecoulme.setValue(selectedItem);
-        });
+        // mc.ChoosingOption(listview.getSelectionModel().getSelectedItem());
+        System.out.println();
+    }
+
+
+    public void Paint(){
+        NumberAxis xAxis = new NumberAxis(0,5,1);
+        xAxis.setLabel("run");
+        NumberAxis yAxis  =new NumberAxis(0,500,100);
+        yAxis.setLabel("hi");
+        linechart = new LineChart<Number,Number>(xAxis,yAxis);
     }
 
 
 
-    }
-
-
-
-
-
-
-
-
-
-
+}

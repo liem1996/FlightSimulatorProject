@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class property {
 
-        public HashMap<Integer, String> nameColIndex;
-        public int port;
-        public String ip;
-        public double timeperSeconed;
-        public HashMap<String,Integer> minimum;
-        public HashMap<String,Integer> maximum;
+    public HashMap<Integer, String> nameColIndex;
+    public int port;
+    public String ip;
+    public double timeperSeconed;
+    public HashMap<String,Integer> minimum;
+    public HashMap<String,Integer> maximum;
 
     public property() {
         this.nameColIndex = new HashMap<>();

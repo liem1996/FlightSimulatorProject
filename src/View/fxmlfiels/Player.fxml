@@ -13,7 +13,7 @@
    <center>
       <Pane prefHeight="80.0" prefWidth="789.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="681.0" layoutY="12.0" prefHeight="35.0" prefWidth="109.0" text="00:05:00" textAlignment="CENTER">
+            <Label fx:id="TimerClock" alignment="CENTER" contentDisplay="CENTER" layoutX="681.0" layoutY="12.0" prefHeight="35.0" prefWidth="109.0" text="  :    :  " textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
@@ -38,6 +38,21 @@
             <Button layoutX="442.0" layoutY="17.0" mnemonicParsing="false" text="&gt;&gt;" />
             <Button layoutX="483.0" layoutY="17.0" mnemonicParsing="false" text="&gt;&gt;&gt;" />
             <Button layoutX="208.0" layoutY="17.0" mnemonicParsing="false" text="&lt;&lt;&lt;" />
+            <Label fx:id="SecondsTimer"  alignment="CENTER" contentDisplay="CENTER" layoutX="713.0" layoutY="12.0" prefHeight="35.0" prefWidth="109.0" text="00" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="MinutesTimer"  alignment="CENTER" contentDisplay="CENTER" layoutX="681.0" layoutY="12.0" prefHeight="35.0" prefWidth="109.0" text="00" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="HoursTimer"  alignment="CENTER" contentDisplay="CENTER" layoutX="646.0" layoutY="12.0" prefHeight="35.0" prefWidth="109.0" text="00" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </center>

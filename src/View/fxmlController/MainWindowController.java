@@ -97,12 +97,23 @@ public class MainWindowController  {
 
     }
 
-//initialize the view model
+    //initialize the view model
     public void init(ViewModel vm) {
         this.viewModel = vm;
         Joystickbind();
         clockbind();
+        TimerClockBind();
 
+    }
+
+    public void TimerClockBind() {
+        //Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
+        player.playerController.SecondsTimer.textProperty().bind(viewModel.ClockTimerValues.get("Seconds").asString());
+        player.playerController.MinutesTimer.textProperty().bind(viewModel.ClockTimerValues.get("Minutes").asString());
+        player.playerController.HoursTimer.textProperty().bind(viewModel.ClockTimerValues.get("Hours").asString());
+
+        /*       player.playerController.MinutesTimer.textProperty().bind(viewModel.seconds.asString());
+        player.playerController.HoursTimer.textProperty().bind(viewModel.seconds.asString());*/
     }
 
     //load the pop up to choose the class of the anomaly detector from him
@@ -110,6 +121,7 @@ public class MainWindowController  {
     public void loadData() {
         ChartList.charListController.getFetures().setAll(viewModel.fetures);
         ChartList.charListController.listview.setItems( ChartList.charListController.getFetures());
+
     }
 
 
@@ -169,13 +181,18 @@ public class MainWindowController  {
         // binding to Circles ------
 
     }
-
-
+    //bind the clock to the timeline and is varibales
     public void clockbind()
     {
-        Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").getValue());
-
+        Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
+        Clocks.clocksController.roll.textProperty().bind(viewModel.DisplaVaribales.get("roll-deg").asString());
+        Clocks.clocksController.pitch.textProperty().bind(viewModel.DisplaVaribales.get("pitch-deg").asString());
+        Clocks.clocksController.yaw.textProperty().bind(viewModel.DisplaVaribales.get("heading-deg").asString());
+        Clocks.clocksController.airspeed.textProperty().bind(viewModel.DisplaVaribales.get("airspeed-kt").asString());
+        Clocks.clocksController.direction.textProperty().bind(viewModel.DisplaVaribales.get("gps_indicated-vertical-speed").asString());
     }
+
+
 
 
     //choosing an option fron the fetures list

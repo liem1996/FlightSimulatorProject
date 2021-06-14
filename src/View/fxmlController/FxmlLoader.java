@@ -13,7 +13,7 @@ public class FxmlLoader {
 
     public BorderPane view;
 
-   public MainWindowController MC=new MainWindowController();
+    public MainWindowController MC=new MainWindowController();
 
     public FXMLLoader FXL = new FXMLLoader();
 
