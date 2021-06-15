@@ -1,9 +1,13 @@
 package Model;
 
 import Model.AnomalyDetactor.TimeSeries;
+import javafx.application.Platform;
+import javafx.beans.property.*;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import test.TimeSeriesAnomalyDetector;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
@@ -19,13 +23,22 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public IntegerProperty seconds;
     public IntegerProperty minutes;
     public IntegerProperty hours;
+    public DoubleProperty playSpeed;
+    public ArrayList<String> TimeStep;
+    public IntegerProperty TimeLine = new SimpleIntegerProperty();
+
+    public void setPlaySpeed(double playSpeed) {
+       // this.playSpeed.set(playSpeed);
+        this.pr.setTimeperSeconed(playSpeed);
+        System.out.println("Fuck eli halaski");
+        System.out.println("yeah fuck him "+ this.playSpeed.getValue());
+        System.out.println("Yeahhh buddyyy "+ this.pr.getTimeperSeconed() );
+    }
+
 
     public void setTimeLine(int timeLine) {
         this.TimeLine.set(timeLine);
     }
-
-    public ArrayList<String> TimeStep;
-    public IntegerProperty TimeLine = new SimpleIntegerProperty();
 
 
     public ModelFg() {
@@ -37,6 +50,8 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
+        playSpeed = new SimpleDoubleProperty(this.pr.timeperSeconed);
+
     }
 
     public void SetProperty(property pr) {
@@ -52,15 +67,20 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 
     @Override
     public void play() {
+       // this.pr.setTimeperSeconed(3);
+        System.out.println("hhhhh   "+pr.getTimeperSeconed());
+        System.out.println("hhhhh   "+this.playSpeed.getValue());
         if(this.ts==null){
             ts=new Timer();
-
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     if(timeSeriesRow < timeSeries.getNumLine()) {
+
                         TimeLine.set(TimeLine.get() + 1);
                         System.out.println("The time in Model changed to " + TimeLine.get());
+                        System.out.println("The timepersecond in Model changed to " + pr.timeperSeconed);
+
                         timeSeriesRow++;
                         incSeconds();
 
@@ -85,7 +105,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                         }*/
                 }
 
-            },0, ((long)pr.timeperSeconed*1000)/* pr.timespeed */); //pr.timepeed = 10000
+            },0, ((long)(pr.timeperSeconed*1000))/* pr.timespeed */); //pr.timepeed = 10000
         }
     }
 
@@ -121,32 +141,32 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         if(seconds.getValue() == 59){
             incMinutes();
             seconds.set(0);
-            System.out.println("The Seconds in Model are " + seconds.getValue());
+
         }
         else {
             seconds.set(seconds.getValue() + 1);
-            System.out.println("The Seconds in Model are " + seconds.getValue());
+
         }
     }
     public void incMinutes(){
         if(minutes.getValue() == 59){
             incHours();
             minutes.set(0);
-            System.out.println("The Minutes in Model are " + minutes.getValue());
+
         }
         else {
             minutes.set(minutes.getValue() + 1);
-            System.out.println("The Minutes in Model are " + minutes.getValue());
+
         }
     }
     public void incHours(){
         if(hours.getValue() == 59){
             hours.set(0);
-            System.out.println("The Hours in Model are " + hours.getValue());
+
         }
         else {
             hours.set(hours.getValue() + 1);
-            System.out.println("The Hours in Model are " + hours.getValue());
+
         }
     }
 

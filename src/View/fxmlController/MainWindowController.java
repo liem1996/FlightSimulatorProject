@@ -1,11 +1,15 @@
 package View.fxmlController;
 
 import ModelView.ViewModel;
+import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
@@ -18,6 +22,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainWindowController  {
 
@@ -39,13 +45,15 @@ public class MainWindowController  {
     public IntegerProperty timestep;
 
     public StringProperty feturecoulme;
+    public Timer ts;
+
 
 
 
     //constructor that create and intalize all the four part the includes int the main window controller
     public MainWindowController() {
         path = new SimpleStringProperty();
-
+        feturecoulme=new SimpleStringProperty();
     }
 
     //fubction for choosing the file itself
@@ -78,6 +86,7 @@ public class MainWindowController  {
 
 
 
+
     }
 
     //function to choose specificly the xml file for the properties
@@ -103,6 +112,79 @@ public class MainWindowController  {
         Joystickbind();
         clockbind();
         TimerClockBind();
+        PlayerBind();
+        /*
+        viewModel.service.addListener(()->{
+
+
+
+
+        });
+
+         */
+
+        ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener((old, oldValue, newValue) -> {
+            ChartList.charListController.linechart.getData().removeAll();
+            String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
+            feturecoulme.setValue(selectedItem);
+            //  ChartList.charListController.linechart.getData().add(viewModel.choose(selectedItem));
+
+         /*
+
+         if(this.ts==null){
+                ts=new Timer();
+                ChartList.charListController.linechart.getData().removeAll();
+                XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
+                ts.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(()->{
+                            String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
+                            feturecoulme.setValue(selectedItem);
+
+                            for(int j=0;j<viewModel.choose(selectedItem).getData().size();j++){
+
+                                ChartList.charListController.linechart.getData().add();
+                            }
+
+                        });
+
+                    }
+            },0, 1000);
+        }
+
+          */
+
+
+        });
+
+
+        /*
+        service.addListener((old, oldValue, newValue)->{
+
+
+        });
+
+         */
+
+
+    }
+
+    private void PlayerBind() {
+        player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.TimeLine);
+        //player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.model.TimeLine);
+
+        player.playerController.ScrollFlight.valueProperty().addListener((old, oldValue, newValue)-> System.out.println("Lightweight Baby!!!"));
+
+        player.playerController.PlaySpeed.textProperty().addListener(((old, oldValue, newValue)-> {
+            System.out.println("The Play Speed has changed to:  "+newValue );
+           // this.viewModel.pt.setTimeperSeconed(Double.parseDouble(newValue.toString()));
+            System.out.println(this.viewModel.pt.getTimeperSeconed());
+            this.viewModel.setPlaySpeed(Double.parseDouble(newValue.toString()));
+            System.out.println("The Play Speed in vm has changed to:  "+this.viewModel.playSpeed.getValue() );
+            System.out.println(this.viewModel.pt.getTimeperSeconed());
+
+        }));
 
     }
 
@@ -115,6 +197,7 @@ public class MainWindowController  {
         /*       player.playerController.MinutesTimer.textProperty().bind(viewModel.seconds.asString());
         player.playerController.HoursTimer.textProperty().bind(viewModel.seconds.asString());*/
     }
+
 
     //load the pop up to choose the class of the anomaly detector from him
 
@@ -176,16 +259,20 @@ public class MainWindowController  {
         Joystick.joyStickController.elevator.bind(viewModel.DisplaVaribales.get("elevator"));
         Joystick.joyStickController.rudder.valueProperty().bind(viewModel.DisplaVaribales.get("rudder"));
         Joystick.joyStickController.throttle.valueProperty().bind(viewModel.DisplaVaribales.get("throttle"));
+       // Joystick.joyStickController.paint();
 
 
         // binding to Circles ------
 
     }
-    //bind the clock to the timeline and is varibales
+
+
     public void clockbind()
     {
         Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
+      //  System.out.println(Clocks.clocksController.altimeter.textProperty().getValue());
         Clocks.clocksController.roll.textProperty().bind(viewModel.DisplaVaribales.get("roll-deg").asString());
+       // System.out.println(Clocks.clocksController.roll.textProperty().getValue());
         Clocks.clocksController.pitch.textProperty().bind(viewModel.DisplaVaribales.get("pitch-deg").asString());
         Clocks.clocksController.yaw.textProperty().bind(viewModel.DisplaVaribales.get("heading-deg").asString());
         Clocks.clocksController.airspeed.textProperty().bind(viewModel.DisplaVaribales.get("airspeed-kt").asString());
@@ -193,11 +280,8 @@ public class MainWindowController  {
     }
 
 
-
-
     //choosing an option fron the fetures list
-    public void ChoosingOption(){
-
+    public void ChoosingOption(String namefeture){
 
     }
 

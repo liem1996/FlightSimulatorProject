@@ -3,6 +3,8 @@ package View.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
 import java.awt.event.ActionEvent;
@@ -18,6 +20,10 @@ public class playerController {
     public Label MinutesTimer;
     @FXML
     public Label HoursTimer;
+    @FXML
+    public TextField PlaySpeed;
+    @FXML
+    public ScrollBar ScrollFlight;
 
 
     public static Runnable onPlay, onPause, onStop;
@@ -28,6 +34,8 @@ public class playerController {
         SecondsTimer = new Label();
         MinutesTimer = new Label();
         HoursTimer = new Label();
+        PlaySpeed = new TextField();
+        ScrollFlight = new ScrollBar();
     }
 
     public void play() {
