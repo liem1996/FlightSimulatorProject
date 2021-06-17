@@ -2,11 +2,17 @@ package View.CharList;
 
 
 
+import View.fxmlController.MainWindowController;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.chart.*;
 import javafx.scene.control.ListView;
+
+import java.util.ArrayList;
 
 
 public class CharListController  {
@@ -14,12 +20,25 @@ public class CharListController  {
     public static Runnable choosingName;
     public static StringProperty feturecoulme;
 
-    public static ListView<String> listview;
+
+    @FXML
+    public ListView<String> listview;
+
+    @FXML
+    public LineChart<String,Number> linechart;
+
+    @FXML
+    public  LineChart<String,Number> linechart2;
+
+
+
+
 
     public CharListController() {
-        this.listview = new ListView<>();
-        this.fetures =FXCollections.observableArrayList() ;
-       fetures.clear();
+        fetures = FXCollections.observableArrayList();
+        listview=new ListView<>();
+
+
 
 
     }
@@ -31,25 +50,24 @@ public class CharListController  {
     public static ObservableList<String> fetures;
 
 
-
-
     public ObservableList<String> getFetures(){
         return fetures;
     }
 
 
 
-
-    public void registerEventHandlers() {
-        listview.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            String selectedItem = listview.getSelectionModel().getSelectedItem();
-            feturecoulme.setValue(selectedItem);
-        });
-    }
-
-
+    /*
+    @FXML
+    public void handlerChoice() {
 
     }
+
+     */
+
+
+
+
+  }
 
 
 

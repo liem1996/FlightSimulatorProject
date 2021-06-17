@@ -20,7 +20,6 @@ public class Clocks extends BorderPane {
             FXMLLoader loder = new FXMLLoader();
             BorderPane clocks = loder.load(getClass().getResource("../fxmlfiels/Clocks.fxml").openStream());
             clocksController = loder.getController();
-            clocksController.altimeter=new Label();
             this.getChildren().add(clocks);
         } catch (IOException e) {
             e.printStackTrace();
