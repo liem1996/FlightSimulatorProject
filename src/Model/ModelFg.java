@@ -28,6 +28,8 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public ArrayList<String> TimeStep;
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
 
+
+
     public void setPlaySpeed(double playSpeed) {
         this.pr.setTimeperSeconed(playSpeed);
     }
@@ -44,6 +46,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         timeSeries=new TimeSeries();
         TimeStep=new ArrayList<>();
         timeSeriesRow =0;
+
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
@@ -71,10 +74,9 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                 public void run() {
                     if(timeSeriesRow < timeSeries.getNumLine()-1) {
                         TimeLine.set(TimeLine.get() + 1);
-                        System.out.println("The timeSeriesRow in Model changed to " + timeSeriesRow);
                     }
                     else{
-                        System.out.println("You pause me!");
+
                         pause();
                     }
 

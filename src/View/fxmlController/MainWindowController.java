@@ -27,6 +27,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
+
 import javafx.scene.chart.XYChart;
 
 
@@ -52,9 +56,6 @@ public class MainWindowController  {
     public StringProperty feturecoulme;
     public Timer ts;
     public int index;
-
-    public ObservableList<XYChart.Series<String, Number>> service1;
-
 
 
 
@@ -125,46 +126,70 @@ public class MainWindowController  {
         TimerClockBind();
         clockbind();
         PlayerBind();
+        ChartList.charListController.linechart.getData().add(viewModel.series);
 
-        service1= FXCollections.observableArrayList();
+
         Joystick.joyStickController.paint();
 
-        Joystick.joyStickController.aileron.addListener((o,ov,nv)->this.Joystick.joyStickController.paint()); // x axis
-        Joystick.joyStickController.elevator.addListener((o,ov,nv)->this.Joystick.joyStickController.paint()); // y axis
+        Joystick.joyStickController.aileron.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // x axis
+        Joystick.joyStickController.elevator.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // y axis
 
-        Joystick.joyStickController.rudder.valueProperty().addListener((o,ov,nv)->
+        Joystick.joyStickController.rudder.valueProperty().addListener((o, ov, nv) ->
                 Joystick.joyStickController.rudder.setValue(nv.doubleValue()));
-        Joystick.joyStickController.throttle.valueProperty().addListener((o,ov,nv)->
+        Joystick.joyStickController.throttle.valueProperty().addListener((o, ov, nv) ->
                 Joystick.joyStickController.throttle.setValue(nv.doubleValue()));
 
         Joystickbind();
 
-        viewModel.service.addListener((new ListChangeListener<XYChart.Series<String, Number>>() {
+        viewModel.series.getData().addListener((new ListChangeListener<XYChart.Data<String, Number>>() {
             @Override
-            public void onChanged(Change<? extends XYChart.Series<String, Number>> change) {
-                ChartList.charListController.linechart.getData().add(service1.get(index));
-                index++;
+            public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
+                final int WINDOW_SIZE = 10;
+                if (ChartList.charListController.series.getData().size() > WINDOW_SIZE) {
+                    ChartList.charListController.series.getData().remove(0);
+                }
+                ChartList.charListController.series.setData(viewModel.service);
+               // System.out.println(ChartList.charListController.series.getData());
+
+
+                //System.out.println("hello");
+
             }
         }));
 
+        ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
+            //  ChartList.charListController.linechart.getData().clear();
 
-
-
-        ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener((new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                ChartList.charListController.linechart.getData().clear();
-                viewModel.timeSeriesRow=0;
-                String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
-                feturecoulme.setValue(selectedItem);
-                viewModel.service.clear();
-                viewModel.service1.clear();
-                index=0;
-                viewModel.getfeture(selectedItem);
+            if(index!=0){
+                viewModel.time.cancel();
             }
-        }) );
+            index++;
+            //ChartList.charListController.linechart.getData().removeAll(viewModel.series);
+            viewModel.service.clear();
+
+            viewModel.timealgo.setValue(0);
+            viewModel.timeSeriesRow=0;
+
+            viewModel.series.getData().clear();
+            ChartList.charListController.series.getData().clear();
+            ChartList.charListController.series=new XYChart.Series<>();
+           // viewModel.series=new XYChart.Series<>();
+
+            System.out.println("hi");
+            String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
+            System.out.println(selectedItem);
+            feturecoulme.setValue(selectedItem);
+
+            viewModel.getfeture(selectedItem);
+
+
+        }));
 
     }
+
+
+
+
 
     private void PlayerBind() {
         player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.TimeLine);
