@@ -105,11 +105,11 @@ public class TimeSeries {
 	}
 
 	//this function return an integer property that represent the time step
-	public double getTimeStep(String timeStepSt, IntegerProperty timeStepRow)
+	public DoubleProperty getTimeStep(String timeStepSt, IntegerProperty timeStepRow)
 	{
-		Double timeStepRe;
+		DoubleProperty timeStepRe=new SimpleDoubleProperty();
 		ArrayList<String> str = features.get(timeStepSt);
-		timeStepRe=Double.parseDouble(str.get(timeStepRow.getValue()));
+		timeStepRe.setValue(Double.parseDouble(str.get(timeStepRow.getValue())));
 		return timeStepRe;
 	}
 
