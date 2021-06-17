@@ -17,7 +17,7 @@
       </BorderPane>
       <BorderPane  layoutX="610.0" prefHeight="191.0" prefWidth="230.0" >
          <JoyStick fx:id="Joystick"/>
-       </BorderPane>
+      </BorderPane>
 
       <BorderPane prefHeight="382.0" prefWidth="495.0">
          <Charlist fx:id="ChartList"/>
@@ -26,9 +26,9 @@
       <BorderPane  layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" >
          <Clocks fx:id="Clocks"/>
 
-       </BorderPane>
+      </BorderPane>
 
-      <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="354.0">
+      <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="250.0">
          <children>
             <Button fx:id="CSVbutton" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFileCsv" prefHeight="14.0" prefWidth="73.0" text="Open CSV">
                <font>

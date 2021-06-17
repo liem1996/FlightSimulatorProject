@@ -32,12 +32,13 @@ public class ViewModel extends Observable implements Observer {
     public HashMap<String, IntegerProperty> ClockTimerValues = new HashMap<>();
     public IntegerProperty minutes;
     public IntegerProperty hours;
-    public ObservableList<XYChart.Series<String, Number>> service;
-    public ObservableList<XYChart.Series<String, Number>> service1;
+    public ObservableList<XYChart.Data<String, Number>> service;
+    public ObservableList<XYChart.Data<String, Number>> service1;
     public Timer time;
     public int timeSeriesRow;
     public IntegerProperty timealgo;
     public TimeSeriesAnomalyDetector tsd;
+    public XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
 
 
     public StringProperty feturecoulme;
@@ -125,6 +126,7 @@ public class ViewModel extends Observable implements Observer {
         hours = new SimpleIntegerProperty(0);
         playSpeed = new SimpleDoubleProperty(this.pt.timeperSeconed);
         this.model.playSpeed.bind(this.playSpeed);
+       // time = new Timer();
         this.model.playSpeed.addListener((old, oldValue, newValue)->{  this.model.setPlaySpeed(Double.parseDouble(newValue.toString()));
         });
         service = FXCollections.observableArrayList();
@@ -201,12 +203,14 @@ public class ViewModel extends Observable implements Observer {
 
     }
 
+
+
+
     public void getfeture(String filename) {
-        XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
 
-        if (this.time == null) {
+        //series=new XYChart.Series<>();
+        //if (this.time == null) {
             time = new Timer();
-
             time.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
@@ -215,10 +219,10 @@ public class ViewModel extends Observable implements Observer {
                         feturecoulme.setValue(selectedItem);
                         if(timeSeriesRow <ts.features.get(filename).size()) {
                             timealgo.set(timealgo.get() + 1);
+                           // System.out.println(Double.parseDouble(ts.features.get(filename).get(timeSeriesRow)));
                             series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(ts.features.get(filename).get(timeSeriesRow))));
-                            service1.add(series);
-                            service.add(series);
-
+                          //  service1.add(series);
+                            service.add(series.getData().get(timeSeriesRow));
 
                             //series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(ts.features.get(filename).get(timeSeriesRow))));
                             timeSeriesRow++;
@@ -232,8 +236,10 @@ public class ViewModel extends Observable implements Observer {
 
             }, 0, ((long) pt.timeperSeconed * 1000)/* pr.timespeed */); //pr.timepeed = 10000
 
-        }
+       // }
     }
+
+
 
 
 }

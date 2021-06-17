@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.ListView;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 
@@ -31,6 +32,8 @@ public class CharListController  {
     public  LineChart<String,Number> linechart2;
 
 
+    public XYChart.Series<String, Number> series = new XYChart.Series<>();
+
 
 
 
@@ -39,9 +42,9 @@ public class CharListController  {
         listview=new ListView<>();
 
 
-
-
     }
+
+
 
     public ObservableList<String> getListview() {
         return listview.getItems();
@@ -50,19 +53,14 @@ public class CharListController  {
     public static ObservableList<String> fetures;
 
 
+
+
+
     public ObservableList<String> getFetures(){
         return fetures;
     }
 
 
-
-    /*
-    @FXML
-    public void handlerChoice() {
-
-    }
-
-     */
 
 
 
