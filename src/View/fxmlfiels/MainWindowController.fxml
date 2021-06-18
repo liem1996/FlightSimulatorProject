@@ -6,33 +6,46 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<?import View.fxmlController.Player?>
+<?import View.fxmlController.JoyStick?>
+<?import View.fxmlController.Charlist?>
+<?import View.fxmlController.Clocks?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.MainWindowController">
-   <children>
-      <BorderPane fx:id="PlayerPane" layoutX="46.0" layoutY="415.0" prefHeight="83.0" prefWidth="769.0" />
-      <BorderPane fx:id="JoyStickPane" layoutX="610.0" prefHeight="191.0" prefWidth="230.0" />
-      <BorderPane fx:id="ChartListPane" prefHeight="382.0" prefWidth="495.0">
+    <children>
+        <BorderPane  layoutX="46.0" layoutY="415.0" prefHeight="83.0" prefWidth="769.0" >
+            <Player fx:id="player"/>
+        </BorderPane>
+        <BorderPane  layoutX="610.0" prefHeight="191.0" prefWidth="230.0" >
+            <JoyStick fx:id="Joystick"/>
+        </BorderPane>
 
-      </BorderPane>
+        <BorderPane prefHeight="382.0" prefWidth="495.0">
+            <Charlist fx:id="ChartList"/>
+        </BorderPane>
 
-      <BorderPane fx:id="ClocksPane" layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" />
-      <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="354.0">
-         <children>
-            <Button fx:id="CSVbutton" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFileCsv" prefHeight="14.0" prefWidth="73.0" text="Open CSV">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Button>
-            <Button fx:id="Xmlbutton" layoutX="81.0" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFilexml" prefHeight="24.0" prefWidth="73.0" text="Open XML">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Button>
-            <Button fx:id="Classopen" layoutX="162.0" layoutY="17.0" mnemonicParsing="false" onAction="#Classload" prefHeight="24.0" prefWidth="73.0" text="Open Class">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
-   </children>
+        <BorderPane  layoutX="633.0" layoutY="209.0" prefHeight="206.0" prefWidth="199.0" >
+            <Clocks fx:id="Clocks"/>
+
+        </BorderPane>
+
+        <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="250.0">
+            <children>
+                <Button fx:id="CSVbutton" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFileCsv" prefHeight="14.0" prefWidth="73.0" text="Open CSV">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="Xmlbutton" layoutX="81.0" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFilexml" prefHeight="24.0" prefWidth="73.0" text="Open XML">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="Classopen" layoutX="162.0" layoutY="17.0" mnemonicParsing="false" onAction="#Classload" prefHeight="24.0" prefWidth="73.0" text="Open Class">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>

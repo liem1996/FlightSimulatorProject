@@ -2,36 +2,47 @@ package View.CharList;
 
 
 
-import javafx.beans.value.ChangeListener;
+import View.fxmlController.MainWindowController;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.*;
 import javafx.scene.control.ListView;
-import javafx.event.EventHandler;
-import javafx.scene.control.*;
-import javafx.scene.input.*;
+
+import javax.xml.crypto.Data;
+import java.util.ArrayList;
 
 
 public class CharListController  {
 
     public static Runnable choosingName;
+    public static StringProperty feturecoulme;
+
 
     @FXML
-    public  static ListView<String> list = new ListView<>();
+    public ListView<String> listview;
+
+    @FXML
+    public LineChart<String,Number> linechart;
+
+    @FXML
+    public  LineChart<String,Number> linechart2;
+
+    @FXML
+    public LineChart<String, Number> linechart3;
 
 
-    public void initialize(){
-        fetures = FXCollections.observableArrayList();
-        //        registerEventHandlers();
+    public XYChart.Series<String, Number> series = new XYChart.Series<>();
 
-    }
+
 
 
     public CharListController() {
-        this.list = new ListView<>();
-        this.fetures =FXCollections.observableArrayList() ;
-        fetures.clear();
+        fetures = FXCollections.observableArrayList();
+        listview=new ListView<>();
 
 
     }
@@ -41,9 +52,15 @@ public class CharListController  {
     public static ObservableList<String> fetures;
 
 
+
+
+
     public ObservableList<String> getFetures(){
         return fetures;
     }
+
+
+
 
 
 

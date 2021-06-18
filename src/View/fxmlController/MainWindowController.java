@@ -1,67 +1,70 @@
 package View.fxmlController;
 
-import Model.AnomalyDetactor.TimeSeries;
 import ModelView.ViewModel;
-import View.CharList.CharListController;
-import View.Clocks.ClocksController;
-import View.JoyStick.JoyStickController;
-import View.Player.playerController;
+import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import test.AnomalyDetectionHandler;
 
-import javax.swing.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class MainWindowController implements Initializable {
+import javafx.scene.chart.XYChart;
+
+
+public class MainWindowController  {
 
     public ViewModel viewModel;
 
-    CharListController ChartList;
-    ClocksController Clocks;
-    JoyStickController Joystick;
-    playerController player;
+    @FXML
+    Charlist ChartList;
+    @FXML
+    Clocks Clocks;
+    @FXML
+    JoyStick Joystick;
+    @FXML
+    Player player;
+
     popupcontroller popup;
-
-    @FXML
-    private BorderPane JoyStickPane;
-    @FXML
-    private BorderPane ClocksPane;
-
-    @FXML
-    private BorderPane PlayerPane;
-
-    @FXML
-    public BorderPane ChartListPane;
 
     public StringProperty path;
 
-    //constructor that create and initialize all the four part the includes int the main window controller
+    public IntegerProperty timestep;
+
+    public Timer ts;
+    public int index;
+
+
+    //constructor that create and intalize all the four part the includes int the main window controller
     public MainWindowController() {
+        path = new SimpleStringProperty();
 
-
+        index=0;
     }
 
-    //function for choosing the file itself
+    //fubction for choosing the file itself
     public String  chooseFile(){
         FileChooser fileccsv = new FileChooser();
         File file = fileccsv.showOpenDialog(null);
@@ -78,8 +81,10 @@ public class MainWindowController implements Initializable {
         path.setValue(pathtocompare);
         if (pathtocompare.contains("csv")) {
             viewModel.CreateTimeSeries(path.getValue().toString());
+            player.playerController.ScrollFlight.setMin(1);
+            player.playerController.ScrollFlight.setMax(this.viewModel.ts.getNumLine()-1);
             loadData();
-            //SetvBox();
+
 
         } else {
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -87,6 +92,8 @@ public class MainWindowController implements Initializable {
             a.show();
         }
         players();
+
+
 
 
 
@@ -106,101 +113,108 @@ public class MainWindowController implements Initializable {
         }
 
 
-        Joystick.aileron.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("aileron") , viewModel.TimeLine));
-        Joystick.elevator.bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("elevator") , viewModel.TimeLine));
-
-        Joystick.rudder.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("rudder") , viewModel.TimeLine));
-        Joystick.throttle.valueProperty().bind(viewModel.ts.getTimeStep(viewModel.pt.nameColIndex.get("throttle") , viewModel.TimeLine));
-
-
-
-        // binding to Circles ------/       // connect the view model by using view model object and joystick controller object using binding
-
-
-    }
-
-
-    public void loadData() {
-         ChartList.fetures.addAll(viewModel.fetures);
-
-        ChartList.list.setItems(ChartList.getFetures());
-
-    }
-
-    //the function that makes all the four parts in the screen to upload on the gui itself
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-       BorderPane jostickView = new FxmlLoader().getPage("JoyStick");
-       JoyStickPane.setCenter(jostickView);
-        BorderPane clocksView = new FxmlLoader().getPage("Clocks");
-        ClocksPane.setCenter(clocksView);
-        BorderPane playerView = new FxmlLoader().getPage("Player");
-        PlayerPane.setCenter(playerView);
-        BorderPane chartslistView = new FxmlLoader().getPage("ChartsList");
-        ChartListPane.setCenter(chartslistView);
-
-        path = new SimpleStringProperty();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlfiels/ChartsList.fxml"));
-        try {
-            Parent r = loader.load();
-            ChartList = (CharListController) loader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../fxmlfiels/JoyStick.fxml"));
-            Parent r = loader1.load();
-            Joystick = (JoyStickController) loader1.getController();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("../fxmlfiels/Clocks.fxml"));
-        try {
-            Parent r = loader2.load();
-            Clocks = (ClocksController) loader2.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FXMLLoader loader3 = new FXMLLoader(getClass().getResource("../fxmlfiels/Player.fxml"));
-        try {
-            Parent r = loader3.load();
-            player = (playerController) loader3.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-/*        // Initialize of min and max value of the throttle rudder and inner circle of the joystick
-        Joystick.throttle.setMin(0);
-        Joystick.throttle.setMax(1);
-        Joystick.rudder.setMin(-1);
-        Joystick.throttle.setMax(1);
-        Joystick.innerCircle.setCenterX(0);
-        Joystick.innerCircle.setCenterY(0);*/
 
     }
 
     //initialize the view model
     public void init(ViewModel vm) {
         this.viewModel = vm;
-        this.Clocks.altimeter.setText(this.viewModel.altimeterVM);
+
+        TimerClockBind();
+        clockbind();
+        PlayerBind();
+        ChartList.charListController.linechart.getData().add(viewModel.series);
+        ChartList.charListController.linechart2.getData().add(viewModel.seriesseconed);
+
+        Joystick.joyStickController.paint();
+
+        Joystick.joyStickController.aileron.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // x axis
+        Joystick.joyStickController.elevator.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // y axis
+
+        Joystick.joyStickController.rudder.valueProperty().addListener((o, ov, nv) ->
+                Joystick.joyStickController.rudder.setValue(nv.doubleValue()));
+        Joystick.joyStickController.throttle.valueProperty().addListener((o, ov, nv) ->
+                Joystick.joyStickController.throttle.setValue(nv.doubleValue()));
+
+        Joystickbind();
+
+
+        ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
+            //  ChartList.charListController.linechart.getData().clear();
+
+            if(index!=0){
+                viewModel.time.cancel();
+            }
+
+
+            index++;
+            //ChartList.charListController.linechart.getData().removeAll(viewModel.series);
+
+            viewModel.timeSeriesRow=0;
+
+            viewModel.series.getData().clear();
+            viewModel.seriesseconed.getData().clear();
+            ChartList.charListController.series.getData().clear();
+            ChartList.charListController.series=new XYChart.Series<>();
+            // viewModel.series=new XYChart.Series<>();
+            viewModel.index=0;
+
+            String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
+
+            viewModel.getfeture(selectedItem);
+
+        }));
 
     }
+
+
+
+
+    //bind the slider from the player itself
+    private void PlayerBind() {
+        player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.TimeLine);
+        player.playerController.PlaySpeed.textProperty().addListener(((old, oldValue, newValue)-> {
+            this.viewModel.setPlaySpeed(Double.parseDouble(newValue.toString()));
+        }));
+
+    }
+
+    //bind the timer itself with a stringproperty from the view model to the model
+    public void TimerClockBind() {
+        player.playerController.SecondsTimer.textProperty().bind(viewModel.ClockTimerValues.get("Seconds").asString());
+        player.playerController.MinutesTimer.textProperty().bind(viewModel.ClockTimerValues.get("Minutes").asString());
+        player.playerController.HoursTimer.textProperty().bind(viewModel.ClockTimerValues.get("Hours").asString());
+
+    }
+
+
+    //load the pop up to choose the class of the anomaly detector from him
+
+    public void loadData() {
+        ChartList.charListController.getFetures().setAll(viewModel.fetures);
+        ChartList.charListController.listview.setItems( ChartList.charListController.getFetures());
+
+    }
+
+
 
     //interline the function from the view model to the view itself and run them
     public void players(){
         viewModel.Players();
-        player.onPlay =viewModel.Play;
-        player.onPause = viewModel.Pause;
-        player.onStop = viewModel.Stop;
+        player.playerController.onPlay =viewModel.Play;
+        player.playerController.onPause = viewModel.Pause;
+        player.playerController.onStop = viewModel.Stop;
+        player.playerController.onRewind =viewModel.Rewind;
+        player.playerController.onFastRewind = viewModel.FastRewind;
+        player.playerController.onForward = viewModel.Forward;
+        player.playerController.onFastForward = viewModel.FastForward;
 
     }
 
     //load the anomaly detector from the popup that we got and put in the viewmodel
     public void ClassLoadPop(String path){
         if(path.equals("hibride") || path.equals("Zscore") || path.equals("SimpleAnomalyDetector")) {
-            popup.mc.viewModel.loadClass(path);
+            popup.mc.viewModel.CreateTimeSeriesAnomalyDetector(path);
         }else {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("the class is not correct or not been upload");
@@ -229,18 +243,31 @@ public class MainWindowController implements Initializable {
 
     }
 
+    // Setting the time series by binding from the view to model view
+    public void Joystickbind()
+    {
+        // connect the view model by using view model object and joystick controller object using binding
+        Joystick.joyStickController.aileron.bind(viewModel.DisplaVaribales.get("aileron"));
+        Joystick.joyStickController.elevator.bind(viewModel.DisplaVaribales.get("elevator"));
+        Joystick.joyStickController.rudder.valueProperty().bind(viewModel.DisplaVaribales.get("rudder"));
+        Joystick.joyStickController.throttle.valueProperty().bind(viewModel.DisplaVaribales.get("throttle"));
+    }
 
-/*    void paint() {
-        GraphicsContext gc = Joystick.getGraphicsContext2D();
-        mx = JoyStick.getWidth() /2;
-        my = JoyStick.getHeight()/2;
-        gc.clearRect(0,0, JoyStick.getWidth(), JoyStick.getHeight());
-        gc.strokeOval(jx-50, jy-50, 100, 100);
-        aileron.set(((jx-mx)/my));
-        elevators.set((my-jy)/my);
-    }*/
+
+    //bind the clocks with the informetion that will fome from the view model to the view from the timeseries
+    public void clockbind()
+    {
+        Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
+        Clocks.clocksController.roll.textProperty().bind(viewModel.DisplaVaribales.get("roll-deg").asString());
+        Clocks.clocksController.pitch.textProperty().bind(viewModel.DisplaVaribales.get("pitch-deg").asString());
+        Clocks.clocksController.yaw.textProperty().bind(viewModel.DisplaVaribales.get("heading-deg").asString());
+        Clocks.clocksController.airspeed.textProperty().bind(viewModel.DisplaVaribales.get("airspeed-kt").asString());
+        Clocks.clocksController.direction.textProperty().bind(viewModel.DisplaVaribales.get("gps_indicated-vertical-speed").asString());
+    }
+
+
+
+
 
 
 }
-
-

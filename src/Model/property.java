@@ -5,16 +5,16 @@ import java.util.Map;
 
 public class property {
 
-        public HashMap<String, Integer> nameColIndex;
-        public int port;
-        public String ip;
-        public double timeperSeconed;
-        public HashMap<String,Integer> minimum;
-        public HashMap<String,Integer> maximum;
+    public HashMap<Integer, String> nameColIndex;
+    public int port;
+    public String ip;
+    public double timeperSeconed;
+    public HashMap<String,Integer> minimum;
+    public HashMap<String,Integer> maximum;
 
     public property() {
         this.nameColIndex = new HashMap<>();
-        this.port =5400;
+        this.port =50;
         this.ip = "10.0.0.128";
         this.timeperSeconed=1;
         this.minimum=new HashMap<>();
@@ -22,11 +22,11 @@ public class property {
     }
 
 
-    public Map<String, Integer> getNameColIndex() {
+    public Map<Integer, String> getNameColIndex() {
         return nameColIndex;
     }
 
-    public void setNameColIndex(HashMap<String, Integer> nameColIndex) {
+    public void setNameColIndex(HashMap<Integer, String> nameColIndex) {
         this.nameColIndex = nameColIndex;
     }
 
