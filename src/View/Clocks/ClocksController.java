@@ -15,7 +15,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClocksController {
-
     @FXML
     public Label altimeter;
 
@@ -50,8 +49,6 @@ public class ClocksController {
         airspeed=new Label();
 
     }
-
-
 
 
 

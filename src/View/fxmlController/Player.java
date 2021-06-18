@@ -1,6 +1,6 @@
 package View.fxmlController;
 
-import View.Joystick.JoyStickController;
+
 import View.Player.playerController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;

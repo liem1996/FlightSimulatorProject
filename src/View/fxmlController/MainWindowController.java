@@ -3,13 +3,16 @@ package View.fxmlController;
 import ModelView.ViewModel;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
@@ -24,6 +27,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.scene.chart.XYChart;
+
 
 public class MainWindowController  {
 
@@ -46,6 +51,10 @@ public class MainWindowController  {
 
     public StringProperty feturecoulme;
     public Timer ts;
+    public int index;
+
+    public ObservableList<XYChart.Series<String, Number>> service1;
+
 
 
 
@@ -54,6 +63,7 @@ public class MainWindowController  {
     public MainWindowController() {
         path = new SimpleStringProperty();
         feturecoulme=new SimpleStringProperty();
+        index=0;
     }
 
     //fubction for choosing the file itself
@@ -73,6 +83,8 @@ public class MainWindowController  {
         path.setValue(pathtocompare);
         if (pathtocompare.contains("csv")) {
             viewModel.CreateTimeSeries(path.getValue().toString());
+            player.playerController.ScrollFlight.setMin(1);
+            player.playerController.ScrollFlight.setMax(this.viewModel.ts.getNumLine()-1);
             loadData();
 
 
@@ -109,93 +121,65 @@ public class MainWindowController  {
     //initialize the view model
     public void init(ViewModel vm) {
         this.viewModel = vm;
-        Joystickbind();
-        clockbind();
+
         TimerClockBind();
+        clockbind();
         PlayerBind();
-        /*
-        viewModel.service.addListener(()->{
+
+        service1= FXCollections.observableArrayList();
+        Joystick.joyStickController.paint();
+
+        Joystick.joyStickController.aileron.addListener((o,ov,nv)->this.Joystick.joyStickController.paint()); // x axis
+        Joystick.joyStickController.elevator.addListener((o,ov,nv)->this.Joystick.joyStickController.paint()); // y axis
+
+        Joystick.joyStickController.rudder.valueProperty().addListener((o,ov,nv)->
+                Joystick.joyStickController.rudder.setValue(nv.doubleValue()));
+        Joystick.joyStickController.throttle.valueProperty().addListener((o,ov,nv)->
+                Joystick.joyStickController.throttle.setValue(nv.doubleValue()));
+
+        Joystickbind();
+
+        viewModel.service.addListener((new ListChangeListener<XYChart.Series<String, Number>>() {
+            @Override
+            public void onChanged(Change<? extends XYChart.Series<String, Number>> change) {
+                ChartList.charListController.linechart.getData().add(service1.get(index));
+                index++;
+
+            }
+        }));
 
 
 
 
-        });
-
-         */
-
-        ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener((old, oldValue, newValue) -> {
-            ChartList.charListController.linechart.getData().removeAll();
-            String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
-            feturecoulme.setValue(selectedItem);
-            //  ChartList.charListController.linechart.getData().add(viewModel.choose(selectedItem));
-
-         /*
-
-         if(this.ts==null){
-                ts=new Timer();
-                ChartList.charListController.linechart.getData().removeAll();
-                XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
-                ts.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Platform.runLater(()->{
-                            String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
-                            feturecoulme.setValue(selectedItem);
-
-                            for(int j=0;j<viewModel.choose(selectedItem).getData().size();j++){
-
-                                ChartList.charListController.linechart.getData().add();
-                            }
-
-                        });
-
-                    }
-            },0, 1000);
-        }
-
-          */
-
-
-        });
-
-
-        /*
-        service.addListener((old, oldValue, newValue)->{
-
-
-        });
-
-         */
-
+        ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener((new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                ChartList.charListController.linechart.getData().clear();
+                viewModel.timeSeriesRow=0;
+                String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
+                feturecoulme.setValue(selectedItem);
+                viewModel.service.clear();
+                viewModel.service1.clear();
+                index=0;
+                viewModel.getfeture(selectedItem);
+            }
+        }) );
 
     }
 
     private void PlayerBind() {
         player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.TimeLine);
-        //player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.model.TimeLine);
-
-        player.playerController.ScrollFlight.valueProperty().addListener((old, oldValue, newValue)-> System.out.println("Lightweight Baby!!!"));
-
         player.playerController.PlaySpeed.textProperty().addListener(((old, oldValue, newValue)-> {
-            System.out.println("The Play Speed has changed to:  "+newValue );
-           // this.viewModel.pt.setTimeperSeconed(Double.parseDouble(newValue.toString()));
-            System.out.println(this.viewModel.pt.getTimeperSeconed());
             this.viewModel.setPlaySpeed(Double.parseDouble(newValue.toString()));
-            System.out.println("The Play Speed in vm has changed to:  "+this.viewModel.playSpeed.getValue() );
-            System.out.println(this.viewModel.pt.getTimeperSeconed());
-
         }));
 
     }
 
     public void TimerClockBind() {
-        //Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
         player.playerController.SecondsTimer.textProperty().bind(viewModel.ClockTimerValues.get("Seconds").asString());
         player.playerController.MinutesTimer.textProperty().bind(viewModel.ClockTimerValues.get("Minutes").asString());
         player.playerController.HoursTimer.textProperty().bind(viewModel.ClockTimerValues.get("Hours").asString());
 
-        /*       player.playerController.MinutesTimer.textProperty().bind(viewModel.seconds.asString());
-        player.playerController.HoursTimer.textProperty().bind(viewModel.seconds.asString());*/
     }
 
 
@@ -210,18 +194,25 @@ public class MainWindowController  {
 
 
 
+
+
     //interline the function from the view model to the view itself and run them
     public void players(){
         viewModel.Players();
         player.playerController.onPlay =viewModel.Play;
         player.playerController.onPause = viewModel.Pause;
         player.playerController.onStop = viewModel.Stop;
+        player.playerController.onRewind =viewModel.Rewind;
+        player.playerController.onFastRewind = viewModel.FastRewind;
+        player.playerController.onForward = viewModel.Forward;
+        player.playerController.onFastForward = viewModel.FastForward;
+
     }
 
     //load the anomaly detector from the popup that we got and put in the viewmodel
     public void ClassLoadPop(String path){
         if(path.equals("hibride") || path.equals("Zscore") || path.equals("SimpleAnomalyDetector")) {
-            popup.mc.viewModel.loadClass(path);
+            popup.mc.viewModel.CreateTimeSeriesAnomalyDetector(path);
         }else {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("the class is not correct or not been upload");
@@ -253,26 +244,18 @@ public class MainWindowController  {
     // Setting the time series by binding from the view to model view
     public void Joystickbind()
     {
-
         // connect the view model by using view model object and joystick controller object using binding
         Joystick.joyStickController.aileron.bind(viewModel.DisplaVaribales.get("aileron"));
         Joystick.joyStickController.elevator.bind(viewModel.DisplaVaribales.get("elevator"));
         Joystick.joyStickController.rudder.valueProperty().bind(viewModel.DisplaVaribales.get("rudder"));
         Joystick.joyStickController.throttle.valueProperty().bind(viewModel.DisplaVaribales.get("throttle"));
-       // Joystick.joyStickController.paint();
-
-
-        // binding to Circles ------
-
     }
 
 
     public void clockbind()
     {
         Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
-      //  System.out.println(Clocks.clocksController.altimeter.textProperty().getValue());
         Clocks.clocksController.roll.textProperty().bind(viewModel.DisplaVaribales.get("roll-deg").asString());
-       // System.out.println(Clocks.clocksController.roll.textProperty().getValue());
         Clocks.clocksController.pitch.textProperty().bind(viewModel.DisplaVaribales.get("pitch-deg").asString());
         Clocks.clocksController.yaw.textProperty().bind(viewModel.DisplaVaribales.get("heading-deg").asString());
         Clocks.clocksController.airspeed.textProperty().bind(viewModel.DisplaVaribales.get("airspeed-kt").asString());

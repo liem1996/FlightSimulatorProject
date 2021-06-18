@@ -25,20 +25,24 @@ public class ViewModel extends Observable implements Observer {
     public ObservableList<String> fetures;
     public ObservableList<String> sereis;
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
-    public Runnable Play,Pause,Stop;
+    public Runnable Play,Pause,Stop,Rewind,FastRewind,Forward,FastForward;
     public HashMap<String, DoubleProperty> DisplaVaribales = new HashMap<>();
     public int index=0;
     public IntegerProperty seconds;
     public HashMap<String, IntegerProperty> ClockTimerValues = new HashMap<>();
     public IntegerProperty minutes;
     public IntegerProperty hours;
-    public ObservableList<XYChart.Data<String, Number>> service;
+    public ObservableList<XYChart.Series<String, Number>> service;
+    public ObservableList<XYChart.Series<String, Number>> service1;
     public Timer time;
     public int timeSeriesRow;
+    public IntegerProperty timealgo;
+    public TimeSeriesAnomalyDetector tsd;
+
 
     public StringProperty feturecoulme;
 
-     //public IntegerProperty timeStep;
+    public IntegerProperty timeStep;
 
     public DoubleProperty playSpeed;
 
@@ -55,6 +59,11 @@ public class ViewModel extends Observable implements Observer {
         fetures.addAll(ts.getFetureName());
 
 
+    }
+
+    public void CreateTimeSeriesAnomalyDetector(String filename){
+        tsd=loadClass(filename);
+        model.SetAnomalyDetactor(tsd);
     }
 
 
@@ -78,17 +87,17 @@ public class ViewModel extends Observable implements Observer {
 
 
     //loading the classes of the algorithems of the TimeAnomalyDetector
-    public void loadClass(String directory) {
-
+    public TimeSeriesAnomalyDetector loadClass(String directory) {
+        TimeSeriesAnomalyDetector sc = null;
         URLClassLoader urlClassLoader = null;
         try {
             urlClassLoader = URLClassLoader.newInstance(new URL[] {
-                    new URL("file://C:\\Users\\amitb\\IdeaProjects\\aven derech 3 part 2\\out\\artifacts\\aven_derech_3_part_2_jar")
+                    new URL("file://C:\\Users\\Public\\aven derech 3 part 2.jar")
             });
             Class<?> c=urlClassLoader.loadClass("test."+directory);
 
-            TimeSeriesAnomalyDetector sc=(TimeSeriesAnomalyDetector) c.newInstance();
-            model.SetAnomalyDetactor(sc);
+            sc=(TimeSeriesAnomalyDetector) c.newInstance();
+
             //model.SetAnomalyDetactor(sc);
         } catch (MalformedURLException e) {
 
@@ -99,7 +108,7 @@ public class ViewModel extends Observable implements Observer {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        return sc;
 
     }
 
@@ -115,28 +124,13 @@ public class ViewModel extends Observable implements Observer {
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
         playSpeed = new SimpleDoubleProperty(this.pt.timeperSeconed);
-        System.out.println("Hi "+playSpeed.getValue());
         this.model.playSpeed.bind(this.playSpeed);
         this.model.playSpeed.addListener((old, oldValue, newValue)->{  this.model.setPlaySpeed(Double.parseDouble(newValue.toString()));
-            System.out.println("Its Liem birthday Mazal Tov!");
         });
-
-       /* playSpeed.addListener((old, oldValue, newValue) -> {System.out.println("ggg");
-            System.out.println(playSpeed.getValue());
-        });*/
-        /*seconds.bind(this.model.seconds);
-        minutes.bind(this.model.minutes);
-        hours.bind(this.model.hours);
-
-        seconds.addListener((old, oldValue, newValue)->{
-            System.out.println("The Seconds in ViewModel are " + seconds.getValue());
-        });
-        minutes.addListener((old, oldValue, newValue)->{
-            System.out.println("The Minutes in ViewModel are " + minutes.getValue());
-        });
-        hours.addListener((old, oldValue, newValue)->{
-            System.out.println("The Hours in ViewModel are " + hours.getValue());
-        });*/
+        service = FXCollections.observableArrayList();
+        feturecoulme = new SimpleStringProperty();
+        timealgo = new SimpleIntegerProperty();
+        service1=FXCollections.observableArrayList();
 
         for(int i=0;i<pt.nameColIndex.size();i++){
             DisplaVaribales.put(pt.nameColIndex.get(i),new SimpleDoubleProperty());
@@ -162,37 +156,31 @@ public class ViewModel extends Observable implements Observer {
 
         // Connecting the time line to it's current value
         this.TimeLine.addListener((old, oldValue, newValue)-> {
-        /*    this.model.TimeLine = new SimpleIntegerProperty(newValue.intValue());
-            this.TimeLine = new SimpleIntegerProperty(newValue.intValue());*/
-
-            System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
             this.model.TimeLine.set(newValue.intValue());
             this.TimeLine.set(newValue.intValue());
-            System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-            System.out.println(this.model.TimeLine.getValue());
-            System.out.println(newValue);
-            System.out.println(this.TimeLine.getValue());
-            System.out.println("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-
         });
+
+        // Connecting the time line to it's current value
         this.model.TimeLine.addListener((old, oldValue, newValue) -> {
-           /* this.pt.setTimeperSeconed(this.playSpeed.getValue());
-            System.out.println("The vm timepersecond is: "+ this.pt.getTimeperSeconed());*/
-            TimeLine = model.TimeLine;
+            TimeLine.set(model.TimeLine.get());
+
+            model.timeSeriesRow = model.TimeLine.getValue();
             for (int j = 0; j < model.pr.nameColIndex.size(); j++) {
                 int finalJ = j;
                 if(DisplaVaribales.containsKey("altimeter_pressure-alt-ft")) {
                     Platform.runLater(() -> DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)).set(ts.getTimeStep(pt.nameColIndex.get(finalJ), TimeLine).getValue()));
-                /*    System.out.println(ts.getTimeStep(pt.nameColIndex.get(finalJ), TimeLine).getValue());
-                    System.out.println(DisplaVaribales.get(this.pt.nameColIndex.get(finalJ)));
-                    System.out.println(DisplaVaribales.get("altimeter_pressure-alt-ft").getValue());*/
                 }
 
             }
-
+            int Hours = (model.TimeLine.getValue())/3600;
+            int Minutes = (model.TimeLine.getValue())/60;
+            int Seconds = (model.TimeLine.getValue())%60;
+            Platform.runLater(()-> {
+                this.model.seconds.set(Seconds);
+                this.model.minutes.set(Minutes);
+                this.model.hours.set(Hours);
+            });
         });
-
-
 
     }
 
@@ -202,24 +190,16 @@ public class ViewModel extends Observable implements Observer {
         Play=()->{model.play();};
         Pause=()->{model.pause();};
         Stop=()->{model.stop();};
+
+        Rewind=()->{model.rewind();};
+        FastRewind=()->{model.fastRewind();};
+        Forward=()->{model.forward();};
+        FastForward=()->{model.fastForward();};
+
     }
 
 
     //we need to run it in the background in the model by a therd
-
-
-    /*
-    //creating an chart according to the feture
-    public XYChart.Series choose(String feturename){
-        XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
-        System.out.println(Double.parseDouble(ts.features.get(feturename).get(index)));
-        System.out.println(feturename);
-        ArrayList<XYChart.Series> seri = new ArrayList<>();
-
-
-    }
-
-     */
 
     @Override
     public void update(java.util.Observable o, Object arg) {
@@ -229,20 +209,28 @@ public class ViewModel extends Observable implements Observer {
 
     public void getfeture(String filename) {
         XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
+
         if (this.time == null) {
             time = new Timer();
+
             time.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     Platform.runLater(() -> {
                         String selectedItem = filename;
                         feturecoulme.setValue(selectedItem);
-
                         if(timeSeriesRow <ts.features.get(filename).size()) {
-                            series.getData().add(new XYChart.Data<String,Number>(ts.features.get(filename).get(index),Double.parseDouble(ts.features.get(filename).get(index))));
-                            service.add(series.getData().get(timeSeriesRow));
+                            timealgo.set(timealgo.get() + 1);
+                            series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(ts.features.get(filename).get(timeSeriesRow))));
+                            service1.add(series);
+                            service.add(series);
+
+
+                            //series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(ts.features.get(filename).get(timeSeriesRow))));
                             timeSeriesRow++;
                         }
+
+
 
                     });
 

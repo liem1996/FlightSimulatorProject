@@ -28,7 +28,7 @@
 
       </BorderPane>
 
-      <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="354.0">
+      <Pane layoutX="9.0" layoutY="415.0" prefHeight="46.0" prefWidth="250.0">
          <children>
             <Button fx:id="CSVbutton" layoutY="17.0" mnemonicParsing="false" onAction="#ChooseFileCsv" prefHeight="14.0" prefWidth="73.0" text="Open CSV">
                <font>

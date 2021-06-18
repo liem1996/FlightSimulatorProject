@@ -13,6 +13,7 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class ModelFg extends Observable implements Model.runningfunc.Model {
 
     public TimeSeries timeSeries;
@@ -28,11 +29,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
 
     public void setPlaySpeed(double playSpeed) {
-       // this.playSpeed.set(playSpeed);
         this.pr.setTimeperSeconed(playSpeed);
-        System.out.println("Fuck eli halaski");
-        System.out.println("yeah fuck him "+ this.playSpeed.getValue());
-        System.out.println("Yeahhh buddyyy "+ this.pr.getTimeperSeconed() );
     }
 
 
@@ -67,42 +64,20 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 
     @Override
     public void play() {
-       // this.pr.setTimeperSeconed(3);
-        System.out.println("hhhhh   "+pr.getTimeperSeconed());
-        System.out.println("hhhhh   "+this.playSpeed.getValue());
         if(this.ts==null){
             ts=new Timer();
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if(timeSeriesRow < timeSeries.getNumLine()) {
-
+                    if(timeSeriesRow < timeSeries.getNumLine()-1) {
                         TimeLine.set(TimeLine.get() + 1);
-                        System.out.println("The time in Model changed to " + TimeLine.get());
-                        System.out.println("The timepersecond in Model changed to " + pr.timeperSeconed);
-
-                        timeSeriesRow++;
-                        incSeconds();
-
+                        System.out.println("The timeSeriesRow in Model changed to " + timeSeriesRow);
+                    }
+                    else{
+                        System.out.println("You pause me!");
+                        pause();
                     }
 
-                   /*     try {
-                            Socket fg = new Socket(pr.ip, pr.port);
-                            PrintWriter ps = new PrintWriter(fg.getOutputStream());
-                            for (int i = 0; i < timeSeries.getNumLine(); i++) {
-                                TimeLine.set(TimeLine.get() + 1);
-                                ps.println(timeSeries.getline(i));
-                                ps.flush();
-
-                            }
-                            fg.close();
-                            ps.close();
-
-                        } catch (UnknownHostException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }*/
                 }
 
             },0, ((long)(pr.timeperSeconed*1000))/* pr.timespeed */); //pr.timepeed = 10000
@@ -129,44 +104,47 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         hours.set(0);
 
     }
-    /*  public void runTimerClock(){
-          if(this.ts==null){
-              ts=new Timer();
-
-              ts.scheduleAtFixedRate(new TimerTask() {
-                  @Override
-                  public void run() {
-      }*/
-    public void incSeconds(){
-        if(seconds.getValue() == 59){
-            incMinutes();
-            seconds.set(0);
-
+    public void rewind() {
+        int rewindVal = (this.timeSeries.getNumLine()-1)/ 200;
+        int fixedRow = TimeLine.get()-rewindVal; //The current row after rewind
+        if(fixedRow<0){ // check if the current row is in the bounds of the Timeline of the Flight
+            TimeLine.set(0); //set TimeLine to first row in csv Flight file
         }
         else {
-            seconds.set(seconds.getValue() + 1);
-
+            TimeLine.set(fixedRow);
         }
     }
-    public void incMinutes(){
-        if(minutes.getValue() == 59){
-            incHours();
-            minutes.set(0);
 
+    public void fastRewind() {
+        int fastRewindVal = (this.timeSeries.getNumLine()-1)/ 20;
+        int fixedRow = TimeLine.get()-fastRewindVal; //The current row after fastRewind
+        if(fixedRow<0){ // check if the current row is in the bounds of the Timeline of the Flight
+            TimeLine.set(0); //set TimeLine to first row in csv Flight file
         }
         else {
-            minutes.set(minutes.getValue() + 1);
-
+            TimeLine.set(fixedRow);
         }
     }
-    public void incHours(){
-        if(hours.getValue() == 59){
-            hours.set(0);
 
+    public void forward() {
+        int forwardVal = (this.timeSeries.getNumLine()-1)/ 200;
+        int fixedRow = TimeLine.get()+forwardVal; //The current row after forward
+        if(fixedRow>this.timeSeries.getNumLine()-1){ // check if the current row is in the bounds of the Timeline of the Flight
+            TimeLine.set(this.timeSeries.getNumLine()-1); //set TimeLine to last row in csv Flight file
         }
         else {
-            hours.set(hours.getValue() + 1);
+            TimeLine.set(fixedRow);
+        }
+    }
 
+    public void fastForward() {
+        int fastForwardVal = (this.timeSeries.getNumLine()-1)/ 20;
+        int fixedRow = TimeLine.get()+fastForwardVal; //The current row after fastForward
+        if(fixedRow>this.timeSeries.getNumLine()-1){ // check if the current row is in the bounds of the Timeline of the Flight
+            TimeLine.set(this.timeSeries.getNumLine()-1); //set TimeLine to last row in csv Flight file
+        }
+        else {
+            TimeLine.set(fixedRow);
         }
     }
 
@@ -185,6 +163,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public Runnable getPainter() {
         return null;
     }
+
 
 
 }
