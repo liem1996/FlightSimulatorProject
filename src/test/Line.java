@@ -1,13 +1,17 @@
 package test;
 
 public class Line {
-	public final float a,b;
+	public  float a,b;
+
+	public Line() {
+
+	}
+
 	public Line(float a, float b){
 		this.a=a;
 		this.b=b;
 	}
 	public float f(float x){
-		return a*x+b;
-	}
+		return a*x+b; }
 
 }

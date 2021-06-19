@@ -124,9 +124,9 @@ public class Zscore implements test.TimeSeriesAnomalyDetector {
     }
 
     @Override
-    public XYChart.Series<String, Number> paint(TimeSeries ts, String name) {
+    public ArrayList<XYChart.Series<String, Number>> paint(TimeSeries ts, String name) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-
+        ArrayList <XYChart.Series<String, Number>> seriesArrayList = new ArrayList<>();
 
         double zscoreresult;
         ArrayList<String> tscoulmen = new ArrayList<>();
@@ -136,10 +136,12 @@ public class Zscore implements test.TimeSeriesAnomalyDetector {
         for (int m = 0; m < tscoulmen.size(); m++){
             index.setValue(m);
             zscoreresult = Zscore(tscoulmen, m);
+
             series.getData().add(new XYChart.Data<String, Number>(index.toString(),zscoreresult));
 
         }
-        return series;
+        seriesArrayList.add(series);
+        return seriesArrayList;
     }
 
 }

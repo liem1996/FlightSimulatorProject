@@ -41,6 +41,8 @@ public class ViewModel extends Observable implements Observer {
     public XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesseconed= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesthird= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesforth= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesfifth= new XYChart.Series<String,Number>();
 
     public SimpleAnomalyDetector feture;
 
@@ -152,6 +154,19 @@ public class ViewModel extends Observable implements Observer {
                 if(model.flag3)
                 {
                     seriesthird.getData().add(model.seriesthird.getData().get(index));
+                }
+
+                if (model.flag4)
+                {
+                    if (model.isOne) {
+                        seriesthird.getData().add(model.seriesthird.getData().get(index));
+                    }
+                    if (model.isTwo) {
+                        seriesforth.getData().add(model.seriesfourth.getData().get(index));
+                    }
+                    if (model.isThree) {
+                        seriesfifth.getData().add(model.seriesfifth.getData().get(index));
+                    }
                 }
 
                 index++;

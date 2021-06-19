@@ -14,6 +14,9 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
 	public List<CorrelatedFeatures> corletivfeture1;
 	public double thereholdper=0.9;
 
+	public XYChart.Series<String, Number> seriesLinearReg = new XYChart.Series<>(); // learnNormal
+	public XYChart.Series<String, Number> seriesPointsRightFlight= new XYChart.Series<>(); // learnNormal
+	public XYChart.Series<String, Number> seriesPoints = new XYChart.Series<>(); // detect
 
 	public SimpleAnomalyDetector() {
 		corletivfeture = new ArrayList<CorrelatedFeatures>();
@@ -135,8 +138,6 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
 			}
 
 
-
-
 		}
 		return cf;
 
@@ -148,7 +149,72 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
 
 		return corletivfeture;
 	}
-	public XYChart.Series<String, Number> paint(TimeSeries ts, String name) {
-		return null;
-	}
+	public ArrayList<XYChart.Series<String, Number>> paint(TimeSeries ts, String name) {
+		Line line  =new Line();
+
+		ArrayList<XYChart.Series<String, Number>> finalseries = new ArrayList<>();
+
+		List<AnomalyReport> cf = new LinkedList<>();
+
+		String stri1;
+		String stri2;
+		float thereholdmax;
+
+		String corrlativeName=null;
+		float thershold = 0;
+
+		/// !!!!! ------- To activate the learn on the model ------ !!!!
+			for (int k=0; k<corletivfeture.size(); k++)
+			{
+				//check if the name of the feature equal to feature 1 or 2 and built the line
+				if(corletivfeture.get(k).feature1.equals(name))
+				{
+					corrlativeName = corletivfeture.get(k).feature2;
+					line=corletivfeture.get(k).lin_reg;
+					thershold=corletivfeture.get(k).threshold;
+				}
+				if (corletivfeture.get(k).feature2.equals(name)){
+					corrlativeName = corletivfeture.get(k).feature1;
+					line=corletivfeture.get(k).lin_reg;
+					thershold=corletivfeture.get(k).threshold;
+				}
+
+			}
+
+			int size = ts.features.get(name).size();
+
+			if (ts.features.get(corrlativeName)!=null) {
+				for (int j = 0; j < size; j++) {
+					stri1 = ts.features.get(name).get(j);
+					stri2 = ts.features.get(corrlativeName).get(j);
+
+					float x = Float.parseFloat(stri1);
+					float y = Float.parseFloat(stri2);
+
+					Point strir1 = new Point(x, y);
+					seriesPointsRightFlight.getData().add(new XYChart.Data<String, Number>(String.valueOf(strir1.x), strir1.y));
+
+					thereholdmax = dev(strir1, line);
+
+					if (thereholdmax > thershold + 0.1) {
+						AnomalyReport tamp = new AnomalyReport(name + "-" + corrlativeName, j + 1);
+						seriesPoints.getData().add(new XYChart.Data<String, Number>(String.valueOf(strir1.x), strir1.y));
+						cf.add(tamp);
+
+					}
+
+				}
+
+				for (int i = 0; i < ts.features.get(name).size(); i++) {
+					seriesLinearReg.getData().add(new XYChart.Data<>(String.valueOf(i), line.f(i))); // entering the regression into series
+				}
+
+				finalseries.add(seriesPoints);
+				finalseries.add(seriesLinearReg);
+				finalseries.add(seriesPointsRightFlight);
+			}
+
+		return finalseries;
+
+			}
 	}

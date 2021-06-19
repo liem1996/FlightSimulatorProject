@@ -54,13 +54,14 @@ public class MainWindowController  {
     public IntegerProperty timestep;
 
     public Timer ts;
+    public int index2;
     public int index;
 
 
     //constructor that create and intalize all the four part the includes int the main window controller
     public MainWindowController() {
         path = new SimpleStringProperty();
-
+        index2=0;
         index=0;
     }
 
@@ -125,10 +126,20 @@ public class MainWindowController  {
         PlayerBind();
         ChartList.charListController.linechart.getData().add(viewModel.series);
         ChartList.charListController.linechart2.getData().add(viewModel.seriesseconed);
-        ChartList.charListController.linechart3.getData().add(viewModel.seriesthird);
+        ChartList.charListController.linechart3.getData().addAll(viewModel.seriesforth, viewModel.seriesthird);
 
 
         Joystick.joyStickController.paint();
+        viewModel.seriesfifth.getData().addListener(new ListChangeListener<XYChart.Data<String, Number>>() {
+            @Override
+            public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
+                XYChart.Series<String, Number> seriesnew =new XYChart.Series<>();
+                seriesnew.getData().add(new XYChart.Data<String, Number>(String.valueOf(index2),viewModel.seriesfifth.getData().get(index2).getYValue()));
+                index2++;
+                ChartList.charListController.linechart3.getData().add(seriesnew);
+
+            }
+        });
 
         Joystick.joyStickController.aileron.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // x axis
         Joystick.joyStickController.elevator.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // y axis
@@ -149,16 +160,20 @@ public class MainWindowController  {
             }
 
             index++;
-
+            index2 = 0;
             viewModel.timeSeriesRow=0;
 
             viewModel.series.getData().clear();
             viewModel.seriesseconed.getData().clear();
             viewModel.seriesthird.getData().clear();
+            viewModel.seriesforth.getData().clear();
+            viewModel.seriesfifth.getData().clear();
+
             ChartList.charListController.series.getData().clear();
             ChartList.charListController.series=new XYChart.Series<>();
             // viewModel.series=new XYChart.Series<>();
             viewModel.index=0;
+
 
             String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
 

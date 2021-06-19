@@ -165,7 +165,7 @@ public class hibride implements TimeSeriesAnomalyDetector {
     }
 
 
-    public XYChart.Series<String, Number> paint(TimeSeries ts, String name) {
+    public ArrayList<XYChart.Series<String, Number>> paint(TimeSeries ts, String name) {
         return null;
     }
 }

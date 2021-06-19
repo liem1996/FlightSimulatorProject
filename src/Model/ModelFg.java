@@ -34,7 +34,12 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesseconed= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesthird= new XYChart.Series<String,Number>();
-    public XYChart.Series<String,Number> seriestemp= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesfourth= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesfifth= new XYChart.Series<String,Number>();
+    public ArrayList<XYChart.Series<String, Number>> seriestemp= new ArrayList<>();
+    public boolean isOne;
+    public boolean isTwo;
+    public boolean isThree;
 
     public Timer time;
     public StringProperty feturecoulme;
@@ -42,6 +47,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public String selectedItem;
     public boolean flag;
     public boolean flag3;
+    public boolean flag4;
     public boolean isSetAnomaly;
     public ObservableList<XYChart.Data<String, Number>> service1;
     public int index;
@@ -51,7 +57,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public void setPlaySpeed(double playSpeed) {
         this.pr.setTimeperSeconed(playSpeed);
     }
-    public AnimationTimer timer;
+    public AnimationTimerExt timer;
 
     public void setTimeLine(int timeLine) {
         this.TimeLine.set(timeLine);
@@ -66,18 +72,25 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         timeSeriesRow =0;
         feture=new SimpleAnomalyDetector();
         seriesseconed=new XYChart.Series<>();
-        seriestemp = new XYChart.Series<>();
+        seriestemp = new ArrayList<>();
         seriesthird = new XYChart.Series<>();
-        timeSeriesAnomalyDetector=new Zscore();
+        seriesfourth = new XYChart.Series<>();
+        seriesfifth = new XYChart.Series<>();
+        timeSeriesAnomalyDetector=new SimpleAnomalyDetector();
         series=new XYChart.Series<>();
         flag=false;
         flag3=false;
+        flag4=false;
         isSetAnomaly=true; ///// <<<<<<<<<<--------------- NEED TO BE CHANGED TO FALSE !!!!!---------------------<<<<<
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
         playSpeed = new SimpleDoubleProperty(this.pr.timeperSeconed);
         index=0;
+
+        isOne = false;
+        isTwo = false;
+        isThree = false;
 
         feturecoulme = new SimpleStringProperty();
 
@@ -175,11 +188,20 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
             System.out.printf(timealgo.getValue().toString());
             series.getData().clear();
             seriesseconed.getData().clear();
-            seriestemp.getData().clear();
+            for (int s = 0; s<seriestemp.size(); s++)
+            {
+                seriestemp.get(s).getData().clear();
+            }
             seriesthird.getData().clear();
+            seriesfourth.getData().clear();
+            seriesfifth.getData().clear();
             timerow=0;
             flag=false;
             flag3=false;
+            flag4=false;
+            isOne = false;
+            isTwo=false;
+            isThree=false;
           //  isSetAnomaly=false; //// <<<<<<<<<<<<<<<<<<<<<<<<<
         }
         selectedItem = fetureName;
@@ -188,9 +210,9 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         //if (this.time == null) {
          time = new Timer();
 
-         timer = new AnimationTimer() {
+         timer = new AnimationTimerExt(100) {
              @Override
-             public void handle(long l) {
+             public void handle() {
                  Platform.runLater(() -> {
                      String name = "";
                      feturecoulme.setValue(selectedItem);
@@ -206,10 +228,31 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                          series.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(fetureName).get(timerow))));
 
                          if (isSetAnomaly) {
+                             timeSeriesAnomalyDetector.learnNormal(timeSeries);// <<<----------------PUT ON SET ANOMALY -------------- <<<
                              seriestemp = timeSeriesAnomalyDetector.paint(timeSeries, fetureName); // using paint function
-                             seriesthird.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.getData().get(timerow).getYValue()));
-                             flag3 = true;
+                             if (seriestemp.size()==1) {
+                                 seriesthird.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.get(0).getData().get(timerow).getYValue()));
+                                 flag3 = true;
+                             }
+                             else if (seriestemp.size()==3) //each one of series represent line, points correct and points wrong
+                             {
+                                 if (seriestemp.get(0).getData().size() != 0) {
+                                     isOne = true;
+                                     seriesthird.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.get(0).getData().get(timerow).getYValue()));
+                                 }
+                                 if (seriestemp.get(1).getData().size() != 0) {
+                                     isTwo = true;
+                                     seriesfourth.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.get(1).getData().get(timerow).getYValue()));
+                                 }
+                                 if (seriestemp.get(2).getData().size() != 0) {
+                                     isThree = true;
+                                     seriesfifth.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.get(2).getData().get(timerow).getYValue()));
+                                 }
+                                 flag4 = true;
+                             }
                          }
+
+
 
 
                          service1.add(series.getData().get(timerow));
@@ -229,10 +272,12 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 //                            seriesthird.getData().remove(0);
 //                            index = 0;
 //                        }
+                         // some delay
 
                          timerow++;
 
                      }
+
 
 
                  });
@@ -241,63 +286,6 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
          };
 
          timer.start();
-
-//        time.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Platform.runLater(() -> {
-//                    String name="";
-//                    feturecoulme.setValue(selectedItem);
-//                    if(timerow <timeSeries.features.get(fetureName).size()) {
-//                        timealgo.set(timealgo.get() + 1);
-//
-//                        name= getfeturecorlative(fetureName, timeSeries, 0);
-//                        if(!name.equals("")) {
-//                          seriesseconed.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(name).get(timerow))));
-//                           flag=true;
-//                        }
-//
-//                        series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(timeSeries.features.get(fetureName).get(timerow))));
-//
-//                        if (isSetAnomaly)
-//                        {
-//                            seriestemp = timeSeriesAnomalyDetector.paint(timeSeries, fetureName); // using paint function
-//                            seriesthird.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),seriestemp.getData().get(timerow).getYValue()));
-//                            flag3=true;
-//                        }
-//
-//
-//                        service1.add(series.getData().get(timerow));
-//                        index++;
-//
-//
-////                        final int WINDOW_SIZE = 10;
-////                        if (series.getData().size() > WINDOW_SIZE) {
-////                            series.getData().remove(0);
-////                            index = 0;
-////                        }
-////                        if (seriesseconed.getData().size() > WINDOW_SIZE) {
-////                            seriesseconed.getData().remove(0);
-////                            index = 0;
-////                        }
-////                        if (seriesthird.getData().size() > WINDOW_SIZE) {
-////                            seriesthird.getData().remove(0);
-////                            index = 0;
-////                        }
-//
-//                        timerow++;
-//
-//                    }
-//
-//
-//
-//                });
-//
-//            }
-//
-//        }, 0, ((long) pr.timeperSeconed * 1000000)/* pr.timespeed */); //pr.timepeed = 10000
-//
-//        // }
     }
 
     @Override
