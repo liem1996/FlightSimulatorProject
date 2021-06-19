@@ -1,6 +1,6 @@
 package Model.runningfunc;
 
-import Model.AnomalyDetactor.TimeSeries;
+import test.TimeSeries;
 import test.TimeSeriesAnomalyDetector;
 
 

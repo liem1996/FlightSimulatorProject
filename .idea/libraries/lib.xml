@@ -2,7 +2,6 @@
   <library name="lib">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../../../../javafx-sdk-16/lib" />
-      <root url="jar://D:/aven derech 3 part 2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,14 +1,15 @@
 package Model;
 
-import Model.AnomalyDetactor.TimeSeries;
+import javafx.animation.AnimationTimer;
+import test.TimeSeries;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import test.SimpleAnomalyDetector;
 import test.TimeSeriesAnomalyDetector;
+import test.Zscore;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -32,19 +33,25 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesseconed= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesthird= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriestemp= new XYChart.Series<String,Number>();
+
     public Timer time;
     public StringProperty feturecoulme;
     public IntegerProperty timealgo;
     public String selectedItem;
     public boolean flag;
+    public boolean flag3;
+    public boolean isSetAnomaly;
     public ObservableList<XYChart.Data<String, Number>> service1;
+    public int index;
 
     public SimpleAnomalyDetector feture;
 
     public void setPlaySpeed(double playSpeed) {
         this.pr.setTimeperSeconed(playSpeed);
     }
-
+    public AnimationTimer timer;
 
     public void setTimeLine(int timeLine) {
         this.TimeLine.set(timeLine);
@@ -59,12 +66,18 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         timeSeriesRow =0;
         feture=new SimpleAnomalyDetector();
         seriesseconed=new XYChart.Series<>();
+        seriestemp = new XYChart.Series<>();
+        seriesthird = new XYChart.Series<>();
+        timeSeriesAnomalyDetector=new Zscore();
         series=new XYChart.Series<>();
         flag=false;
+        flag3=false;
+        isSetAnomaly=true; ///// <<<<<<<<<<--------------- NEED TO BE CHANGED TO FALSE !!!!!---------------------<<<<<
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
         playSpeed = new SimpleDoubleProperty(this.pr.timeperSeconed);
+        index=0;
 
         feturecoulme = new SimpleStringProperty();
 
@@ -162,8 +175,12 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
             System.out.printf(timealgo.getValue().toString());
             series.getData().clear();
             seriesseconed.getData().clear();
+            seriestemp.getData().clear();
+            seriesthird.getData().clear();
             timerow=0;
             flag=false;
+            flag3=false;
+          //  isSetAnomaly=false; //// <<<<<<<<<<<<<<<<<<<<<<<<<
         }
         selectedItem = fetureName;
 
@@ -171,40 +188,124 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         //if (this.time == null) {
          time = new Timer();
 
-        time.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    String name="";
-                    feturecoulme.setValue(selectedItem);
-                    if(timerow <timeSeries.features.get(fetureName).size()) {
-                        timealgo.set(timealgo.get() + 1);
+         timer = new AnimationTimer() {
+             @Override
+             public void handle(long l) {
+                 Platform.runLater(() -> {
+                     String name = "";
+                     feturecoulme.setValue(selectedItem);
+                     if (timerow < timeSeries.features.get(fetureName).size()) {
+                         timealgo.set(timealgo.get() + 1);
 
-                        name= getfeturecorlative(fetureName, timeSeries, 0);
-                        if(!name.equals("")) {
-                          seriesseconed.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(name).get(timerow))));
-                           flag=true;
-                        }
-                        series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(timeSeries.features.get(fetureName).get(timerow))));
-                        service1.add(series.getData().get(timerow));
+                         name = getfeturecorlative(fetureName, timeSeries, 0);
+                         if (!name.equals("")) {
+                             seriesseconed.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(name).get(timerow))));
+                             flag = true;
+                         }
 
-                        timerow++;
-                    }
+                         series.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(fetureName).get(timerow))));
+
+                         if (isSetAnomaly) {
+                             seriestemp = timeSeriesAnomalyDetector.paint(timeSeries, fetureName); // using paint function
+                             seriesthird.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.getData().get(timerow).getYValue()));
+                             flag3 = true;
+                         }
 
 
+                         service1.add(series.getData().get(timerow));
+                         index++;
 
-                });
 
-            }
+//                        final int WINDOW_SIZE = 10;
+//                        if (series.getData().size() > WINDOW_SIZE) {
+//                            series.getData().remove(0);
+//                            index = 0;
+//                        }
+//                        if (seriesseconed.getData().size() > WINDOW_SIZE) {
+//                            seriesseconed.getData().remove(0);
+//                            index = 0;
+//                        }
+//                        if (seriesthird.getData().size() > WINDOW_SIZE) {
+//                            seriesthird.getData().remove(0);
+//                            index = 0;
+//                        }
 
-        }, 0, ((long) pr.timeperSeconed * 1000)/* pr.timespeed */); //pr.timepeed = 10000
+                         timerow++;
 
-        // }
+                     }
+
+
+                 });
+
+             }
+         };
+
+         timer.start();
+
+//        time.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                Platform.runLater(() -> {
+//                    String name="";
+//                    feturecoulme.setValue(selectedItem);
+//                    if(timerow <timeSeries.features.get(fetureName).size()) {
+//                        timealgo.set(timealgo.get() + 1);
+//
+//                        name= getfeturecorlative(fetureName, timeSeries, 0);
+//                        if(!name.equals("")) {
+//                          seriesseconed.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(name).get(timerow))));
+//                           flag=true;
+//                        }
+//
+//                        series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(timeSeries.features.get(fetureName).get(timerow))));
+//
+//                        if (isSetAnomaly)
+//                        {
+//                            seriestemp = timeSeriesAnomalyDetector.paint(timeSeries, fetureName); // using paint function
+//                            seriesthird.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),seriestemp.getData().get(timerow).getYValue()));
+//                            flag3=true;
+//                        }
+//
+//
+//                        service1.add(series.getData().get(timerow));
+//                        index++;
+//
+//
+////                        final int WINDOW_SIZE = 10;
+////                        if (series.getData().size() > WINDOW_SIZE) {
+////                            series.getData().remove(0);
+////                            index = 0;
+////                        }
+////                        if (seriesseconed.getData().size() > WINDOW_SIZE) {
+////                            seriesseconed.getData().remove(0);
+////                            index = 0;
+////                        }
+////                        if (seriesthird.getData().size() > WINDOW_SIZE) {
+////                            seriesthird.getData().remove(0);
+////                            index = 0;
+////                        }
+//
+//                        timerow++;
+//
+//                    }
+//
+//
+//
+//                });
+//
+//            }
+//
+//        }, 0, ((long) pr.timeperSeconed * 1000000)/* pr.timespeed */); //pr.timepeed = 10000
+//
+//        // }
     }
 
     @Override
     public void SetAnomalyDetactor(TimeSeriesAnomalyDetector tsa) {
+
         timeSeriesAnomalyDetector = tsa;
+        isSetAnomaly = true;
+
     }
 
     @Override

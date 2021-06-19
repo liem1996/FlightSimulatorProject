@@ -38,11 +38,26 @@ public class CharListController  {
     public XYChart.Series<String, Number> series = new XYChart.Series<>();
 
 
-
-
     public CharListController() {
         fetures = FXCollections.observableArrayList();
         listview=new ListView<>();
+
+        //defining the axes
+        final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setAnimated(false); // axis animations are removed
+        yAxis.setAnimated(false); // axis animations are removed
+
+        //creating the line chart with two axis created above
+        linechart = new LineChart<>(xAxis, yAxis);
+        linechart2 = new LineChart<>(xAxis, yAxis);
+        linechart3 = new LineChart<>(xAxis, yAxis);
+
+        linechart.setAnimated(false); // disable animations
+
+        linechart2.setAnimated(false); // disable animations
+
+        linechart3.setAnimated(false); // disable animations
 
 
     }

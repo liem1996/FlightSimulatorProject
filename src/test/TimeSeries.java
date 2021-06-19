@@ -1,4 +1,4 @@
-package Model.AnomalyDetactor;
+package test;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 // In this class we will write about time series,
 // which means reading the current csv file
-public class TimeSeries extends test.TimeSeries{
+public class TimeSeries {
 
 	public HashMap<String,ArrayList<String>> features;
 	public ArrayList<String> fetureName;

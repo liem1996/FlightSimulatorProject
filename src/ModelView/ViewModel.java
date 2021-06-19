@@ -1,6 +1,8 @@
 package ModelView;
 
-import Model.AnomalyDetactor.TimeSeries;
+import com.sun.javafx.charts.ChartLayoutAnimator;
+import javafx.animation.AnimationTimer;
+import test.TimeSeries;
 
 import Model.ModelFg;
 import Model.XmlWrite;
@@ -18,7 +20,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ViewModel extends Observable implements Observer {
 
@@ -34,11 +35,13 @@ public class ViewModel extends Observable implements Observer {
     public IntegerProperty minutes;
     public IntegerProperty hours;
     public int index;
-    public Timer time;
+    public AnimationTimer time;
     public int timeSeriesRow;
     public TimeSeriesAnomalyDetector tsd;
     public XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesseconed= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesthird= new XYChart.Series<String,Number>();
+
     public SimpleAnomalyDetector feture;
 
     public Runnable FastRewind,Forward,FastForward,Rewind;
@@ -54,14 +57,10 @@ public class ViewModel extends Observable implements Observer {
         this.pt.setTimeperSeconed(playSpeed);
     }
 
-
-
     //load the fetures of the time series
     public void load(){
         fetures = FXCollections.observableArrayList();
         fetures.addAll(ts.getFetureName());
-
-
     }
 
     public void CreateTimeSeriesAnomalyDetector(String filename){
@@ -77,7 +76,6 @@ public class ViewModel extends Observable implements Observer {
         model.SetTimeSeries(ts);
         load();
 
-
     }
 
     public void CreateProperty(String fileName){
@@ -89,12 +87,12 @@ public class ViewModel extends Observable implements Observer {
 
 
     //loading the classes of the algorithems of the TimeAnomalyDetector
-    public TimeSeriesAnomalyDetector loadClass(String directory) {
+    public TimeSeriesAnomalyDetector loadClass(String directory) { // directory is the algorithm that was chosen
         TimeSeriesAnomalyDetector sc = null;
         URLClassLoader urlClassLoader = null;
         try {
             urlClassLoader = URLClassLoader.newInstance(new URL[] {
-                    new URL("file://C:\\Users\\amitb\\IdeaProjects\\aven derech 3 part 2\\out\\artifacts\\aven_derech_3_part_2_jar")
+                    new URL("file://D:\\aven derech 3 part 2.jar")
             });
             Class<?> c=urlClassLoader.loadClass("test."+directory);
 
@@ -123,7 +121,12 @@ public class ViewModel extends Observable implements Observer {
         this.pt=model.pr;
         this.timeSeriesRow = 0;
         index=0;
-        time=new Timer();
+        time=new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+               time=model.timer;
+            }
+        };
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
@@ -137,15 +140,19 @@ public class ViewModel extends Observable implements Observer {
         model.service1.addListener(new ListChangeListener<XYChart.Data<String, Number>>() {
             @Override
             public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
+
                 series.getData().add(model.series.getData().get(index));
-                time=model.time;
+                time=model.timer;
 
 
-                //// ------------!!!!!!!!!!!!! CLEAR THE MODEL FROM INFO WHEN WE CHOOSE ANOTHER FEATURE !!!!!!!!!!!!!!!
                 if(model.flag==true){
                     seriesseconed.getData().add(model.seriesseconed.getData().get(index));
                 }
 
+                if(model.flag3)
+                {
+                    seriesthird.getData().add(model.seriesthird.getData().get(index));
+                }
 
                 index++;
 

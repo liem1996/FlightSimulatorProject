@@ -1,6 +1,6 @@
 package View;
 
-import Model.AnomalyDetactor.TimeSeries;
+import test.TimeSeries;
 import Model.ModelFg;
 import ModelView.ViewModel;
 

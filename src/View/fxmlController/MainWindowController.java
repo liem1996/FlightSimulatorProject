@@ -125,6 +125,8 @@ public class MainWindowController  {
         PlayerBind();
         ChartList.charListController.linechart.getData().add(viewModel.series);
         ChartList.charListController.linechart2.getData().add(viewModel.seriesseconed);
+        ChartList.charListController.linechart3.getData().add(viewModel.seriesthird);
+
 
         Joystick.joyStickController.paint();
 
@@ -140,20 +142,19 @@ public class MainWindowController  {
 
 
         ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
-            //  ChartList.charListController.linechart.getData().clear();
+
 
             if(index!=0){
-                viewModel.time.cancel();
+                viewModel.time.stop();
             }
 
-
             index++;
-            //ChartList.charListController.linechart.getData().removeAll(viewModel.series);
 
             viewModel.timeSeriesRow=0;
 
             viewModel.series.getData().clear();
             viewModel.seriesseconed.getData().clear();
+            viewModel.seriesthird.getData().clear();
             ChartList.charListController.series.getData().clear();
             ChartList.charListController.series=new XYChart.Series<>();
             // viewModel.series=new XYChart.Series<>();
@@ -193,7 +194,6 @@ public class MainWindowController  {
     public void loadData() {
         ChartList.charListController.getFetures().setAll(viewModel.fetures);
         ChartList.charListController.listview.setItems( ChartList.charListController.getFetures());
-
     }
 
 
