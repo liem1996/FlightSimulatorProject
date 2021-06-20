@@ -10,12 +10,14 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -128,15 +130,25 @@ public class MainWindowController  {
         ChartList.charListController.linechart2.getData().add(viewModel.seriesseconed);
         ChartList.charListController.linechart3.getData().addAll(viewModel.seriesforth, viewModel.seriesthird);
 
+        ChartList.charListController.linechart3.setLegendVisible(false);
+
+        ChartList.charListController.linechart.getXAxis().setStyle("-fx-border-color: Pink transparent transparent; -fx-border-width:2");
+        ChartList.charListController.linechart2.getXAxis().setStyle("-fx-border-color: Pink transparent transparent; -fx-border-width:2");
+        ChartList.charListController.linechart3.getXAxis().setStyle("-fx-border-color: Pink transparent transparent; -fx-border-width:2");
+
 
         Joystick.joyStickController.paint();
+
         viewModel.seriesfifth.getData().addListener(new ListChangeListener<XYChart.Data<String, Number>>() {
             @Override
             public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
                 XYChart.Series<String, Number> seriesnew =new XYChart.Series<>();
                 seriesnew.getData().add(new XYChart.Data<String, Number>(String.valueOf(index2),viewModel.seriesfifth.getData().get(index2).getYValue()));
                 index2++;
+
                 ChartList.charListController.linechart3.getData().add(seriesnew);
+
+                ChartList.charListController.linechart3.setLegendVisible(false);
 
             }
         });
@@ -178,6 +190,23 @@ public class MainWindowController  {
             String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
 
             viewModel.getfeture(selectedItem);
+
+            ///------------new coloring part------------///
+
+
+            Node line = viewModel.seriesseconed.getNode().lookup(".chart-series-line");
+
+            Color color = Color.WHITE; // or any other color
+
+            String rgb = String.format("%d, %d, %d",
+                    (int) (color.getRed() * 255),
+                    (int) (color.getGreen() * 255),
+                    (int) (color.getBlue() * 255));
+
+            line.setStyle("-fx-stroke: rgba(" + rgb + ", 1.0);");
+
+            ///------------new coloring part------------///
+
 
         }));
 

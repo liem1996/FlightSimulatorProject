@@ -38,7 +38,8 @@ public class JoyStickController extends BorderPane {
 
         gc.clearRect(0,0, joystick0.getWidth(), joystick0.getHeight());
 
-        gc.strokeOval(14, 14, 180, 180);
+        gc.strokeOval(20, 25, 160, 160);
+
 
         //Setting the linear gradient
         LinearGradient cycleGrad = new LinearGradient(50, // start X
@@ -52,7 +53,7 @@ public class JoyStickController extends BorderPane {
 
         gc.setFill(cycleGrad);
 
-        gc.fillOval((aileron.doubleValue()*60)  +80, (elevator.doubleValue()*60)+75, 50, 50);
+        gc.fillOval((aileron.doubleValue()*50)  +75, (elevator.doubleValue()*50)+78, 50, 50);
 
     }
 
