@@ -1,17 +1,10 @@
 package View.fxmlController;
 
-import View.CharList.CharListController;
 import View.JoyStick.JoyStickController;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Circle;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class JoyStick extends BorderPane {

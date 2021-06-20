@@ -1,7 +1,7 @@
 
 package test;
 
-final class Point {
+public final class Point {
 
 	public final float x;
 	public final float y;

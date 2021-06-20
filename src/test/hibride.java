@@ -8,33 +8,39 @@ import java.util.*;
 
 
 public class hibride implements TimeSeriesAnomalyDetector {
-    private  double HighCorralation = 0.95;
-    private  double LowCorralation = 0.5;
+    private double HighCorralation = 0.95;
+    private double LowCorralation = 0.5;
     private Map<CorrelatedFeatures, Circle> MyHash = new HashMap<>();
     Zscore ZscoreDet = new Zscore();
-    SimpleAnomalyDetector SimpleDet =new SimpleAnomalyDetector();
-    List<CorrelatedFeatures> col =new ArrayList<>();
+    SimpleAnomalyDetector SimpleDet = new SimpleAnomalyDetector();
+    List<CorrelatedFeatures> col = new ArrayList<>();
     List<AnomalyReport> defects = new LinkedList<>();
     TimeSeries simple = new TimeSeries();
 
+    public String algoName = null;
+
     @Override
     public void learnNormal(TimeSeries ts) {
-         col = learnNormalCor(ts);
+        col = learnNormalCor(ts);
 
         //like detect but study a different by study a different time series and save it in data base like corlativefeture
-        for (int i = 0; i <col.size() ; i++) {
+        for (int i = 0; i < col.size(); i++) {
             TimeSeries tm = new TimeSeries();
             findTimeSeries(ts, col, tm, i);
             if (Math.abs(col.get(i).corrlation) >= HighCorralation) {
                 SimpleDet.learnNormal(tm);
+                algoName = "SimpleAnomaly"; // Simple
 
 
-            } else if (col.get(i).corrlation< LowCorralation) {
+            } else if (col.get(i).corrlation < LowCorralation) {
                 ZscoreDet.learnNormal(tm);
+                algoName = "Zscore"; // Zscore
 
             } else {
                 //////////////////////////////////////////////////////////////////////////////////
                 learnWlzl(i, tm);
+                algoName = "wlzl"; // Zscore
+
 
             }
 
@@ -43,58 +49,54 @@ public class hibride implements TimeSeriesAnomalyDetector {
     }
 
 
-
     @Override
-    public List<AnomalyReport> detect (TimeSeries ts) {
+    public List<AnomalyReport> detect(TimeSeries ts) {
 
 
         TimeSeries tk = new TimeSeries();
         TimeSeries tm = new TimeSeries();
         //creating a map in order to compare without knowing each index of the list of the correlative feature
-        HashMap<String,CorrelatedFeatures> compareCorlativefe = new HashMap<>();
+        HashMap<String, CorrelatedFeatures> compareCorlativefe = new HashMap<>();
         SimpleAnomalyDetector sim = new SimpleAnomalyDetector();
-        int size1=0;
+        int size1 = 0;
 
         //puting acording to the key of the corletive and taking the same value as the key
-        for(int j=0;j<SimpleDet.corletivfeture.size();j++){
-            compareCorlativefe.put(SimpleDet.corletivfeture.get(j).feature1 + "" + SimpleDet.corletivfeture.get(j).feature2,SimpleDet.corletivfeture.get(j));
+        for (int j = 0; j < SimpleDet.corletivfeture.size(); j++) {
+            compareCorlativefe.put(SimpleDet.corletivfeture.get(j).feature1 + "" + SimpleDet.corletivfeture.get(j).feature2, SimpleDet.corletivfeture.get(j));
         }
 
 
         for (int i = 0; i < col.size(); i++) {
             //putting the column and there data in the time series
-           
-            if(SimpleDet.corletivfeture.size()>i) {
+
+            if (SimpleDet.corletivfeture.size() > i) {
                 if (compareCorlativefe.containsKey(col.get(i).feature1 + "" + col.get(i).feature2)) {
                     findTimeSeries(ts, col, simple, i);
                     sim.corletivfeture.add(col.get(i));
-                    sim.thereholdper= SimpleDet.thereholdper;
+                    sim.thereholdper = SimpleDet.thereholdper;
 
                 }
             }
 
-             //choosing all of the column that is uo the 0.95 and use algorithm 2
-                if ((ZscoreDet.ZscoreMax.containsKey(col.get(i).feature2) || ZscoreDet.ZscoreMax.containsKey(col.get(i).feature1))) {
-                    findTimeSeries(ts, col, tk, i);
-                    ZscoreDet.detect(tk);
-                    defects.addAll(ZscoreDet.detect(tk));
-                }
+            //choosing all of the column that is uo the 0.95 and use algorithm 2
+            if ((ZscoreDet.ZscoreMax.containsKey(col.get(i).feature2) || ZscoreDet.ZscoreMax.containsKey(col.get(i).feature1))) {
+                findTimeSeries(ts, col, tk, i);
+                ZscoreDet.detect(tk);
+                defects.addAll(ZscoreDet.detect(tk));
+            }
 
 
-                //using the algorithm 3 as finding a point and the dis between the center point and each point in the column
+            //using the algorithm 3 as finding a point and the dis between the center point and each point in the column
 
-              if (MyHash.containsKey(col.get(i))) {
-                    hybridCircle(defects, tm, i);
+            if (MyHash.containsKey(col.get(i))) {
+                hybridCircle(defects, tm, i);
 
-                }
+            }
 
 
         }
 
         defects.addAll(sim.detect(simple));
-
-
-
 
 
         return defects;
@@ -104,21 +106,20 @@ public class hibride implements TimeSeriesAnomalyDetector {
         float tamp;
         float tamp1;
         Circle tempCircle = MyHash.get(col.get(i));//get Circle for coralleted features
-        for (int m = 0; m < tm.fetureName.size()-1; m++) {
+        for (int m = 0; m < tm.fetureName.size() - 1; m++) {
             int size = tm.features.get(tm.getFetureName().get(i)).size();
 
             for (int j = 0; j < size; j++) {
-                tamp= Float.parseFloat(tm.features.get(tm.fetureName.get(m)).get(j));
-                tamp1 =Float.parseFloat(tm.features.get(tm.fetureName.get(m+1)).get(j));
-                double TwoPointsdis=Math.sqrt(Math.pow(tempCircle.c.x - tamp,2) + Math.pow(tempCircle.c.y - tamp1,2));
+                tamp = Float.parseFloat(tm.features.get(tm.fetureName.get(m)).get(j));
+                tamp1 = Float.parseFloat(tm.features.get(tm.fetureName.get(m + 1)).get(j));
+                double TwoPointsdis = Math.sqrt(Math.pow(tempCircle.c.x - tamp, 2) + Math.pow(tempCircle.c.y - tamp1, 2));
                 if (TwoPointsdis > tempCircle.r) {
-                    AnomalyReport tamp2 = new AnomalyReport(tm.fetureName.get(m) + " " +tm.fetureName.get(m+1)  , j + 1);
+                    AnomalyReport tamp2 = new AnomalyReport(tm.fetureName.get(m) + " " + tm.fetureName.get(m + 1), j + 1);
                     defects.add(tamp2);
                 }
 
 
             }
-
 
 
         }
@@ -138,11 +139,12 @@ public class hibride implements TimeSeriesAnomalyDetector {
         }
         return transform;
     }
-    private List<Point> Listpoint(float[] aray1, float[] array2){
+
+    private List<Point> Listpoint(float[] aray1, float[] array2) {
         Point[] tamp = new Point[aray1.length];
         List<Point> Pointslist = new ArrayList<>();
-        for(int i=0;i<aray1.length;i++){
-            tamp[i] = new Point(aray1[i],array2[i]);
+        for (int i = 0; i < aray1.length; i++) {
+            tamp[i] = new Point(aray1[i], array2[i]);
         }
         Pointslist.addAll(Arrays.asList(tamp));
         return Pointslist;
@@ -153,20 +155,115 @@ public class hibride implements TimeSeriesAnomalyDetector {
         simple.learnNormal1(ts, 0.0);
         return simple.corletivfeture;
     }
+
     private void learnWlzl(int i, TimeSeries tm) {
         SmallestEnclosingCircle circle = null;
         float[] colm1;
         float[] colm2;
         colm1 = praseFloat(tm.getFeatures().get(col.get(i).feature1)); //column of corraleted feature A for example
         colm2 = praseFloat(tm.getFeatures().get(col.get(i).feature2));
-        List<Point> Pointslist = Listpoint(colm1,colm2);
+        List<Point> Pointslist = Listpoint(colm1, colm2);
+
         Circle temp = circle.makeCircle(Pointslist); //The smallest circle created from the list of points of the corraleted features
-        MyHash.put(col.get(i),temp);
+        MyHash.put(col.get(i), temp);
     }
 
 
     public ArrayList<XYChart.Series<String, Number>> paint(TimeSeries ts, String name) {
-        return null;
+
+        ArrayList<XYChart.Series<String, Number>> seriesArrayList = new ArrayList<>();
+
+        XYChart.Series<String, Number> serieswelzelPoints = new XYChart.Series<>();
+        XYChart.Series<String, Number> serieswelzelBadPoints = new XYChart.Series<>();
+        XYChart.Series<String, Number> serieswelzelCircleLines = new XYChart.Series<>();
+        XYChart.Series<String, Number> serieswelzelradius = new XYChart.Series<>();
+
+
+
+        ArrayList<XYChart.Series<String, Number>> serieszscore;
+        ArrayList<XYChart.Series<String, Number>> seriesanomaly;
+
+        learnNormal(ts);
+
+        Zscore zscoreresult = new Zscore();
+        SimpleAnomalyDetector simpleAnomalyDetector = new SimpleAnomalyDetector();
+
+        String corrlativeName = null;
+        CorrelatedFeatures coltamp = new CorrelatedFeatures();
+
+        // apply the paint function of each algorythem to create its own graph by series in the paint
+
+        if (algoName.equals("SimpleAnomaly")) {
+            seriesanomaly = simpleAnomalyDetector.paint(ts, name);
+            return seriesanomaly;
+        }
+        if (algoName.equals("Zscore")) {
+            serieszscore = zscoreresult.paint(ts, name);
+            return serieszscore;
+        }
+        if (algoName.equals("wlzl")) {
+            for (int k = 0; k < col.size(); k++) {
+                //check if the name of the feature equal to feature 1 or 2 and built the line
+                if (col.get(k).feature1.equals(name)) {
+                    corrlativeName = col.get(k).feature2;
+                    coltamp = col.get(k);
+
+
+                    if (col.get(k).feature2.equals(name)) {
+                        corrlativeName = col.get(k).feature1;
+                        coltamp = col.get(k);
+                    }
+
+                }
+            }
+
+
+                SmallestEnclosingCircle circle = null;
+                float[] colm1;
+                float[] colm2;
+                float tamp;
+                float tamp1;
+                Circle tempCircle = MyHash.get(coltamp);
+                colm1 = praseFloat(ts.getFeatures().get(name)); //column of corraleted feature A for example
+                colm2 = praseFloat(ts.getFeatures().get(corrlativeName));
+                List<Point> Pointslist = Listpoint(colm1, colm2);
+
+                //The smallest circle created from the list of points of the corraleted features
+
+                for (int j = 0; j < Pointslist.size(); j++) {
+                    serieswelzelPoints.getData().add(new XYChart.Data<String, Number>(String.valueOf(Pointslist.get(j).x), Pointslist.get(j).y));
+                }
+                int size = ts.features.get(name).size();
+                for (int i = 0; i < size; i++) {
+                    tamp = Float.parseFloat(ts.features.get(name).get(i));
+                    tamp1 = Float.parseFloat(ts.features.get(corrlativeName).get(i));
+                    double TwoPointsdis = Math.sqrt(Math.pow(tempCircle.c.x - tamp, 2) + Math.pow(tempCircle.c.y - tamp1, 2));
+                    if (TwoPointsdis > tempCircle.r) {
+                        AnomalyReport tamp2 = new AnomalyReport(name + " " + corrlativeName, i + 1);
+                        defects.add(tamp2);
+                        serieswelzelBadPoints.getData().add(new XYChart.Data<String, Number>(String.valueOf(tamp), tamp1));
+                    }
+
+                }
+
+                // Creating the circle lines
+
+
+
+
+                    javafx.scene.shape.Circle pointCircle = new javafx.scene.shape.Circle(tempCircle.c.x, tempCircle.c.y, tempCircle.r);
+                    XYChart.Data data = new XYChart.Data(tempCircle.c.x, tempCircle.c.y);
+                    data.setNode(pointCircle);
+                    serieswelzelCircleLines.getData().add(data);
+                  serieswelzelradius.getData().add(new XYChart.Data<>(String.valueOf(1),tempCircle.r));
+
+            seriesArrayList.add(serieswelzelBadPoints); // bad points
+            seriesArrayList.add(serieswelzelCircleLines); // circle lines
+            seriesArrayList.add(serieswelzelPoints); // regular points
+            seriesArrayList.add(serieswelzelradius); // getting the radius
+
+        }
+        return seriesArrayList;
     }
 }
 
