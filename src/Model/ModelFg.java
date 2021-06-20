@@ -105,7 +105,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
 
     }
     public void rewind() {
-        int rewindVal = (this.timeSeries.getNumLine()-1)/ 200;
+        int rewindVal = (this.timeSeries.getNumLine()-1)/ 200;//The rows that go back
         int fixedRow = TimeLine.get()-rewindVal; //The current row after rewind
         if(fixedRow<0){ // check if the current row is in the bounds of the Timeline of the Flight
             TimeLine.set(0); //set TimeLine to first row in csv Flight file
@@ -116,7 +116,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     }
 
     public void fastRewind() {
-        int fastRewindVal = (this.timeSeries.getNumLine()-1)/ 20;
+        int fastRewindVal = (this.timeSeries.getNumLine()-1)/ 20;//The rows that go back
         int fixedRow = TimeLine.get()-fastRewindVal; //The current row after fastRewind
         if(fixedRow<0){ // check if the current row is in the bounds of the Timeline of the Flight
             TimeLine.set(0); //set TimeLine to first row in csv Flight file
@@ -127,7 +127,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     }
 
     public void forward() {
-        int forwardVal = (this.timeSeries.getNumLine()-1)/ 200;
+        int forwardVal = (this.timeSeries.getNumLine()-1)/ 200;//The rows that go forward
         int fixedRow = TimeLine.get()+forwardVal; //The current row after forward
         if(fixedRow>this.timeSeries.getNumLine()-1){ // check if the current row is in the bounds of the Timeline of the Flight
             TimeLine.set(this.timeSeries.getNumLine()-1); //set TimeLine to last row in csv Flight file
@@ -138,7 +138,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
     }
 
     public void fastForward() {
-        int fastForwardVal = (this.timeSeries.getNumLine()-1)/ 20;
+        int fastForwardVal = (this.timeSeries.getNumLine()-1)/ 20;//The rows that go forward
         int fixedRow = TimeLine.get()+fastForwardVal; //The current row after fastForward
         if(fixedRow>this.timeSeries.getNumLine()-1){ // check if the current row is in the bounds of the Timeline of the Flight
             TimeLine.set(this.timeSeries.getNumLine()-1); //set TimeLine to last row in csv Flight file
