@@ -10,12 +10,14 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -53,17 +55,15 @@ public class MainWindowController  {
 
     public IntegerProperty timestep;
 
-    public StringProperty feturecoulme;
     public Timer ts;
+    public int index2;
     public int index;
-
-
 
 
     //constructor that create and intalize all the four part the includes int the main window controller
     public MainWindowController() {
         path = new SimpleStringProperty();
-        feturecoulme=new SimpleStringProperty();
+        index2=0;
         index=0;
     }
 
@@ -127,9 +127,32 @@ public class MainWindowController  {
         clockbind();
         PlayerBind();
         ChartList.charListController.linechart.getData().add(viewModel.series);
+        ChartList.charListController.linechart2.getData().add(viewModel.seriesseconed);
+        ChartList.charListController.linechart3.getData().addAll(viewModel.seriesforth, viewModel.seriesthird);
+
+        ChartList.charListController.linechart3.setLegendVisible(false);
+
+        ChartList.charListController.linechart.getXAxis().setStyle("-fx-border-color: Pink transparent transparent; -fx-border-width:2");
+        ChartList.charListController.linechart2.getXAxis().setStyle("-fx-border-color: Pink transparent transparent; -fx-border-width:2");
+        ChartList.charListController.linechart3.getXAxis().setStyle("-fx-border-color: Pink transparent transparent; -fx-border-width:2");
 
 
         Joystick.joyStickController.paint();
+
+        viewModel.service2.addListener(new ListChangeListener<XYChart.Data<String, Number>>() {
+            @Override
+            public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
+                XYChart.Series<String, Number> seriesnew =new XYChart.Series<>();
+                seriesnew.getData().add(new XYChart.Data<String, Number>(String.valueOf(index2),viewModel.seriesfifth.getData().get(index2).getYValue()));
+                index2++;
+
+                ChartList.charListController.linechart3.getData().add(seriesnew);
+
+                ChartList.charListController.linechart3.setLegendVisible(false);
+
+            }
+        });
+
 
         Joystick.joyStickController.aileron.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // x axis
         Joystick.joyStickController.elevator.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // y axis
@@ -141,46 +164,49 @@ public class MainWindowController  {
 
         Joystickbind();
 
-        viewModel.series.getData().addListener((new ListChangeListener<XYChart.Data<String, Number>>() {
-            @Override
-            public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
-                final int WINDOW_SIZE = 10;
-                if (ChartList.charListController.series.getData().size() > WINDOW_SIZE) {
-                    ChartList.charListController.series.getData().remove(0);
-                }
-                ChartList.charListController.series.setData(viewModel.service);
-               // System.out.println(ChartList.charListController.series.getData());
-
-
-                //System.out.println("hello");
-
-            }
-        }));
 
         ChartList.charListController.listview.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
-            //  ChartList.charListController.linechart.getData().clear();
+
 
             if(index!=0){
-                viewModel.time.cancel();
+                viewModel.time.stop();
             }
-            index++;
-            //ChartList.charListController.linechart.getData().removeAll(viewModel.series);
-            viewModel.service.clear();
 
-            viewModel.timealgo.setValue(0);
+            index++;
+            index2 = 0;
             viewModel.timeSeriesRow=0;
 
             viewModel.series.getData().clear();
+            viewModel.seriesseconed.getData().clear();
+            viewModel.seriesthird.getData().clear();
+            viewModel.seriesforth.getData().clear();
+            viewModel.seriesfifth.getData().clear();
+
             ChartList.charListController.series.getData().clear();
             ChartList.charListController.series=new XYChart.Series<>();
-           // viewModel.series=new XYChart.Series<>();
+            // viewModel.series=new XYChart.Series<>();
+            viewModel.index=0;
 
-            System.out.println("hi");
+
             String selectedItem = ChartList.charListController.listview.getSelectionModel().getSelectedItem();
-            System.out.println(selectedItem);
-            feturecoulme.setValue(selectedItem);
 
             viewModel.getfeture(selectedItem);
+
+            ///------------new coloring part------------///
+
+
+            Node line = viewModel.seriesseconed.getNode().lookup(".chart-series-line");
+
+            Color color = Color.WHITE; // or any other color
+
+            String rgb = String.format("%d, %d, %d",
+                    (int) (color.getRed() * 255),
+                    (int) (color.getGreen() * 255),
+                    (int) (color.getBlue() * 255));
+
+            line.setStyle("-fx-stroke: rgba(" + rgb + ", 1.0);");
+
+            ///------------new coloring part------------///
 
 
         }));
@@ -190,7 +216,7 @@ public class MainWindowController  {
 
 
 
-
+    //bind the slider from the player itself
     private void PlayerBind() {
         player.playerController.ScrollFlight.valueProperty().bindBidirectional(this.viewModel.TimeLine);
         player.playerController.PlaySpeed.textProperty().addListener(((old, oldValue, newValue)-> {
@@ -199,6 +225,7 @@ public class MainWindowController  {
 
     }
 
+    //bind the timer itself with a stringproperty from the view model to the model
     public void TimerClockBind() {
         player.playerController.SecondsTimer.textProperty().bind(viewModel.ClockTimerValues.get("Seconds").asString());
         player.playerController.MinutesTimer.textProperty().bind(viewModel.ClockTimerValues.get("Minutes").asString());
@@ -212,11 +239,7 @@ public class MainWindowController  {
     public void loadData() {
         ChartList.charListController.getFetures().setAll(viewModel.fetures);
         ChartList.charListController.listview.setItems( ChartList.charListController.getFetures());
-
     }
-
-
-
 
 
 
@@ -226,6 +249,11 @@ public class MainWindowController  {
         player.playerController.onPlay =viewModel.Play;
         player.playerController.onPause = viewModel.Pause;
         player.playerController.onStop = viewModel.Stop;
+        player.playerController.onRewind =viewModel.Rewind;
+        player.playerController.onFastRewind = viewModel.FastRewind;
+        player.playerController.onForward = viewModel.Forward;
+        player.playerController.onFastForward = viewModel.FastForward;
+
     }
 
     //load the anomaly detector from the popup that we got and put in the viewmodel
@@ -271,6 +299,7 @@ public class MainWindowController  {
     }
 
 
+    //bind the clocks with the informetion that will fome from the view model to the view from the timeseries
     public void clockbind()
     {
         Clocks.clocksController.altimeter.textProperty().bind(viewModel.DisplaVaribales.get("altimeter_pressure-alt-ft").asString());
@@ -282,10 +311,7 @@ public class MainWindowController  {
     }
 
 
-    //choosing an option fron the fetures list
-    public void ChoosingOption(String namefeture){
 
-    }
 
 
 

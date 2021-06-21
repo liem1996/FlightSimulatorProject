@@ -1,7 +1,7 @@
 package View.Joystick;
 
+import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -20,13 +20,11 @@ public class JoyStickController extends BorderPane {
     public  Slider rudder;
 
     public  DoubleProperty aileron, elevator;
-    private DoubleProperty Ax, Ay;
 
     // Constructor to the joystick
     public JoyStickController() {
         // Initialize each part of axis x and axis y
 
-        // joystick = new Canvas();
         aileron= new SimpleDoubleProperty();
         elevator= new SimpleDoubleProperty();
         rudder= new Slider();
@@ -36,19 +34,26 @@ public class JoyStickController extends BorderPane {
 
     public void paint() {
         // by using addListener function the screen gets update and move by axis x and axis y
-       // System.out.println("yossi");
-
         GraphicsContext gc = joystick0.getGraphicsContext2D();
 
         gc.clearRect(0,0, joystick0.getWidth(), joystick0.getHeight());
 
-        gc.fillOval((aileron.doubleValue()*150)  +83, (elevator.doubleValue()*150)+62, 50, 50);
+        gc.strokeOval(14, 14, 180, 180);
 
-        gc.setStroke(Color.BLACK);
+        //Setting the linear gradient
+        LinearGradient cycleGrad = new LinearGradient(50, // start X
+                50, // start Y
+                70, // end X
+                70, // end Y
+                false, // proportional
+                CycleMethod.REFLECT, // cycleMethod
+                new Stop(0f, Color.rgb(227, 35, 108, .784)), new Stop(1.0f, Color.rgb(132,
+                55, 83, .784)));
+
+        gc.setFill(cycleGrad);
+
+        gc.fillOval((aileron.doubleValue()*60)  +80, (elevator.doubleValue()*60)+75, 50, 50);
 
     }
-
-
-
 
 }

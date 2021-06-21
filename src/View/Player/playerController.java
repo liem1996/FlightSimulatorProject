@@ -26,7 +26,7 @@ public class playerController {
     public ScrollBar ScrollFlight;
 
 
-    public static Runnable onPlay, onPause, onStop;
+    public static Runnable onPlay, onPause, onStop, onRewind, onFastRewind, onForward, onFastForward;
 
 
     public playerController() {
@@ -37,7 +37,26 @@ public class playerController {
         PlaySpeed = new TextField();
         ScrollFlight = new ScrollBar();
     }
+    public void rewind() {
+        if (onRewind != null)
+            onRewind.run();
 
+    }
+    public void fastRewind() {
+        if (onFastRewind != null)
+            onFastRewind.run();
+
+    }
+    public void forward() {
+        if (onForward != null)
+            onForward.run();
+
+    }
+    public void fastForward() {
+        if (onFastForward != null)
+            onFastForward.run();
+
+    }
     public void play() {
         if (onPlay != null)
             onPlay.run();
