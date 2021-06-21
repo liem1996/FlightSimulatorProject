@@ -34,6 +34,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.scene.chart.XYChart;
+import test.Circle;
+import test.Point;
 
 
 public class MainWindowController  {
@@ -153,6 +155,23 @@ public class MainWindowController  {
             }
         });
 
+        viewModel.radios.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                Point pointCircle = new Point(viewModel.circle.x,viewModel.circle.y);
+                Circle circleWlzl = new Circle(pointCircle, viewModel.radios.getValue());
+
+                ChartList.charListController.paint(circleWlzl);
+
+                //ChartList.charListController.paint();
+            }
+        });
+
+
+
+
+
+
 
         Joystick.joyStickController.aileron.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // x axis
         Joystick.joyStickController.elevator.addListener((o, ov, nv) -> this.Joystick.joyStickController.paint()); // y axis
@@ -197,7 +216,9 @@ public class MainWindowController  {
 
             Node line = viewModel.seriesseconed.getNode().lookup(".chart-series-line");
 
-            Color color = Color.WHITE; // or any other color
+            //   Node point = viewModel.seriesseconed.getNode().lookup(".chart-series-line");
+
+            Color color = Color.BLACK; // or any other color
 
             String rgb = String.format("%d, %d, %d",
                     (int) (color.getRed() * 255),
