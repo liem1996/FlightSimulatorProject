@@ -8,6 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
@@ -82,7 +86,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         seriessix = new XYChart.Series<>();
         seriesseven = new XYChart.Series<>();
         serieseight = new XYChart.Series<>();
-        timeSeriesAnomalyDetector=new hibride();
+        timeSeriesAnomalyDetector=new SimpleAnomalyDetector();
         series=new XYChart.Series<>();
         flag=false;
         flag3=false;
@@ -125,8 +129,27 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
             ts.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if(timeSeriesRow < timeSeries.getNumLine()-1) {
+                    if(timeSeriesRow < timeSeries.getNumLine()) {
                         TimeLine.set(TimeLine.get() + 1);
+                        ArrayList<String> tamp = new ArrayList<>();
+                        try {
+                            for(int i=0;i<timeSeries.getline(timeSeriesRow).length;i++){
+                                tamp.add(timeSeries.getline(timeSeriesRow)[i]);
+                                System.out.println(tamp.get(i));
+                            }
+                            Socket fg = new Socket(pr.ip, pr.port);
+                            PrintWriter ps = new PrintWriter(fg.getOutputStream());
+                            ps.println(tamp);
+                            ps.flush();
+                            timeSeriesRow++;
+                            fg.close();
+                            ps.close();
+
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
 
                     }
