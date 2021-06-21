@@ -1,6 +1,8 @@
 package ModelView;
 
-import Model.AnomalyDetactor.TimeSeries;
+import com.sun.javafx.charts.ChartLayoutAnimator;
+import javafx.animation.AnimationTimer;
+import test.TimeSeries;
 
 import Model.ModelFg;
 import Model.XmlWrite;
@@ -8,8 +10,10 @@ import Model.property;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import test.SimpleAnomalyDetector;
 import test.TimeSeriesAnomalyDetector;
 
 import java.net.MalformedURLException;
@@ -23,23 +27,27 @@ public class ViewModel extends Observable implements Observer {
     public TimeSeries ts;
     public property pt;
     public ObservableList<String> fetures;
-    public ObservableList<String> sereis;
     public IntegerProperty TimeLine = new SimpleIntegerProperty();
     public Runnable Play,Pause,Stop;
     public HashMap<String, DoubleProperty> DisplaVaribales = new HashMap<>();
-    public int index=0;
     public IntegerProperty seconds;
     public HashMap<String, IntegerProperty> ClockTimerValues = new HashMap<>();
     public IntegerProperty minutes;
     public IntegerProperty hours;
-    public ObservableList<XYChart.Data<String, Number>> service;
-    public ObservableList<XYChart.Data<String, Number>> service1;
-    public Timer time;
+    public int index;
+    public AnimationTimer time;
     public int timeSeriesRow;
-    public IntegerProperty timealgo;
     public TimeSeriesAnomalyDetector tsd;
     public XYChart.Series<String,Number> series= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesseconed= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesthird= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesforth= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesfifth= new XYChart.Series<String,Number>();
+    public ObservableList<XYChart.Data<String, Number>> service2;
 
+    public SimpleAnomalyDetector feture;
+
+    public Runnable FastRewind,Forward,FastForward,Rewind;
 
     public StringProperty feturecoulme;
 
@@ -52,14 +60,10 @@ public class ViewModel extends Observable implements Observer {
         this.pt.setTimeperSeconed(playSpeed);
     }
 
-
-
     //load the fetures of the time series
     public void load(){
         fetures = FXCollections.observableArrayList();
         fetures.addAll(ts.getFetureName());
-
-
     }
 
     public void CreateTimeSeriesAnomalyDetector(String filename){
@@ -75,9 +79,7 @@ public class ViewModel extends Observable implements Observer {
         model.SetTimeSeries(ts);
         load();
 
-
     }
-
 
     public void CreateProperty(String fileName){
         //create time series
@@ -88,12 +90,12 @@ public class ViewModel extends Observable implements Observer {
 
 
     //loading the classes of the algorithems of the TimeAnomalyDetector
-    public TimeSeriesAnomalyDetector loadClass(String directory) {
+    public TimeSeriesAnomalyDetector loadClass(String directory) { // directory is the algorithm that was chosen
         TimeSeriesAnomalyDetector sc = null;
         URLClassLoader urlClassLoader = null;
         try {
             urlClassLoader = URLClassLoader.newInstance(new URL[] {
-                    new URL("file://C:\\Users\\amitb\\IdeaProjects\\aven derech 3 part 2\\out\\artifacts\\aven_derech_3_part_2_jar")
+                    new URL("file://D:\\aven derech 3 part 2.jar")
             });
             Class<?> c=urlClassLoader.loadClass("test."+directory);
 
@@ -121,18 +123,69 @@ public class ViewModel extends Observable implements Observer {
         this.ts=new TimeSeries();
         this.pt=model.pr;
         this.timeSeriesRow = 0;
+        index=0;
+        time=new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                time=model.timer;
+            }
+        };
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
         playSpeed = new SimpleDoubleProperty(this.pt.timeperSeconed);
         this.model.playSpeed.bind(this.playSpeed);
-       // time = new Timer();
+        feture = new SimpleAnomalyDetector();
+        service2=FXCollections.observableArrayList();
+
         this.model.playSpeed.addListener((old, oldValue, newValue)->{  this.model.setPlaySpeed(Double.parseDouble(newValue.toString()));
         });
-        service = FXCollections.observableArrayList();
+
+        model.service1.addListener(new ListChangeListener<XYChart.Data<String, Number>>() {
+            @Override
+            public void onChanged(Change<? extends XYChart.Data<String, Number>> change) {
+
+                series.getData().add(model.series.getData().get(index));
+                time=model.timer;
+
+
+                if(model.flag==true){
+                    seriesseconed.getData().add(model.seriesseconed.getData().get(index));
+
+                }
+
+                if(model.flag3)
+                {
+                    seriesthird.getData().add(model.seriesthird.getData().get(index));
+
+                }
+
+                if (model.flag4)
+                {
+                    if (model.isOne) {
+                        seriesthird.getData().add(model.seriesthird.getData().get(index));
+                    }
+                    if (model.isTwo) {
+                        seriesforth.getData().add(model.seriesfourth.getData().get(index));
+                    }
+                    if (model.isThree) {
+                        seriesfifth.getData().add(model.seriesfifth.getData().get(index));
+
+                    }
+                    service2.add(seriesfifth.getData().get(index));
+
+                }
+
+                index++;
+
+            }
+        });
+
+
+
         feturecoulme = new SimpleStringProperty();
-        timealgo = new SimpleIntegerProperty();
-        service1=FXCollections.observableArrayList();
+
+
 
         for(int i=0;i<pt.nameColIndex.size();i++){
             DisplaVaribales.put(pt.nameColIndex.get(i),new SimpleDoubleProperty());
@@ -192,7 +245,14 @@ public class ViewModel extends Observable implements Observer {
         Play=()->{model.play();};
         Pause=()->{model.pause();};
         Stop=()->{model.stop();};
+
+        Rewind=()->{model.rewind();};
+        FastRewind=()->{model.fastRewind();};
+        Forward=()->{model.forward();};
+        FastForward=()->{model.fastForward();};
+
     }
+
 
 
     //we need to run it in the background in the model by a therd
@@ -206,38 +266,16 @@ public class ViewModel extends Observable implements Observer {
 
 
 
-    public void getfeture(String filename) {
+    //timer that runs on the fetures acording to time and give the values of each coulme that has benn chose
+    public void getfeture(String fetureName) {
+        model.getfeture(fetureName);
 
-        //series=new XYChart.Series<>();
-        //if (this.time == null) {
-            time = new Timer();
-            time.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                        String selectedItem = filename;
-                        feturecoulme.setValue(selectedItem);
-                        if(timeSeriesRow <ts.features.get(filename).size()) {
-                            timealgo.set(timealgo.get() + 1);
-                           // System.out.println(Double.parseDouble(ts.features.get(filename).get(timeSeriesRow)));
-                            series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(ts.features.get(filename).get(timeSeriesRow))));
-                          //  service1.add(series);
-                            service.add(series.getData().get(timeSeriesRow));
-
-                            //series.getData().add(new XYChart.Data<String,Number>(timealgo.getValue().toString(),Double.parseDouble(ts.features.get(filename).get(timeSeriesRow))));
-                            timeSeriesRow++;
-                        }
-
-
-
-                    });
-
-                }
-
-            }, 0, ((long) pt.timeperSeconed * 1000)/* pr.timespeed */); //pr.timepeed = 10000
-
-       // }
     }
+
+
+
+
+
 
 
 
