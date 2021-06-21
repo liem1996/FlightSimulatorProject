@@ -9,18 +9,29 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.*;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import test.Circle;
 
 import javax.xml.crypto.Data;
+import java.awt.*;
 import java.util.ArrayList;
 
 
-public class CharListController  {
+public class CharListController extends BorderPane {
 
     public static Runnable choosingName;
     public static StringProperty feturecoulme;
 
+
+    @FXML
+    public javafx.scene.canvas.Canvas canvas;
 
     @FXML
     public ListView<String> listview;
@@ -33,6 +44,7 @@ public class CharListController  {
 
     @FXML
     public LineChart<String, Number> linechart3;
+
 
 
     public XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -62,16 +74,30 @@ public class CharListController  {
 
     }
 
-
-
     public static ObservableList<String> fetures;
-
 
 
 
 
     public ObservableList<String> getFetures(){
         return fetures;
+    }
+
+    public void paint(Circle circle) {
+        // by using addListener function the screen gets update and move by axis x and axis y
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        //   Circle circle = new Circle(p.getX(), p.getY(),Color.BLACK,radius);
+
+        gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
+
+        gc.setFill(Color.WHITE);
+        gc.setStroke(Color.BLACK);
+
+        canvas.getGraphicsContext2D().strokeOval(circle.c.x-circle.r, circle.c.y-circle.r, circle.r, circle.r);
+
+        //    canvas.getGraphicsContext2D().fillOval(circle.c.x-circle.r, circle.c.y-circle.r, circle.r, circle.r);
+
     }
 
 

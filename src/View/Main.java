@@ -1,6 +1,5 @@
 package View;
 
-import Model.AnomalyDetactor.TimeSeries;
 import Model.ModelFg;
 import ModelView.ViewModel;
 
@@ -12,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import test.TimeSeries;
 
 
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class Main extends Application {
         HashMap<String,Integer> min = new HashMap<>();
         HashMap<String,Integer> max = new HashMap<>();
         test3.setIp("127.0.0.1");
-        test3.setPort(5600);
+        test3.setPort(5800);
         test3.setTimeperSeconed(1.5);
         for(int i=0;i<tk.fetureName.size();i++)
         {

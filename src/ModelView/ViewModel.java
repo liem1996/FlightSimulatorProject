@@ -1,8 +1,7 @@
 package ModelView;
 
-import com.sun.javafx.charts.ChartLayoutAnimator;
 import javafx.animation.AnimationTimer;
-import test.TimeSeries;
+import test.Point;
 
 import Model.ModelFg;
 import Model.XmlWrite;
@@ -14,6 +13,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import test.SimpleAnomalyDetector;
+import test.TimeSeries;
 import test.TimeSeriesAnomalyDetector;
 
 import java.net.MalformedURLException;
@@ -43,7 +43,16 @@ public class ViewModel extends Observable implements Observer {
     public XYChart.Series<String,Number> seriesthird= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesforth= new XYChart.Series<String,Number>();
     public XYChart.Series<String,Number> seriesfifth= new XYChart.Series<String,Number>();
-    public ObservableList<XYChart.Data<String, Number>> service2;
+    public XYChart.Series<String,Number> seriessix= new XYChart.Series<String,Number>();
+    public XYChart.Series<String,Number> seriesseven= new XYChart.Series<String,Number>();
+    public FloatProperty radios;
+    public  Point circle;
+
+
+
+    public ObservableList<XYChart.Data<String, Number>>service2;
+    public ObservableList<XYChart.Data<String, Number>>service3;
+
 
     public SimpleAnomalyDetector feture;
 
@@ -136,7 +145,10 @@ public class ViewModel extends Observable implements Observer {
         playSpeed = new SimpleDoubleProperty(this.pt.timeperSeconed);
         this.model.playSpeed.bind(this.playSpeed);
         feture = new SimpleAnomalyDetector();
-        service2=FXCollections.observableArrayList();
+        radios=new SimpleFloatProperty();
+
+        service2 = FXCollections.observableArrayList();
+        service3 = FXCollections.observableArrayList();
 
         this.model.playSpeed.addListener((old, oldValue, newValue)->{  this.model.setPlaySpeed(Double.parseDouble(newValue.toString()));
         });
@@ -151,16 +163,14 @@ public class ViewModel extends Observable implements Observer {
 
                 if(model.flag==true){
                     seriesseconed.getData().add(model.seriesseconed.getData().get(index));
-
                 }
 
                 if(model.flag3)
                 {
                     seriesthird.getData().add(model.seriesthird.getData().get(index));
-
                 }
 
-                if (model.flag4)
+                if (model.flag4 )
                 {
                     if (model.isOne) {
                         seriesthird.getData().add(model.seriesthird.getData().get(index));
@@ -174,7 +184,23 @@ public class ViewModel extends Observable implements Observer {
                     }
                     service2.add(seriesfifth.getData().get(index));
 
+                }if(model.flag5){
+                    if (model.isOne) {
+                        seriesthird.getData().add(model.seriesthird.getData().get(index));
+
+                    }
+                    if (model.isTwo) {
+                        circle = new Point(Float.parseFloat(model.seriesfourth.getData().get(0).getXValue()),Float.parseFloat(String.valueOf(model.seriesfourth.getData().get(0).getYValue())));
+                        radios.setValue(model.seriesfourth.getData().get(0).getYValue());
+
+                    }
+                    if (model.isThree) {
+                        seriesfifth.getData().add(model.seriesfifth.getData().get(index));
+                    }
+
                 }
+
+
 
                 index++;
 
