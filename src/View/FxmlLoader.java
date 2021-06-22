@@ -1,11 +1,8 @@
 
-package View.fxmlController;
+package View;
 
-import View.CharList.CharListController;
-import View.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 

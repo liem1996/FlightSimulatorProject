@@ -1,12 +1,7 @@
-package View.CharList;
+package View;
 
-
-
-import View.fxmlController.MainWindowController;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,14 +9,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import test.Circle;
-
-import javax.xml.crypto.Data;
-import java.awt.*;
-import java.util.ArrayList;
 
 
 public class CharListController extends BorderPane {

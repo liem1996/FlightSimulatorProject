@@ -1,13 +1,8 @@
-package View.fxmlController;
+package View;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
-
-
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class popupcontroller extends BorderPane {
 

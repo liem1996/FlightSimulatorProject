@@ -91,7 +91,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
         flag3=false;
         flag4=false;
         flag5=false;
-        isSetAnomaly=true; ///// <<<<<<<<<<--------------- NEED TO BE CHANGED TO FALSE !!!!!---------------------<<<<<
+        isSetAnomaly=false;
         seconds = new SimpleIntegerProperty(0);
         minutes = new SimpleIntegerProperty(0);
         hours = new SimpleIntegerProperty(0);
@@ -262,7 +262,6 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                         series.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), Double.parseDouble(timeSeries.features.get(fetureName).get(timerow))));
 
                         if (isSetAnomaly) {
-                           // <<<----------------PUT ON SET ANOMALY -------------- <<<
                             seriestemp = timeSeriesAnomalyDetector.paint(timeSeries, fetureName); // using paint function
                             if (seriestemp.size()==1) {
                                 seriesthird.getData().add(new XYChart.Data<String, Number>(timealgo.getValue().toString(), seriestemp.get(0).getData().get(timerow).getYValue()));
@@ -309,20 +308,7 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                         index++;
 
 
-//                        final int WINDOW_SIZE = 10;
-//                        if (series.getData().size() > WINDOW_SIZE) {
-//                            series.getData().remove(0);
-//                            index = 0;
-//                        }
-//                        if (seriesseconed.getData().size() > WINDOW_SIZE) {
-//                            seriesseconed.getData().remove(0);
-//                            index = 0;
-//                        }
-//                        if (seriesthird.getData().size() > WINDOW_SIZE) {
-//                            seriesthird.getData().remove(0);
-//                            index = 0;
-//                        }
-                        // some delay
+//
 
                         timerow++;
 

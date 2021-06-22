@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<?import View.fxmlController.Player?>
-<?import View.fxmlController.JoyStick?>
-<?import View.fxmlController.Charlist?>
-<?import View.fxmlController.Clocks?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.fxmlController.MainWindowController">
+<?import View.Player?>
+<?import View.JoyStick?>
+<?import View.Charlist?>
+<?import View.Clocks?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainWindowController">
    <children>
       <BorderPane  layoutX="46.0" layoutY="415.0" prefHeight="83.0" prefWidth="769.0" >
          <Player fx:id="player"/>
