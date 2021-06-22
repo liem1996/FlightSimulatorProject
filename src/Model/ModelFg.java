@@ -131,11 +131,13 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                     if(timeSeriesRow < timeSeries.getNumLine()) {
                         TimeLine.set(TimeLine.get() + 1);
                         ArrayList<String> tamp = new ArrayList<>();
+
                         try {
                             for(int i=0;i<timeSeries.getline(timeSeriesRow).length;i++){
                                 tamp.add(timeSeries.getline(timeSeriesRow)[i]);
-                                System.out.println(tamp.get(i));
+                               // System.out.println(tamp.get(i));
                             }
+
                             Socket fg = new Socket(pr.ip, pr.port);
                             PrintWriter ps = new PrintWriter(fg.getOutputStream());
                             ps.println(tamp);
@@ -149,6 +151,8 @@ public class ModelFg extends Observable implements Model.runningfunc.Model {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
+
 
 
                     }

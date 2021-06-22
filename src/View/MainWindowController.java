@@ -53,6 +53,7 @@ public class MainWindowController  {
 
     public IntegerProperty timestep;
 
+
     public Timer ts;
     public int index2;
     public int index;
@@ -122,8 +123,6 @@ public class MainWindowController  {
         this.viewModel = vm;
 
 
-        XmlWrite XML =new XmlWrite();
-        XML.deserializeFromXML("Properties.xml");
 
         TimerClockBind();
         clockbind();

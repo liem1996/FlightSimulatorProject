@@ -92,6 +92,7 @@ public class ViewModel extends Observable implements Observer {
 
     public void CreateProperty(String fileName){
         //create time series
+
         XmlWrite xml=new XmlWrite();
         pt=xml.deserializeFromXML(fileName);
         model.SetProperty(pt);
@@ -128,7 +129,7 @@ public class ViewModel extends Observable implements Observer {
     public ViewModel(ModelFg model) {
         this.model = model;
         model.addObserver(this);
-        this.pt = new property();
+        this.pt = model.pr;
         this.ts=new TimeSeries();
         this.pt=model.pr;
         this.timeSeriesRow = 0;

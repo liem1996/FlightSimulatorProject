@@ -45,7 +45,37 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        
+        TimeSeries tk = new TimeSeries("reg_flight.csv");
+        TimeSeries tm = new TimeSeries("anomaly_flight.csv");
+        property test3 = new property();
+        HashMap<Integer,String> tamp1 = new HashMap<>();
+        HashMap<String,Integer> min = new HashMap<>();
+        HashMap<String,Integer> max = new HashMap<>();
+        test3.setIp("127.0.0.1");
+        test3.setPort(5400);
+        test3.setTimeperSeconed(1.5);
+        for(int i=0;i<tk.fetureName.size();i++)
+        {
+            tamp1.put(i,tk.fetureName.get(i));
+            min.put(tk.fetureName.get(i),1);
+            max.put(tk.fetureName.get(i),2);
+
+        }
+
+        test3.setNameColIndex(tamp1);
+        test3.setMaximum(max);
+        test3.setMinimum(min);
+
+        /*
+        XMLpraser XML1 =new XMLpraser();
+        List<coulmename> test3 = new LinkedList<>();
+        test3 = XML1.XMLpras("playback_small.xml");
+        System.out.println(test3);
+
+         */
+        TimeSeries ts = new TimeSeries("reg_flight.csv");
+        XmlWrite XML =new XmlWrite();
+        XML.serializeToXML(test3);
         launch(args);
     }
 }
