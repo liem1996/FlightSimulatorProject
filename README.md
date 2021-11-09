@@ -29,7 +29,7 @@ and Throttle.
 
 Our GUI:
 
-<img src="https://i.postimg.cc/wvNZ5kT0/GUI.jpg"
+<img src="GUI.png"
 width="580" height="350">
 
 # Milestones & Progress :hammer_and_wrench:	
